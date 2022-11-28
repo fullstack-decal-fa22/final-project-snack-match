@@ -6,18 +6,21 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
 
+// built-in routers from template
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var testAPIRouter = require("./routes/testAPI");
+// import party router
+var partyRouter = require("./routes/party");
 
 var app = express();
 
 // PORT
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 9000;
 
-// Initiate Mongo Server
-const InitiateMongoServer = require("./config/db");
-InitiateMongoServer();
+// Initiate Mongo Server --- uncomment when db is setup
+// const InitiateMongoServer = require("./config/db");
+// InitiateMongoServer();
 
 // STARTER CODE --- view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -33,6 +36,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/testAPI", testAPIRouter);
+// new party router below
+app.use("/party", partyRouter);
 
 // STARTER CODE --- catch 404 and forward to error handler
 app.use(function (req, res, next) {
