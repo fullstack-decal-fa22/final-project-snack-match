@@ -2,7 +2,7 @@ import * as React from "react";
 import { Box, Center, Image, Flex, Icon, HStack, IconButton } from "@chakra-ui/react";
 import { InfoIcon, ArrowBackIcon, SearchIcon } from "@chakra-ui/icons";
 import { FaArrowLeft, FaTimes, FaHeart, FaStar, FaStarHalfAlt, FaRegStar} from "react-icons/fa";
-import styles from "/Users/thu/cs198-99/final-project-snack-match/client/src/component/Card.module.css";
+import styles from "./Card.module.css";
 
 function Card(props) {
     function displayStars(rating) {

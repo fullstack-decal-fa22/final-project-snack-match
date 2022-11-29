@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from '../component/Header';
-import Card from '/Users/thu/cs198-99/final-project-snack-match/client/src/component/Card.js';
+import Header from '../components/Header';
+import Card from '../components/Card.js';
 
 const Swiping = () => {
     var hostName = 'John';
