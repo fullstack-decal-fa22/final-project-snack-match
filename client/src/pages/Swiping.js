@@ -8,7 +8,7 @@ const Swiping = () => {
     var restName = 'U Dessert Story';
     var restPrice = '$$';
     var restRating = '4.5';
-    var restCategories = 'Desserts';
+    var restCategories = ['Desserts', 'Sweets', 'Restaurant'];
 
     return (
         <div>
