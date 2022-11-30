@@ -55,17 +55,17 @@ router.post(
       // updates party schema
       await party.save();
 
-      // const payload = {
-      //   user: {
-      //     id: user.id,
-      //   },
-      // };
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
 
       // provides user with JWT to access the party upon account registration
-      // jwt.sign(payload, "randomString", { expiresIn: 10000 }, (err, token) => {
-      //   if (err) throw err;
-      //   res.status(200).json({ token });
-      // });
+      jwt.sign(payload, "randomString", { expiresIn: 10000 }, (err, token) => {
+        if (err) throw err;
+        res.status(200).json({ token });
+      });
 
     } catch (err) {
       console.log(err.message);
@@ -118,20 +118,21 @@ router.post(
       await user.save();
 
       // update party member list in the party
+      const partyMembers = party.partyMembers;
+      partyMembers.push(user);
+      await party.save();
 
-
-
-      // const payload = {
-      //   user: {
-      //     id: user.id,
-      //   },
-      // };
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
 
       // provides user with JWT to access the party upon account registration
-      // jwt.sign(payload, "randomString", { expiresIn: 10000 }, (err, token) => {
-      //   if (err) throw err;
-      //   res.status(200).json({ token });
-      // });
+      jwt.sign(payload, "randomString", { expiresIn: 10000 }, (err, token) => {
+        if (err) throw err;
+        res.status(200).json({ token });
+      });
 
     } catch (err) {
       console.log(err.message);
@@ -142,7 +143,15 @@ router.post(
 /* Some way to retrieve party info (restaurant list, 
 party members, etc) and provide it to the frontend */ 
 router.get('/info', async (req, res) => {
-
+  try {
+    // request.user is getting fetched from Middleware after token authentication
+    const user = await User.findById(req.user.id);
+    // finds the party info that the user belongs to
+    const party = await Party.findById(user.partyId);
+    res.json(party);
+  } catch (e) {
+      res.send({ message: "Error in Fetching Party" });
+  }
 });
 
 module.exports = router;
