@@ -1,13 +1,15 @@
 import React from 'react';
 import Button from '../components/Button';
 import Logo from '../components/LogoAndWebsite';
-import InputTextBox from '../components/InputTextBox';
+import NicknameBox from '../components/NicknameBox';
+import PartyCodeBox from '../components/PartyCodeBox';
 
 const JoinParty = () => {
     return (
         <div>
             <Logo />
-            <InputTextBox/>
+            <PartyCodeBox/>
+            <NicknameBox/>
             <Button text = "Enter" />
         </div>
     );
