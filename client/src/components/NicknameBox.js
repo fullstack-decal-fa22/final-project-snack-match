@@ -6,7 +6,7 @@ function NicknameBox(props) {
 
     return(
         <div className={styles['text-box']}>
-                <input className = {styles['text-box']} placeholder="Nickname" />
+                <input className = {styles['text-input']} placeholder="Nickname" />
                 <br>
                 </br>
         </div>

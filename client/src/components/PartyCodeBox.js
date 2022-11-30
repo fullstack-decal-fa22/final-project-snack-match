@@ -5,7 +5,7 @@ function PartyCodeBox(props) {
 
     return(
         <div className={styles['text-box']}>
-            <input className = {styles['text-box']} placeholder="Party Code" />
+            <input className = {styles['text-input']} placeholder="Party Code" />
             <br>
             </br>
         </div>
