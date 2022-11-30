@@ -6,9 +6,22 @@ const router = express.Router();
 // imports mongodb scheme from User.js
 const PartySchema = require("../models/PartySchema");
 const UserSchema = require("../models/UserSchema");
+// imports middleware for token verification
+const auth = require("./../middleware/auth");
+
+// generate code for the new party
+function generateCode(length) {
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
 
 /* Create new party given a set of input parameters from frontend
-and return a code with a list of restaurants fitting those parameters*/
+and return a code with a list of restaurants fitting those parameters */
 router.post(
   '/create', 
   [
@@ -20,28 +33,17 @@ router.post(
     // checks if the request is valid according to http-express standards
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({
-        errors: errors.array(),
-      });
+      return res.status(400).json({ errors: errors.array() });
     }
     // saves request body as js object
     const { nickname, distance, price, numCards } = req.body;
 
     // fetch list containing restaurant objects from api
     // const restaurantList = fetchRestaurants(numCards, distance, price);
+    const restaurantList = ["Mezzo", "D'Yar"];
 
     // generate code for the new party
-    function generateCode(length) {
-      var result = '';
-      var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      var charactersLength = characters.length;
-      for (var i = 0; i < length; i++) {
-          result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      }
-      return result;
-  }
-
-    const partyId = generateCode(5);
+    const partyId = generateCode(6);
 
     // try/catch checks for any errors in the process
     try {
@@ -54,11 +56,11 @@ router.post(
       // updates user schema
       await host.save();
 
-      var partyMembers = [host];
+      var partyMembers = [nickname];
       // creates a new party with the newly created user as the host 
       party = new PartySchema({
         partyId,
-        host,
+        host: nickname,
         partyMembers,
         restaurantList,
       });
@@ -66,19 +68,17 @@ router.post(
       await party.save();
 
       const payload = {
-        user: {
-          id: user.id,
-        },
+        host: { id: host.id }
       };
 
       // provides user with JWT to access the party upon account registration
-      jwt.sign(payload, "randomString", { expiresIn: 10000 }, (err, token) => {
-        if (err) throw err;
+      jwt.sign(payload, "randomString", { expiresIn: 10000 }, (error, token) => {
+        if (error) throw error;
         res.status(200).json({ token });
       });
 
-    } catch (err) {
-      console.log(err.message);
+    } catch (error) {
+      console.log(error.message);
       res.status(500).send("Error in Saving");
     }
 });
@@ -96,9 +96,7 @@ router.post(
     // checks if the request is valid according to http-express standards
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({
-        errors: errors.array(),
-      });
+      return res.status(400).json({ errors: errors.array() });
     }
     // saves request body as js object
     const { nickname, partyId } = req.body;
@@ -106,13 +104,13 @@ router.post(
     // try/catch checks for any errors in the process
     try {
       // checks to see whether a party with the given ID exists
-      let party = await Party.findOne({
-        partyId: partyId,
-      });
+      let party = await PartySchema.findOne({ partyId: partyId });
+
       if (!party) {
-        return res.status(400).json({
-          message: "Party Doesn't Exist",
-        });
+        return res.status(400).json({ message: "Party Doesn't Exist" });
+      };
+      if (party.partyMembers.length == 6) {
+        return res.status(400).json({ message: "Party is Full" });
       };
       
       // fetches restaurant list from the party
@@ -129,18 +127,16 @@ router.post(
 
       // update party member list in the party
       const partyMembers = party.partyMembers;
-      partyMembers.push(user);
+      partyMembers.push(nickname);
       await party.save();
 
       const payload = {
-        user: {
-          id: user.id,
-        },
+        user: { id: user.id }
       };
 
       // provides user with JWT to access the party upon account registration
-      jwt.sign(payload, "randomString", { expiresIn: 10000 }, (err, token) => {
-        if (err) throw err;
+      jwt.sign(payload, "randomString", { expiresIn: 10000 }, (error, token) => {
+        if (error) throw error;
         res.status(200).json({ token });
       });
 
@@ -150,17 +146,52 @@ router.post(
     }
 });
 
-/* Some way to retrieve party info (restaurant list, 
+/* Retrieve party info (restaurant list, 
 party members, etc) and provide it to the frontend */ 
-router.get('/info', async (req, res) => {
+router.get('/info', auth, async (req, res) => {
   try {
-    // request.user is getting fetched from Middleware after token authentication
-    const user = await User.findById(req.user.id);
     // finds the party info that the user belongs to
-    const party = await Party.findById(user.partyId);
+    const user = await UserSchema.findOne({ 
+      nickname: req.body.nickname 
+    });
+    // finds the party info that the user belongs to
+    const party = await PartySchema.findOne({ 
+      partyId: user.partyId 
+    });
     res.json(party);
-  } catch (e) {
-      res.send({ message: "Error in Fetching Party" });
+  } catch (error) {
+    res.send({ message: "Error in Fetching Party" });
+  }
+});
+
+/* Retrieve user info (restaurant list, 
+party members, etc) and provide it to the frontend */ 
+router.get('/user', auth, async (req, res) => {
+  try {
+    // finds user info from the database
+    const user = await UserSchema.findOne({ 
+      nickname: req.body.nickname 
+    });
+    res.json(user);
+  } catch (error) {
+    res.send({ message: "Error in Fetching User" });
+  }
+});
+
+// delete information in a database
+router.delete('/clear', async (req, res) => {
+  try {
+    let party = await PartySchema.findOne({ partyId: req.body.partyId });
+    
+    if (!party) {
+      return res.status(400).json({ message: "Party Doesn't Exist" });
+    };
+    // deletes the party and all of its members with the specified party Id
+    UserSchema.deleteMany({ partyId: req.body.partyId });
+    PartySchema.deleteOne({ partyId: req.body.partyId });
+    res.send({ message: "Party Data Cleared from DB" });
+  } catch (error) {
+      res.send({ message: "Error in Clearing Info" });
   }
 });
 

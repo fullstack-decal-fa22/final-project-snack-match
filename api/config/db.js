@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Replace this with your MONGOURI.
-const MONGOURI = "mongodb://127.0.0.1:27017/___________";
+const MONGOURI = "mongodb://127.0.0.1:27017/snack-match-tests";
 const InitiateMongoServer = async () => {
     try {
         // attempts a connection to the database
