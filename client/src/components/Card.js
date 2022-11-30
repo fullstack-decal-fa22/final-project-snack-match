@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Center, Image, Flex, Text, Icon, HStack, IconButton, Circle } from "@chakra-ui/react";
+import { Box, Center, Image, Flex, Text, Icon, HStack, IconButton } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 import { IoArrowBackCircle, IoCloseCircle, IoHeartCircle } from "react-icons/io5";
 import { MdStars } from "react-icons/md";
@@ -45,8 +45,6 @@ function Card(props) {
             </Text>
         )
     }
-
-
 
     return(
         <Center position='relative'>
