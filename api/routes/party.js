@@ -31,7 +31,17 @@ router.post(
     // const restaurantList = fetchRestaurants(numCards, distance, price);
 
     // generate code for the new party
-    // const partyId = generateCode();
+    function generateCode(length) {
+      var result = '';
+      var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      var charactersLength = characters.length;
+      for (var i = 0; i < length; i++) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result;
+  }
+
+    const partyId = generateCode(5);
 
     // try/catch checks for any errors in the process
     try {
