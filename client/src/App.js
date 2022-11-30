@@ -27,7 +27,7 @@ function App() {
   return (
     <div>
       {/* TEST PAGES HERE: UNCOMMENT TO SEE A PAGE */}
-      {/* <First />
+      <First />
       <Host />
       <HostParty />
       <JoinParty />
