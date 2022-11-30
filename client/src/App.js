@@ -31,7 +31,7 @@ function App() {
       <Host />
       <HostParty />
       <JoinParty />
-      <Party/> */}
+      <Party/>
       <Swiping />
 
       {/* PAGE ROUTING */}

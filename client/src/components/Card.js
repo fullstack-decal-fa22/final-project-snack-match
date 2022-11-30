@@ -46,35 +46,43 @@ function Card(props) {
         )
     }
 
+    const iconSmall = {base: '1000px', md: '40px', xl: '1000px'};
+    const iconBig = {base: '80px', md: '70px', xl: '60px'};
+
     return(
         <Center position='relative'>
-            <Box p='12' maxW='350px' borderWidth='1px' height={{base: '100%', md: '50%', xl: '25%'}} width={['100%', '50%']}>
+            <Box maxW='400px' borderWidth='1px' borderRadius='15px' overflow='hidden' height={{base: '100%', md: '50%', xl: '25%'}} width={['100%', '50%']}>
                 <Image borderRadius='md' src={props.image} />
-                
-                <Flex w='100%' px='6' py='5' align='center' justify='space-between'>
-                    <Text fontSize='25px' as='b'>
-                        {props.name}
-                    </Text>
-                    <IconButton icon={<InfoIcon color='black'/>}/>
-                </Flex>
 
-                <HStack px='6'>
-                    <Text fontSize='15px' color='green'>
-                        {props.price}
-                    </Text>
-                    {displayStars(props.rating)}
-                </HStack>
+                <Box p='6'>
+                    
+                    <Flex w='100%' px='6' py='5' align='center' justify='space-between'>
+                        <Text fontSize='25px' as='b'>
+                            {props.name}
+                        </Text>
+                        <IconButton icon={<InfoIcon color='black'/>}/>
+                    </Flex>
 
-                {displayCategories(props.categories)}
+                    <HStack px='6'>
+                        <Text fontSize='15px' color='green'>
+                            {props.price}
+                        </Text>
+                        {displayStars(props.rating)}
+                    </HStack>
 
-                <hr></hr>
-                <HStack py='10'>
-                    <IconButton aria-label="back" icon={<Icon as={IoArrowBackCircle} w={50} h={50} color='orange'/>}/>
-                    <IconButton aria-label='dislike' icon={<Icon as={IoCloseCircle} w={80} h={80} color='red'/>}/>
-                    <IconButton aria-label='like' icon={<Icon as={IoHeartCircle} w={80} h={80} color='green'/>}/>
-                    <IconButton aria-label='superlike' icon={<Icon as={MdStars} w={50} h={50} color='blue'/>}/>
-                </HStack>
-                <br></br>
+                    {displayCategories(props.categories)}
+                    
+                    <br></br>
+                    <hr></hr>
+                    <Center>
+                        <HStack py='10'>
+                            <IconButton aria-label="back" icon={<Icon as={IoArrowBackCircle} w={40} h={40} color='orange'/>}/>
+                            <IconButton aria-label='dislike' icon={<Icon as={IoCloseCircle} w={60} h={60} color='red'/>}/>
+                            <IconButton aria-label='like' icon={<Icon as={IoHeartCircle} w={60} h={60} color='green'/>}/>
+                            <IconButton aria-label='superlike' icon={<Icon as={MdStars} w={40} h={40} color='blue'/>}/>
+                        </HStack>
+                    </Center>
+                </Box>
             </Box>
         </Center>
     );
