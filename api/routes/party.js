@@ -2,7 +2,7 @@ const express = require("express");
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
-const axios = require("axios");
+const yelpAPI = require('yelp-api');
 
 // imports mongodb scheme from User.js
 const PartySchema = require("../models/PartySchema");
@@ -21,22 +21,33 @@ function generateCode(length) {
   return result;
 }
 
+// Create a new yelpAPI object with your API key
+let apiKey = '7kiciiJ9UTNzpKVAb_dR3oZ1IrvqXwqjn91HfKM2ZlHtuBpFCCN8SJdpCn8OJkdbzRgMp3q0wf7xwSDeYr2l8lXwGBXtwjJOsrum6Ka2wlw6DlJI9w-zeydBRk19Y3Yx';
+let yelp = new yelpAPI(apiKey);
+ 
 router.get('/test', async (req, res) => {
   const { distance, price, city, limit } = req.body;
-  const token = 'Bearer 7kiciiJ9UTNzpKVAb_dR3oZ1IrvqXwqjn91HfKM2ZlHtuBpFCCN8SJdpCn8OJkdbzRgMp3q0wf7xwSDeYr2l8lXwGBXtwjJOsrum6Ka2wlw6DlJI9w-zeydBRk19Y3Yx'
-  axios.get(
-    "https://api.yelp.com/v3/businesses/search",
-    { 
-      params: {location: city, radius: distance, limit: limit}, 
-      headers: { 
-        'Authorization': token,
-        'Content-Type': 'application/json'
-      }
-    }
-  ).then(function (response) {
-    console.log(response)
-    res.send(response.data);
-  });
+
+  let params = [
+    {term: "food"}, 
+    {open_now: true}, 
+    {price: price}, 
+    {location: city}, 
+    {radius: distance}, 
+    {limit: limit}
+  ];
+
+  const output = await yelp.query('businesses/search', params);
+  const restaurantList = JSON.parse(output).businesses;
+  console.log(typeof restaurantList);
+
+  const voteCounter = [];
+  for (let i = 0; i < restaurantList.length; i++) {
+    let id = restaurantList[i].id;
+    let obj = { id: 0 };
+    voteCounter.push(obj);
+  }
+  console.log(voteCounter);
 });
 
 /* Create new party given a set of input parameters from frontend
@@ -57,11 +68,8 @@ router.post(
     // saves request body as js object
     const { nickname, distance, price, numCards } = req.body;
 
-    // fetch list containing restaurant objects from api
-    const restaurantList = fetchRestaurants(numCards, distance, price);
-
-    // const restaurantList = ["Mezzo", "D'Yar"];
-
+    const restaurantList = ["La Burrita"];
+    
     // generate code for the new party
     const partyId = generateCode(6);
 
