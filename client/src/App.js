@@ -27,12 +27,13 @@ function App() {
   return (
     <div>
       {/* TEST PAGES HERE: UNCOMMENT TO SEE A PAGE */}
+      {/*}
       <First />
       <Host />
       <HostParty />
       <JoinParty />
       <Party />
-       <Swiping />
+  <Swiping /> */}
 
       {/* PAGE ROUTING */}
       {/* <ChakraProvider> */}

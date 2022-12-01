@@ -1,7 +1,8 @@
 import React from 'react';
 import Button from '../components/Button';
 import Logo from '../components/LogoAndWebsite';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import {Routes, Route, useNavigate, Navigate, Link} from 'react-router-dom';
+
 
 
 const First = () => {
@@ -11,14 +12,14 @@ const First = () => {
         navigate('/host');
     }
 
-    const navigateToJoin = () => {
-        navigate('/joinParty');
+    const navigateToJoin = () => { 
+        navigate('/joinParty'); 
     }
 
     return (
         <div>
             <Logo />
-            <Button backgroundColor = "#F0F0F0" onClick={navigateToJoin}>Join Party</Button>
+            <Button onClick={navigateToJoin} backgroundColor="#F0F0F0">Join Party</Button>
             <Button onClick={navigateToHost}>Create Party</Button>
         </div>
     );

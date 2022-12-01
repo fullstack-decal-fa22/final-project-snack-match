@@ -9,6 +9,7 @@ const Host = () => {
 
     const onStart = () => {
         navigate('/hostParty');
+        //send data to backend
     }
 
     return (

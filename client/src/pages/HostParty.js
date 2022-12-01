@@ -7,7 +7,7 @@ import {Routes, Route, useNavigate, useNavigation} from 'react-router-dom';
 const HostParty = () => {
     const navigate = useNavigate();
 
-    const onStart = () => {
+    const navigateToSwiping = () => {
         navigate('/swiping');
     }
 
@@ -15,7 +15,7 @@ const HostParty = () => {
         <div>
             <Logo />
             <MemberBox/>
-            <Button onClick={onStart}>Start Matching</Button>
+            <Button onClick={navigateToSwiping}>Start Matching</Button>
         </div>
     );
 };
