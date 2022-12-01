@@ -1,7 +1,14 @@
 import React from 'react';
 import styles from './Button.module.css'; 
+import {useNavigate} from 'react-router-dom';
 
 const Button = (props) => {
+
+  const navigate = useNavigate();
+  
+  const navigateToHost = () => {
+    navigate('/party')
+  }
 
   let styleObj = {};
   if (props.backgroundColor) {
@@ -10,7 +17,7 @@ const Button = (props) => {
 
   return(
     <div>
-        <button style={styleObj} className={styles['rectangle-button']}>{props.children}</button>
+        <button onClick={navigateToHost} style={styleObj} className={styles['rectangle-button']}>{props.children}</button>
     </div>
   )
 }

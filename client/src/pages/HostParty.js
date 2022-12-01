@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../components/Button';
+import StartMatchingButton from '../components/StartMatchingButton';
 import Logo from '../components/LogoAndWebsite';
 import MemberBox from '../components/MemberBox';
 import {Routes, Route, useNavigate, useNavigation} from 'react-router-dom';
@@ -15,7 +15,7 @@ const HostParty = () => {
         <div>
             <Logo />
             <MemberBox/>
-            <Button onClick={navigateToSwiping}>Start Matching</Button>
+            <StartMatchingButton onClick={navigateToSwiping}>Start Matching</StartMatchingButton>
         </div>
     );
 };
