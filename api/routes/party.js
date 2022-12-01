@@ -2,6 +2,7 @@ const express = require("express");
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
+const axios = require("axios");
 
 // imports mongodb scheme from User.js
 const PartySchema = require("../models/PartySchema");
@@ -19,6 +20,24 @@ function generateCode(length) {
   }
   return result;
 }
+
+router.get('/test', async (req, res) => {
+  const { distance, price, city, limit } = req.body;
+  const token = 'Bearer 7kiciiJ9UTNzpKVAb_dR3oZ1IrvqXwqjn91HfKM2ZlHtuBpFCCN8SJdpCn8OJkdbzRgMp3q0wf7xwSDeYr2l8lXwGBXtwjJOsrum6Ka2wlw6DlJI9w-zeydBRk19Y3Yx'
+  axios.get(
+    "https://api.yelp.com/v3/businesses/search",
+    { 
+      params: {location: city, radius: distance, limit: limit}, 
+      headers: { 
+        'Authorization': token,
+        'Content-Type': 'application/json'
+      }
+    }
+  ).then(function (response) {
+    console.log(response)
+    res.send(response.data);
+  });
+});
 
 /* Create new party given a set of input parameters from frontend
 and return a code with a list of restaurants fitting those parameters */
@@ -39,8 +58,9 @@ router.post(
     const { nickname, distance, price, numCards } = req.body;
 
     // fetch list containing restaurant objects from api
-    // const restaurantList = fetchRestaurants(numCards, distance, price);
-    const restaurantList = ["Mezzo", "D'Yar"];
+    const restaurantList = fetchRestaurants(numCards, distance, price);
+
+    // const restaurantList = ["Mezzo", "D'Yar"];
 
     // generate code for the new party
     const partyId = generateCode(6);
