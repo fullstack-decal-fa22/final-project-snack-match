@@ -1,13 +1,25 @@
 import React from 'react';
 import Button from '../components/Button';
 import Logo from '../components/LogoAndWebsite';
+import {Routes, Route, useNavigate} from 'react-router-dom';
+
 
 const First = () => {
+    const navigate = useNavigate();
+
+    const navigateToHost = () => {
+        navigate('/host');
+    }
+
+    const navigateToJoin = () => {
+        navigate('/joinParty');
+    }
+
     return (
         <div>
             <Logo />
-            <Button backgroundColor= "gray" text = "Join Party"/>
-            <Button text = "Create Party" />
+            <Button backgroundColor = "#F0F0F0" onClick={navigateToJoin}>Join Party</Button>
+            <Button onClick={navigateToHost}>Create Party</Button>
         </div>
     );
 };
