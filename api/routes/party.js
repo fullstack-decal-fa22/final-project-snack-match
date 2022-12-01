@@ -24,31 +24,6 @@ function generateCode(length) {
 // Create a new yelpAPI object with your API key
 let apiKey = '7kiciiJ9UTNzpKVAb_dR3oZ1IrvqXwqjn91HfKM2ZlHtuBpFCCN8SJdpCn8OJkdbzRgMp3q0wf7xwSDeYr2l8lXwGBXtwjJOsrum6Ka2wlw6DlJI9w-zeydBRk19Y3Yx';
 let yelp = new yelpAPI(apiKey);
- 
-router.get('/test', async (req, res) => {
-  const { distance, price, city, limit } = req.body;
-
-  let params = [
-    {term: "food"}, 
-    {open_now: true}, 
-    {price: price}, 
-    {location: city}, 
-    {radius: distance}, 
-    {limit: limit}
-  ];
-
-  const output = await yelp.query('businesses/search', params);
-  const restaurantList = JSON.parse(output).businesses;
-  console.log(typeof restaurantList);
-
-  const voteCounter = [];
-  for (let i = 0; i < restaurantList.length; i++) {
-    let id = restaurantList[i].id;
-    let obj = { id: 0 };
-    voteCounter.push(obj);
-  }
-  console.log(voteCounter);
-});
 
 /* Create new party given a set of input parameters from frontend
 and return a code with a list of restaurants fitting those parameters */
@@ -57,18 +32,39 @@ router.post(
   [
     // checks to make sure the required parameters are valid inputs
     check("nickname", "Please Enter a Valid Username").not().isEmpty(),
-    check("numCards", "Please Enter a Valid Number of Cards").not().isEmpty(),
+    check("limit", "Please Enter a Valid Number of Cards").not().isEmpty(),
   ],
   async (req, res) => {
+
     // checks if the request is valid according to http-express standards
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    // saves request body as js object
-    const { nickname, distance, price, numCards } = req.body;
 
-    const restaurantList = ["La Burrita"];
+    // saves request body as js object
+    const { nickname, location, distance, price, limit } = req.body;
+    // convert distance from miles --> meters
+    const radius = distance * 1609;
+
+    let params = [
+      {term: "food"}, 
+      {open_now: true}, 
+      {price: price}, 
+      {location: location}, 
+      {radius: radius}, 
+      {limit: limit}
+    ];
+  
+    const output = await yelp.query('businesses/search', params);
+    const restaurantList = JSON.parse(output).businesses;
+    console.log(restaurantList)
+  
+    const voteCounter = {};
+    for (let i = 0; i < restaurantList.length; i++) {
+      let id = restaurantList[i].id;
+      voteCounter[id] = 0;
+    }
     
     // generate code for the new party
     const partyId = generateCode(6);
@@ -79,7 +75,7 @@ router.post(
       host = new UserSchema({
         nickname,
         partyId,
-        restaurantList,
+        voteCounter,
       });
       // updates user schema
       await host.save();
@@ -143,12 +139,17 @@ router.post(
       
       // fetches restaurant list from the party
       const restaurantList = party.restaurantList;
+      const voteCounter = {};
+      for (let i = 0; i < restaurantList.length; i++) {
+        let id = restaurantList[i].id;
+        voteCounter[id] = 0;
+      };
 
       // creates a new user
       user = new UserSchema({
         nickname,
         partyId,
-        restaurantList,
+        voteCounter,
       });
       // updates user schema
       await user.save();
