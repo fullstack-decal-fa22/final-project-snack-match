@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+
 import Header from '../components/Header';
 import Card from '../components/Card.js';
-import { Box, Center, Image, Flex, Text, Icon, HStack, IconButton } from "@chakra-ui/react";
 import axios from 'axios';
 
 const Swiping = () => {
@@ -20,7 +20,6 @@ const Swiping = () => {
     // var address = '2517 Durant Ave, Berkeley, CA';
     // var phone = '(123) 456-7890';
     // var miles = '0.5';
-
 
     var [restaurantIndex, updateIndex] = useState(0);
 
@@ -71,7 +70,7 @@ const Swiping = () => {
 
     return (
         <div>
-            <Header hostName={hostName} />
+            <Header hostName={hostName}/>
             <Card
                 image={restImage}
                 name={restName}

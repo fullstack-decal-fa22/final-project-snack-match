@@ -9,6 +9,7 @@ import HostParty from "./pages/HostParty.js";
 import JoinParty from "./pages/JoinParty.js";
 import Party from "./pages/Party.js";
 import Swiping from "./pages/Swiping.js";
+import Matched from "./pages/Matched.js";
 
 function App() {
 
@@ -20,7 +21,10 @@ function App() {
       <HostParty />
       <JoinParty />
       <Party />
-  <Swiping /> */}
+      <Swiping /> */}
+    <ChakraProvider>
+      <Matched />
+    </ChakraProvider>
 
       {/* PAGE ROUTING */}
       <ChakraProvider>

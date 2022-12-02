@@ -41,7 +41,7 @@ function Card(props) {
             }
         };
         return (
-            <Text px='6' fontSize='15px'>
+            <Text px='6' fontSize='sm'>
                 {string}
             </Text>
         )
@@ -52,21 +52,21 @@ function Card(props) {
     return(
         <div>
             <Center position='relative'>
-                <Box className={styles['card']} maxW='400px' borderWidth='1px' borderRadius='15px' overflow='hidden' height={{base: '100%', md: '50%', xl: '25%'}} width={['100%', '50%']}>
-                    <Flex height='300px' overflow='hidden' alignItems='center' justifyContent='center'>
-                        <Image borderRadius='md' src={props.image} alt='Restaurant' />
+                <Box className={styles['card']} maxW='sm' borderWidth='xs' borderRadius='2xl' overflow='hidden' height={{base: '100%', md: '50%', xl: '25%'}} width={['100%', '50%']}>
+                    <Flex height='xs' overflow='hidden' alignItems='center' justifyContent='center'>
+                        <Image src={props.image} alt='Restaurant' />
                     </Flex>
 
                     <Box>
                         <Flex w='100%' px='6' py='5' align='center' justify='space-between'>
-                            <Text fontSize='25px' as='b'>
+                            <Text fontSize='xl' as='b'>
                                 {props.name}
                             </Text>
                             <IconButton variant='ghost' className={styles['door']} icon={<InfoIcon />} onClick={onOpen} size='sm'/>
                         </Flex>
 
                         <HStack px='6'>
-                            <Text fontSize='15px' color='green'>
+                            <Text fontSize='sm' color='green'>
                                 {props.price}
                             </Text>
                             {displayStars(props.rating)}
@@ -78,10 +78,10 @@ function Card(props) {
                         <hr></hr>
                         <Center>
                             <HStack py='5'>
-                                <IconButton variant='link' color='' className={styles['back']} icon={<Icon as={IoArrowBackCircle} w='40px' h='40px'/>}/>
-                                <IconButton variant='link' color='' className={styles['dislike']} icon={<Icon as={IoCloseCircle} w='60px' h='60px'/>}/>
-                                <IconButton variant='link' color='' className={styles['like']} icon={<Icon as={IoHeartCircle} w='60px' h='60px'/>}/>
-                                <IconButton variant='link' color='' className={styles['superlike']} icon={<Icon as={MdStars} w='40px' h='40px'/>}/>
+                                <IconButton variant='link' color='' className={styles['back']} icon={<Icon as={IoArrowBackCircle} w='2.8rem' h='2.8rem'/>}/>
+                                <IconButton variant='link' color='' className={styles['dislike']} icon={<Icon as={IoCloseCircle} w='4rem' h='4rem'/>}/>
+                                <IconButton variant='link' color='' className={styles['like']} icon={<Icon as={IoHeartCircle} w='4rem' h='4rem'/>}/>
+                                <IconButton variant='link' color='' className={styles['superlike']} icon={<Icon as={MdStars} w='2.8rem' h='2.8rem'/>}/>
                             </HStack>
                         </Center>
                     </Box>
@@ -100,9 +100,7 @@ function Card(props) {
                             <ModalBody>
                                 <b>Address: </b> {props.address} <br></br>
                                 <b>Phone: </b> {props.phone} <br></br>
-                                <b>Hours: </b> {props.hours} <br></br>
-                                <b>Menu Highlights: </b> {props.hours} <br></br>
-                                <b>Reviews: </b> {props.hours} <br></br>
+                                {/* <b>Reviews: </b> {props.reviews} <br></br> */}
                             </ModalBody>
                         </ModalContent>
                     </Modal>
