@@ -4,12 +4,14 @@ import styles from './Filters.module.css'
 
 function PriceFilter() {
     return (
-        <DropdownButton className={styles['filter']} title="Select Price">
+        <div>
+        <DropdownButton className={styles['filter']} id="dropdown-basic-button" title="Select Price">
             <Dropdown.Item className={styles['filter-item']}>$</Dropdown.Item>
             <Dropdown.Item className={styles['filter-item']}>$$</Dropdown.Item>
             <Dropdown.Item className={styles['filter-item']}>$$$</Dropdown.Item>
             <Dropdown.Item className={styles['filter-item']}>$$$$</Dropdown.Item>
         </DropdownButton>
+        </div>
     );
 }
 
