@@ -162,7 +162,6 @@ party members, etc) and provide it to the frontend */
 router.get('/info', async (req, res) => {
   try {
     // finds the party info that the user belongs to
-    console.log(req);
     const user = await UserSchema.findOne({ 
       nickname: req.query.nickname 
     });

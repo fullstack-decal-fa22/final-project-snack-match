@@ -1,6 +1,5 @@
 import "./App.css";
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
@@ -13,17 +12,6 @@ import Swiping from "./pages/Swiping.js";
 import Matched from "./pages/Matched.js";
 
 function App() {
-  const [expressCheck, setExpressCheck] = useState("");
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:9000/testAPI`)
-      .then((res) => {
-        setExpressCheck(res.data);
-        console.log(res.data);
-      })
-      .catch(() => setExpressCheck("Currently down."));
-  }, []);
 
   return (
     <div>
