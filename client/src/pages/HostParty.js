@@ -3,18 +3,20 @@ import StartMatchingButton from '../components/StartMatchingButton';
 import Logo from '../components/LogoAndWebsite';
 import siteStyles from '../components/LogoAndWebsite.module.css';
 import MemberBox from '../components/MemberBox';
-import {Routes, Route, useNavigate, useNavigation} from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const HostParty = () => {
     const navigate = useNavigate();
+    const { state } = useLocation();
+    const { nickname } = state;
 
     var [memberList, updateList] = useState([]);
-    var [partyId, updateId] = useState("");
+    var [partyId, updateId] = useState(nickname);
 
     const populateList = () => {
         axios
-            .get('http://localhost:9000/party/info', { params: { nickname: "ronnie5" }})
+            .get('http://localhost:9000/party/info', { params: { nickname }})
             .then((data) => {
                 updateId(data.data.partyId);
                 updateList(data.data.partyMembers);
@@ -33,7 +35,7 @@ const HostParty = () => {
     return (
         <div>
             <Logo />
-            <h2 className = {siteStyles['site']}>Code: {partyId}</h2>
+            <h3 className = {siteStyles['site']}>Code: {partyId}</h3>
             <MemberBox memberList={memberList}/>
             <StartMatchingButton onClick={navigateToSwiping}>Start Matching</StartMatchingButton>
         </div>
