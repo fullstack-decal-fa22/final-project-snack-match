@@ -6,6 +6,7 @@ const First = () => {
     return (
         <div>
             <Logo />
+            <Button backgroundColor= "gray" text = "Join Party"/>
             <Button text = "Create Party" />
         </div>
     );
