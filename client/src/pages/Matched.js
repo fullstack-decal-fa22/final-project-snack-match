@@ -7,9 +7,9 @@ import axios from 'axios';
 
 const Matched = () => {
 
-    // const { state } = useLocation();
-    // const { nickname } = state;
-    const nickname = "ryan";
+    const { state } = useLocation();
+    const { nickname } = state;
+    // const nickname = "ryan";
 
     var [ restaurantList, setList ] = useState([]);
 
@@ -18,7 +18,6 @@ const Matched = () => {
             .get('http://localhost:9000/party/info', { params: { nickname } })
             .then((data) => {
                 setList(data.data.restaurantList);
-                console.log(data.data.restaurantList);
             })
             .catch((error) => console.log(error.response.data));        
     }

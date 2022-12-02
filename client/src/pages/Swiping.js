@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const Swiping = () => {
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const { state } = useLocation();
     const { nickname } = state;
 
@@ -65,7 +65,7 @@ const Swiping = () => {
 
     const buttonClick = (clickType) => {
         // console.log(restId);
-        if (restaurantIndex < 10 )  {
+        if (restaurantIndex <= 10 )  {
             if (clickType === 'like') {
                 let temp = voteCounter;
                 temp[restId] = 1;
@@ -94,6 +94,7 @@ const Swiping = () => {
             }
         } else {
             console.log("last item!")
+            navigate('/matched', { state: { nickname }})
         }
     }
 
