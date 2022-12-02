@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Button.module.css'; 
 import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
-const Button = (props) => {
+const Button = (props) => { 
 
   const navigate = useNavigate();
   
   const navigateToHost = () => {
-    navigate('/party')
+
+    const params = {
+      nickname: props.nickname,
+      partyId: props.partyId
+    };
+
+    axios
+      .post('http://localhost:9000/party/join', params)
+      .then(() => navigate('/party'))
+      .catch((error) => console.log(error.response.data));
   }
 
   let styleObj = {};

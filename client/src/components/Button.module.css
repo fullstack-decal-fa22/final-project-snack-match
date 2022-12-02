@@ -12,3 +12,7 @@
     font-weight: bold;
     width: 50%;
 }
+
+.rectangle-button:hover {
+    background-color: #7BB6C9;
+}
