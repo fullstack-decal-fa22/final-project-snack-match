@@ -32,11 +32,7 @@ function App() {
       <HostParty />
       <JoinParty />
       <Party />
-<<<<<<< HEAD
-      <Swiping /> */}
-=======
   <Swiping /> */}
->>>>>>> 896ab7f3a71bf5e60226af0e0ebf4f4176a9c9c7
 
       {/* PAGE ROUTING */}
       <ChakraProvider>

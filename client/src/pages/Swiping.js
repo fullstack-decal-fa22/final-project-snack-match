@@ -34,10 +34,8 @@ const Swiping = () => {
     return (
         <div>
             <Header hostName={hostName}/>
-            {/* <Center> */}
                 <Card
                     image={restImage}
-                    // image={'https://pbs.twimg.com/media/FMLUhT7VkAYKwR0.jpg'}
                     name={restName}
                     price={restPrice}
                     rating={restRating}
@@ -47,18 +45,6 @@ const Swiping = () => {
                     hours={hours}
                     miles={miles}
                 />
-                {/* <Card
-                    image={'https://pbs.twimg.com/media/FMLUhT7VkAYKwR0.jpg'}
-                    name={restName}
-                    price={restPrice}
-                    rating={restRating}
-                    categories={restCategories}
-                    address={address}
-                    phone={phone}
-                    hours={hours}
-                    miles={miles}
-                />
-            </Center> */}
             <br></br>
         </div>
     );
