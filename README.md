@@ -1,5 +1,5 @@
 # mern-tailwind-vivid-starter
-A repository with React, Tailwind, Vivid, and Express set up
+A repository of Snackmatch App files
 
 # Getting Started
 This repository contains both an Express backend (within api) and a React frontend (within client). To get started, clone the repository. Navigate to your terminal and execute the following command.
