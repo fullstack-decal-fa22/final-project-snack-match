@@ -15,7 +15,7 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.7.4",
+    "mongoose": "^6.7.5",
     "morgan": "~1.9.1",
     "yelp-api": "^1.0.3"
   }
