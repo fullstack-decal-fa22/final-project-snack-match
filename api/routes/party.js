@@ -8,7 +8,7 @@ const yelpAPI = require('yelp-api');
 const PartySchema = require("../models/PartySchema");
 const UserSchema = require("../models/UserSchema");
 // imports middleware for token verification
-const auth = require("./../middleware/auth");
+// const auth = require("./../middleware/auth");
 
 // generate code for the new party
 function generateCode(length) {
@@ -58,7 +58,7 @@ router.post(
   
     const output = await yelp.query('businesses/search', params);
     const restaurantList = JSON.parse(output).businesses;
-    console.log(restaurantList)
+    // console.log(restaurantList)
   
     const voteCounter = {};
     for (let i = 0; i < restaurantList.length; i++) {
@@ -91,15 +91,7 @@ router.post(
       // updates party schema
       await party.save();
 
-      const payload = {
-        host: { id: host.id }
-      };
-
-      // provides user with JWT to access the party upon account registration
-      jwt.sign(payload, "randomString", { expiresIn: 10000 }, (error, token) => {
-        if (error) throw error;
-        res.status(200).json({ token });
-      });
+      res.status(200).json({ message: `Party ${partyId} Created!` });
 
     } catch (error) {
       console.log(error.message);
@@ -159,15 +151,7 @@ router.post(
       partyMembers.push(nickname);
       await party.save();
 
-      const payload = {
-        user: { id: user.id }
-      };
-
-      // provides user with JWT to access the party upon account registration
-      jwt.sign(payload, "randomString", { expiresIn: 10000 }, (error, token) => {
-        if (error) throw error;
-        res.status(200).json({ token });
-      });
+      res.status(200).json({ message: `Joined Party ${partyId}!` });
 
     } catch (err) {
       console.log(err.message);
@@ -177,7 +161,7 @@ router.post(
 
 /* Retrieve party info (restaurant list, 
 party members, etc) and provide it to the frontend */ 
-router.get('/info', auth, async (req, res) => {
+router.get('/info', async (req, res) => {
   try {
     // finds the party info that the user belongs to
     const user = await UserSchema.findOne({ 
@@ -195,7 +179,7 @@ router.get('/info', auth, async (req, res) => {
 
 /* Retrieve user info (restaurant list, 
 party members, etc) and provide it to the frontend */ 
-router.get('/user', auth, async (req, res) => {
+router.get('/user', async (req, res) => {
   try {
     // finds user info from the database
     const user = await UserSchema.findOne({ 
