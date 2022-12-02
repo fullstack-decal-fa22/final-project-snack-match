@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Card from '../components/Card.js';
 import { Box, Center, Image, Flex, Text, Icon, HStack, IconButton } from "@chakra-ui/react";
 import axios from 'axios';
 
 const Swiping = () => {
+
+    // const navigate = useNavigate();
+    const { state } = useLocation();
+    const { nickname } = state;
+
     // var hostName = 'Erudian';
     // var restImage = 'https://pm1.narvii.com/7697/1637f6f5e56d2ed3b6309a67ce30b7b7360070eer1-672-846v2_hq.jpg';
     // var restName = "Seduce the Villain's Father";
@@ -30,9 +36,8 @@ const Swiping = () => {
 
     const populateList = () => {
         axios
-            .get('http://localhost:9000/party/info', { params: { nickname: "Fizz1" } })
+            .get('http://localhost:9000/party/info', { params: { nickname } })
             .then((data) => {
-                updateIndex(restaurantIndex + 1);
                 var card = data.data;
                 updateHostName(card.host);
                 var restaurantObj = card.restaurantList[restaurantIndex];
@@ -60,11 +65,9 @@ const Swiping = () => {
 
     // onClick for moving forward and backward + updateIndex here, use useEffect to reflect changes?
 
-
-
     useEffect(() => {
         populateList();
-    });
+    }, []);
 
     return (
         <div>

@@ -4,7 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import First from "./pages/First.js";
-import Host from "./pages/Host.js";
+import CreateParty from "./pages/CreateParty";
 import HostParty from "./pages/HostParty.js";
 import JoinParty from "./pages/JoinParty.js";
 import Party from "./pages/Party.js";
@@ -27,7 +27,7 @@ function App() {
         <div>
           <Routes>
             <Route exact path='/' element={<First />} />
-            <Route path='/host' element={<Host />} />
+            <Route path='/host' element={<CreateParty />} />
             <Route path='/hostParty' element={<HostParty />} />
             <Route path='/joinParty' element={<JoinParty />} />
             <Route path='/party' element={<Party />} />

@@ -7,7 +7,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const HostParty = () => {
-    const navigate = useNavigate();
     const { state } = useLocation();
     const { nickname } = state;
 
@@ -28,16 +27,12 @@ const HostParty = () => {
         populateList();
     }, [])
 
-    const navigateToSwiping = () => {
-        navigate('/swiping');
-    }
-
     return (
         <div>
             <Logo />
             <h3 className = {siteStyles['site']}>Code: {partyId}</h3>
             <MemberBox memberList={memberList}/>
-            <StartMatchingButton onClick={navigateToSwiping}>Start Matching</StartMatchingButton>
+            <StartMatchingButton nickname={nickname} partyId={partyId}>Start Matching</StartMatchingButton>
         </div>
     );
 };

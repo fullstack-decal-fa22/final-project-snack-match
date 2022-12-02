@@ -5,19 +5,19 @@ import {Routes, Route, useNavigate, Navigate, Link, redirect} from 'react-router
 const Button = (props) => {
 
   const navigate = useNavigate();
-  
-  const navigateToSwiping = () => {
-    navigate('/swiping')
-  }
 
   let styleObj = {};
   if (props.backgroundColor) {
     styleObj.backgroundColor = props.backgroundColor;
   }
 
+  const navigateToSwiping = () => {
+    navigate('/swiping', { state: { nickname: props.nickname }})
+  }
+  
   return(
     <div>
-        <button onClick={navigateToSwiping} style={styleObj} className={styles['rectangle-button']}>{props.children}</button>
+      <button onClick={navigateToSwiping} style={styleObj} className={styles['rectangle-button']}>{props.children}</button>
     </div>
   )
 }
