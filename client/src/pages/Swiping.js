@@ -52,7 +52,7 @@ const Swiping = () => {
     };
 
     const buttonClick = (clickType) => {
-        if (restaurantIndex < 10) {
+        if (restaurantIndex < 10 )  {
             if (clickType === 'like') {
                 updateIndex(restaurantIndex + 1);
                 populateList();
@@ -62,9 +62,12 @@ const Swiping = () => {
             } else if (clickType === 'dislike') {
                 updateIndex(restaurantIndex + 1);
                 populateList();
-            } else {
-                updateIndex(restaurantIndex - 1);
-                populateList();
+                if (restaurantIndex !== 0) {
+                    updateIndex(restaurantIndex - 1);
+                    populateList();
+                } else {
+                    console.log("Cannot go back!");
+                }
             }
         } else {
             console.log("last item!")

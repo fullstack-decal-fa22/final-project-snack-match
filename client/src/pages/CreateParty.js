@@ -1,26 +1,23 @@
 import React, { useState } from 'react';
 import StartPartyButton from '../components/StartPartyButton';
 import Logo from '../components/LogoAndWebsite';
-// import NicknameBox from '../components/NicknameBox';
-import { Routes, Route, useNavigate, useNavigation } from 'react-router-dom';
 import DistanceFilter from '../components/DistanceFilter';
 import PriceFilter from '../components/PriceFilter';
 import InputBox from '../components/InputBox';
 
 const Host = () => {
 
-    const [nicknameInput, setInput] = useState("");
+    const [ nicknameInput, setNickname ] = useState("");
+    const [ distanceInput, setDistance ] = useState(5);
+    const [ priceList, setPrice ] = useState([1, 2, 3, 4]);
 
     return (
         <div>
             <Logo />
-            <InputBox input={nicknameInput} setInput={setInput} placeholder="Nickname" />
-            <DistanceFilter />
-            <PriceFilter />
-            {/* edit the onClick below? */}=
-            <StartPartyButton onClick={alert}>Start Party</StartPartyButton>
-            <InputBox input={nicknameInput} setInput={setInput} placeholder="Nickname" />
-            <StartPartyButton nickname={nicknameInput}>Start Party</StartPartyButton>
+            <InputBox input={nicknameInput} setInput={setNickname} placeholder="Nickname" />
+            <DistanceFilter setDistance={setDistance}/>
+            <PriceFilter setPrice={setPrice} />
+            <StartPartyButton nickname={nicknameInput} distance={distanceInput} priceList={priceList}>Start Party</StartPartyButton>
         </div>
     );
 };

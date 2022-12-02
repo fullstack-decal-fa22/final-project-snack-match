@@ -11,7 +11,7 @@ function MemberBox(props) {
 
     return(
         <div>
-            {props.memberList.map(name => <p className={styles['text-box']}>{name}</p>)}
+            {props.memberList.map((name, index) => <p className={styles['text-box']} key={index}>{name}</p>)}
         </div>
     )
 }

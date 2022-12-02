@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Button.module.css'; 
-import {Routes, Route, useNavigate, Navigate, Link, redirect} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Button = (props) => {
@@ -12,11 +12,11 @@ const Button = (props) => {
     const params = {
       nickname: props.nickname,
       location: "Berkeley",
-      distance: 1, 
-      price: [1, 2, 3], 
+      distance: props.distance, 
+      price: props.priceList, 
       limit: 10 
     };
-    
+    console.log(params);
     axios
       .post('http://localhost:9000/party/create', params)
       .then(() => navigate('/hostParty', { state: { nickname: props.nickname }}))
