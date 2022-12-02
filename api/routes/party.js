@@ -7,8 +7,6 @@ const yelpAPI = require('yelp-api');
 // imports mongodb scheme from User.js
 const PartySchema = require("../models/PartySchema");
 const UserSchema = require("../models/UserSchema");
-// imports middleware for token verification
-// const auth = require("./../middleware/auth");
 
 // generate code for the new party
 function generateCode(length) {
@@ -164,8 +162,9 @@ party members, etc) and provide it to the frontend */
 router.get('/info', async (req, res) => {
   try {
     // finds the party info that the user belongs to
+    console.log(req);
     const user = await UserSchema.findOne({ 
-      nickname: req.body.nickname 
+      nickname: req.query.nickname 
     });
     // finds the party info that the user belongs to
     const party = await PartySchema.findOne({ 
@@ -173,7 +172,7 @@ router.get('/info', async (req, res) => {
     });
     res.json(party);
   } catch (error) {
-    res.send({ message: "Error in Fetching Party" });
+    res.status(500).send({ message: "Error in Fetching Party" });
   }
 });
 

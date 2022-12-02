@@ -10,7 +10,7 @@ const JoinParty = () => {
             <Logo />
             <PartyCodeBox/>
             <NicknameBox/>
-            <EnterButton>Enter</EnterButton>
+            <EnterButton nickname="ronnie5" partyId="CPLQDX">Enter</EnterButton>
         </div>
     );
 };

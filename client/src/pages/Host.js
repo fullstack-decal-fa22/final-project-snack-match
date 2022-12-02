@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import StartPartyButton from '../components/StartPartyButton';
 import Logo from '../components/LogoAndWebsite';
 import NicknameBox from '../components/NicknameBox';
