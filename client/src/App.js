@@ -1,6 +1,5 @@
 import "./App.css";
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
@@ -10,33 +9,25 @@ import HostParty from "./pages/HostParty.js";
 import JoinParty from "./pages/JoinParty.js";
 import Party from "./pages/Party.js";
 import Swiping from "./pages/Swiping.js";
+import Matched from "./pages/Matched.js";
 
 function App() {
-  const [expressCheck, setExpressCheck] = useState("");
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:9000/testAPI`)
-      .then((res) => {
-        setExpressCheck(res.data);
-        console.log(res.data);
-      })
-      .catch(() => setExpressCheck("Currently down."));
-  }, []);
 
   return (
     <div>
       {/* TEST PAGES HERE: UNCOMMENT TO SEE A PAGE */}
-      {/*}
-      <First />
+      {/* <First />
       <Host />
       <HostParty />
       <JoinParty />
       <Party />
-  <Swiping /> */}
+      <Swiping /> */}
+    <ChakraProvider>
+      <Matched />
+    </ChakraProvider>
 
       {/* PAGE ROUTING */}
-      {/* <ChakraProvider> */}
+      <ChakraProvider>
         <div>
           <Routes>
             <Route exact path='/' element={<First />} />
@@ -47,8 +38,7 @@ function App() {
             <Route path='/swiping' element={<Swiping />} />
           </Routes>
         </div>
-        {/* <Swiping/>
-      </ChakraProvider> */}
+      </ChakraProvider>
     </div>
   );
 }

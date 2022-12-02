@@ -6,10 +6,8 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
 
-// built-in routers from template
+// built-in router from template
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-var testAPIRouter = require("./routes/testAPI");
 // import party router
 var partyRouter = require("./routes/party");
 
@@ -34,8 +32,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/testAPI", testAPIRouter);
 // new party router below
 app.use("/party", partyRouter);
 

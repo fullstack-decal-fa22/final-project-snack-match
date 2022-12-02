@@ -7,14 +7,11 @@ function Header(props) {
     return(
         <div className={styles['header']}>
             <Flex w='100%' px='6' py='5' align='center' justify='space-between'>
-                <Text fontSize='25px' as='b'>
+                <Text fontSize='2xl' as='b'>
                     SnackMatch
                 </Text>
                 <IconButton icon={<Icon as={FaDoorOpen} w={25} h={25}/>}/>
             </Flex>
-            <Center as='b' fontSize='20px'>
-                {props.hostName}'s Party
-            </Center>
         </div>
     );
 };

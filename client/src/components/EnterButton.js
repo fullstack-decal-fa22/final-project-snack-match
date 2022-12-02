@@ -1,13 +1,23 @@
 import React from 'react';
 import styles from './Button.module.css'; 
 import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
-const Button = (props) => {
+const Button = (props) => { 
 
   const navigate = useNavigate();
   
-  const navigateToHost = () => {
-    navigate('/party')
+  const navigateToParty = () => {
+
+    const params = {
+      nickname: props.nickname,
+      partyId: props.partyId
+    };
+
+    axios
+      .post('http://localhost:9000/party/join', params)
+      .then(() => navigate('/party', { state: { nickname: props.nickname }}))
+      .catch((error) => console.log(error.response.data));
   }
 
   let styleObj = {};
@@ -17,7 +27,7 @@ const Button = (props) => {
 
   return(
     <div>
-        <button onClick={navigateToHost} style={styleObj} className={styles['rectangle-button']}>{props.children}</button>
+        <button onClick={navigateToParty} style={styleObj} className={styles['rectangle-button']}>{props.children}</button>
     </div>
   )
 }

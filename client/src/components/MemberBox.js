@@ -3,16 +3,16 @@ import styles from "./InputTextBox.module.css"
 
 function MemberBox(props) {
 
+    const memberNames = props.memberList;
+    const fillerLength = 6 - props.memberList.length;
+    for (let i = 0; i < fillerLength; i++) {
+        memberNames.push("--------");
+    };
+
     return(
         <div>
-            <p className={styles['text-box']}>Host</p>
-            <p className={styles['text-box']}>Member 1</p>
-            <p className={styles['text-box']}>Member 2</p>
-            <p className={styles['text-box']}> Member 3</p>
-            <p className={styles['text-box']}>Member 4</p>
-            <p className={styles['text-box']}>Member 5</p>
+            {props.memberList.map(name => <p className={styles['text-box']}>{name}</p>)}
         </div>
-
     )
 }
 
