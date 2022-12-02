@@ -29,6 +29,7 @@ const Swiping = () => {
         axios
             .get('http://localhost:9000/party/info', { params: { nickname } })
             .then((data) => {
+                updateIndex(restaurantIndex + 1)
                 var card = data.data;
                 updateHostName(card.host);
                 var restaurantObj = card.restaurantList[restaurantIndex];
@@ -64,8 +65,8 @@ const Swiping = () => {
     }
 
     const buttonClick = (clickType) => {
-        // console.log(restId);
-        if (restaurantIndex <= 10 )  {
+
+        if (restaurantIndex < 10 )  {
             if (clickType === 'like') {
                 let temp = voteCounter;
                 temp[restId] = 1;
@@ -84,7 +85,7 @@ const Swiping = () => {
                 updateCounter(temp);
                 updateIndex(restaurantIndex + 1);
                 populateList();
-            } else {
+            } else if (clickType === 'back') {
                 if (restaurantIndex !== 0) {
                     updateIndex(restaurantIndex - 1);
                     populateList();
@@ -94,7 +95,6 @@ const Swiping = () => {
             }
         } else {
             console.log("last item!");
-            console.log(voteCounter);
             navigate('/matched', { state: { nickname, voteCounter }})
         }
     }
