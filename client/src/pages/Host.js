@@ -3,6 +3,8 @@ import StartPartyButton from '../components/StartPartyButton';
 import Logo from '../components/LogoAndWebsite';
 import NicknameBox from '../components/NicknameBox';
 import {Routes, Route, useNavigate, useNavigation} from 'react-router-dom';
+import DistanceFilter from '../components/DistanceFilter';
+import PriceFilter from '../components/PriceFilter';
 
 const Host = () => {
     const navigate = useNavigate();
@@ -15,7 +17,9 @@ const Host = () => {
     return (
         <div>
             <Logo />
-            <NicknameBox/>
+            <NicknameBox />
+            <DistanceFilter />
+            <PriceFilter />
             <StartPartyButton onClick={onStart}>Start Party</StartPartyButton>
         </div>
     );
