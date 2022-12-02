@@ -27,21 +27,15 @@ function App() {
   return (
     <div>
       {/* TEST PAGES HERE: UNCOMMENT TO SEE A PAGE */}
-      {/*}
-      <First />
+      {/* <First />
       <Host />
       <HostParty />
       <JoinParty />
-<<<<<<< HEAD
-      <Party/>
-      <Swiping />
-=======
       <Party />
-  <Swiping /> */}
->>>>>>> 8ca6eebc8600f880739c63198d1ae89c4d210e88
+      <Swiping /> */}
 
       {/* PAGE ROUTING */}
-      {/* <ChakraProvider> */}
+      <ChakraProvider>
         <div>
           <Routes>
             <Route exact path='/' element={<First />} />
@@ -52,8 +46,7 @@ function App() {
             <Route path='/swiping' element={<Swiping />} />
           </Routes>
         </div>
-        {/* <Swiping/>
-      </ChakraProvider> */}
+      </ChakraProvider>
     </div>
   );
 }

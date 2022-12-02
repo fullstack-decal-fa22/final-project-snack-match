@@ -20,8 +20,8 @@ const Swiping = () => {
             <Header hostName={hostName}/>
             {/* <Center> */}
                 <Card
-                    // image={restImage}
-                    image={'https://pbs.twimg.com/media/FMLUhT7VkAYKwR0.jpg'}
+                    image={restImage}
+                    // image={'https://pbs.twimg.com/media/FMLUhT7VkAYKwR0.jpg'}
                     name={restName}
                     price={restPrice}
                     rating={restRating}
