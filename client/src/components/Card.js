@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Center, Image, Flex, Text, Icon, HStack, IconButton } from "@chakra-ui/react";
+import { Box, Center, Image, Flex, Text, Icon, HStack, IconButton, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, useDisclosure } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 import { IoArrowBackCircle, IoCloseCircle, IoHeartCircle } from "react-icons/io5";
 import { MdStars } from "react-icons/md";
@@ -8,16 +8,17 @@ import styles from "./Card.module.css";
 
 function Card(props) {
     function displayStars(rating) {
+        const rate = parseFloat(rating);
         var status = [FaRegStar, FaRegStar, FaRegStar, FaRegStar, FaRegStar];
-        var full = Math.floor(rating);
-        var half = rating % full;
+        var full = Math.floor(rate);
+        var half = rate % full;
         for (let i=0; i < full; i++) {
             status[i] = FaStar
         };
         if (half === 0.5) {
             status[full] = FaStarHalfAlt
         };
-        if (parseFloat(rating) === 0.5) {
+        if (rate === 0.5) {
             status[0] = FaStarHalfAlt
         };
         return (
@@ -46,37 +47,60 @@ function Card(props) {
         )
     }
 
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
     return(
-        <Center position='relative'>
-            <Box p='12' maxW='350px' borderWidth='1px' height={{base: '100%', md: '50%', xl: '25%'}} width={['100%', '50%']}>
-                <Image borderRadius='md' src={props.image} />
-                
-                <Flex w='100%' px='6' py='5' align='center' justify='space-between'>
-                    <Text fontSize='25px' as='b'>
-                        {props.name}
-                    </Text>
-                    <IconButton icon={<InfoIcon color='black'/>}/>
-                </Flex>
+        <div>
+            <Center position='relative'>
+                <Box className={styles['card']} maxW='400px' borderWidth='1px' borderRadius='15px' overflow='hidden' height={{base: '100%', md: '50%', xl: '25%'}} width={['100%', '50%']}>
+                    <Flex height='300px' overflow='hidden' alignItems='center' justifyContent='center'>
+                        <Image borderRadius='md' src={props.image} alt='Restaurant' />
+                    </Flex>
 
-                <HStack px='6'>
-                    <Text fontSize='15px' color='green'>
-                        {props.price}
-                    </Text>
-                    {displayStars(props.rating)}
-                </HStack>
+                    <Box p='6'>
+                        <Flex w='100%' px='6' py='5' align='center' justify='space-between'>
+                            <Text fontSize='25px' as='b'>
+                                {props.name}
+                            </Text>
+                            <IconButton className={styles['door']} icon={<InfoIcon />} onClick={onOpen}/>
+                        </Flex>
 
-                {displayCategories(props.categories)}
+                        <HStack px='6'>
+                            <Text fontSize='15px' color='green'>
+                                {props.price}
+                            </Text>
+                            {displayStars(props.rating)}
+                        </HStack>
 
-                <hr></hr>
-                <HStack py='10'>
-                    <IconButton aria-label="back" icon={<Icon as={IoArrowBackCircle} w={50} h={50} color='orange'/>}/>
-                    <IconButton aria-label='dislike' icon={<Icon as={IoCloseCircle} w={80} h={80} color='red'/>}/>
-                    <IconButton aria-label='like' icon={<Icon as={IoHeartCircle} w={80} h={80} color='green'/>}/>
-                    <IconButton aria-label='superlike' icon={<Icon as={MdStars} w={50} h={50} color='blue'/>}/>
-                </HStack>
-                <br></br>
-            </Box>
-        </Center>
+                        {displayCategories(props.categories)}
+
+                        <br></br>
+                        <hr></hr>
+                        <Center>
+                            <HStack py='10'>
+                                <IconButton className={styles['back']} icon={<Icon as={IoArrowBackCircle} w={40} h={40}/>}/>
+                                <IconButton className={styles['dislike']} icon={<Icon as={IoCloseCircle} w={60} h={60}/>}/>
+                                <IconButton className={styles['like']} icon={<Icon as={IoHeartCircle} w={60} h={60}/>}/>
+                                <IconButton className={styles['superlike']} icon={<Icon as={MdStars} w={40} h={40}/>}/>
+                            </HStack>
+                        </Center>
+                    </Box>
+                </Box>
+            </Center>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>{props.name}</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <b>Address: </b> {props.address} <br></br>
+                        <b>Phone: </b> {props.phone} <br></br>
+                        <b>Hours: </b> {props.hours} <br></br>
+                        {props.miles} miles away
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
+        </div>
     );
 };
 
