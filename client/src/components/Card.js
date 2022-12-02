@@ -78,10 +78,10 @@ function Card(props) {
                         <hr></hr>
                         <Center>
                             <HStack py='5'>
-                                <IconButton variant='link' color='' className={styles['back']} icon={<Icon as={IoArrowBackCircle} w='2.8rem' h='2.8rem'/>}/>
-                                <IconButton variant='link' color='' className={styles['dislike']} icon={<Icon as={IoCloseCircle} w='4rem' h='4rem'/>}/>
-                                <IconButton variant='link' color='' className={styles['like']} icon={<Icon as={IoHeartCircle} w='4rem' h='4rem'/>}/>
-                                <IconButton variant='link' color='' className={styles['superlike']} icon={<Icon as={MdStars} w='2.8rem' h='2.8rem'/>}/>
+                                <IconButton onClick={()=>props.buttonClick('back')} variant='link' color='' className={styles['back']} icon={<Icon as={IoArrowBackCircle} w='2.8rem' h='2.8rem'/>}/>
+                                <IconButton onClick={()=>props.buttonClick('dislike')} variant='link' color='' className={styles['dislike']} icon={<Icon as={IoCloseCircle} w='4rem' h='4rem'/>}/>
+                                <IconButton onClick={()=>props.buttonClick('like')} variant='link' color='' className={styles['like']} icon={<Icon as={IoHeartCircle} w='4rem' h='4rem'/>}/>
+                                <IconButton onClick={()=>props.buttonClick('superlike')} variant='link' color='' className={styles['superlike']} icon={<Icon as={MdStars} w='2.8rem' h='2.8rem'/>}/>
                             </HStack>
                         </Center>
                     </Box>
