@@ -28,17 +28,6 @@ function MatchedCard(props) {
         );
     };
 
-    function displayCategories(categories) {
-        var string = '';
-        for (let i=0; i < categories.length; i++) {
-            string = string.concat(categories[i])
-            if (i !== categories.length-1) {
-                string = string.concat(', ')
-            }
-        };
-        return string;
-    }
-
     return (
         <Center>
             <Card
@@ -70,8 +59,6 @@ function MatchedCard(props) {
                         </Text>
                         {displayStars(props.rating)}
                     </HStack>
-
-                    {displayCategories(props.categories)}
                     
                     <Text fontSize='sm' marginTop='1rem'>
                         <b>Address: </b> {props.address} <br></br>
