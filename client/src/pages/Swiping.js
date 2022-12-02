@@ -12,8 +12,10 @@ const Swiping = () => {
     const { nickname } = state;
 
     var [restaurantIndex, updateIndex] = useState(0);
+    var [voteCounter, updateCounter] = useState({});
 
     var [hostName, updateHostName] = useState('Host');
+    var [restId, updateRestId] = useState("")
     var [restImage, updateRestImage] = useState('https://htmlcolorcodes.com/assets/images/colors/light-blue-color-solid-background-1920x1080.png');
     var [restName, updateRestName] = useState("Restaurant");
     var [restPrice, updateRestPrice] = useState('$');
@@ -30,6 +32,7 @@ const Swiping = () => {
                 var card = data.data;
                 updateHostName(card.host);
                 var restaurantObj = card.restaurantList[restaurantIndex];
+                updateRestId(restaurantObj.id);
                 updateRestImage(restaurantObj.image_url);
                 updateRestName(restaurantObj.name);
                 updateRestPrice(restaurantObj.price);
@@ -51,17 +54,37 @@ const Swiping = () => {
             .catch((error) => console.log(error.response.data));
     };
 
+    const fetchCounter = () => {
+        axios
+            .get('http://localhost:9000/party/user', { params: { nickname }})
+            .then((data) => {
+                updateCounter(data.data.voteCounter);
+            })
+            .catch((error) => console.log(error.response.data));
+    }
+
     const buttonClick = (clickType) => {
+        // console.log(restId);
         if (restaurantIndex < 10 )  {
             if (clickType === 'like') {
+                let temp = voteCounter;
+                temp[restId] = 1;
+                updateCounter(temp);
                 updateIndex(restaurantIndex + 1);
                 populateList();
             } else if (clickType === 'superlike') {
+                let temp = voteCounter;
+                temp[restId] = 2;
+                updateCounter(temp);
                 updateIndex(restaurantIndex + 1);
                 populateList();
             } else if (clickType === 'dislike') {
+                let temp = voteCounter;
+                temp[restId] = -1;
+                updateCounter(temp);
                 updateIndex(restaurantIndex + 1);
                 populateList();
+            } else {
                 if (restaurantIndex !== 0) {
                     updateIndex(restaurantIndex - 1);
                     populateList();
@@ -76,6 +99,7 @@ const Swiping = () => {
 
     useEffect(() => {
         populateList();
+        fetchCounter();
     }, []);
 
     return (

@@ -177,15 +177,34 @@ router.get('/info', async (req, res) => {
 
 /* Retrieve user info (restaurant list, 
 party members, etc) and provide it to the frontend */ 
+// router.post('/user', async (req, res) => {
+//   try {
+//     const { nickname, restId, vote } = req.body;
+//     // finds user info from the database
+//     const user = await UserSchema.findOne({ 
+//       nickname: nickname 
+//     });
+//     // changes user vote in the voteCounter object and uploads changes
+//     let counter = user.voteCounter;
+//     counter[restId] = vote;
+//     user.voteCounter = counter;
+//     await user.save();
+//     res.json(user);
+//   } catch (error) {
+//     res.status(500).send({ message: "Error in Fetching User" });
+//   }
+// });
+
 router.get('/user', async (req, res) => {
   try {
+    const { nickname } = req.query;
     // finds user info from the database
     const user = await UserSchema.findOne({ 
-      nickname: req.body.nickname 
+      nickname: nickname 
     });
     res.json(user);
   } catch (error) {
-    res.send({ message: "Error in Fetching User" });
+    res.status(500).send({ message: "Error in Fetching User" });
   }
 });
 
