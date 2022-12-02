@@ -22,9 +22,9 @@ function App() {
       <JoinParty />
       <Party />
       <Swiping /> */}
-    <ChakraProvider>
-      <Matched />
-    </ChakraProvider>
+      {/* <ChakraProvider>
+        <Matched />
+      </ChakraProvider> */}
 
       {/* PAGE ROUTING */}
       <ChakraProvider>
@@ -36,6 +36,7 @@ function App() {
             <Route path='/joinParty' element={<JoinParty />} />
             <Route path='/party' element={<Party />} />
             <Route path='/swiping' element={<Swiping />} />
+            <Route path='/matched' element={<Matched />} />
           </Routes>
         </div>
       </ChakraProvider>
