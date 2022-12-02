@@ -1,15 +1,10 @@
-<<<<<<< HEAD
 import React, {useState, useEffect} from 'react';
 import { Center } from "@chakra-ui/react";
-=======
-import React, { useState, useEffect } from 'react';
->>>>>>> 9fcceb139fb98d18b40d9c4f139f3711341d2928
 import Header from '../components/Header';
 import Card from '../components/Card.js';
 import axios from 'axios';
 
 const Swiping = () => {
-<<<<<<< HEAD
     var hostName = 'Erudian';
     var restImage = 'https://pm1.narvii.com/7697/1637f6f5e56d2ed3b6309a67ce30b7b7360070eer1-672-846v2_hq.jpg';
     var restName = "Seduce the Villain's Father";
@@ -21,7 +16,6 @@ const Swiping = () => {
     var miles = '0.5';
 
     var [restaurantList, updateList] = useState([]);
-=======
     // var hostName = 'Erudian';
     // var restImage = 'https://pm1.narvii.com/7697/1637f6f5e56d2ed3b6309a67ce30b7b7360070eer1-672-846v2_hq.jpg';
     // var restName = "Seduce the Villain's Father";
@@ -44,7 +38,6 @@ const Swiping = () => {
     var [address, updateAddress] = useState('123 Gob Ears Ave, Berkeley, CA');
     var [phone, updatePhone] = useState('(123) 456-7890');
     var [miles, updateMiles] = useState('0.5');
->>>>>>> 9fcceb139fb98d18b40d9c4f139f3711341d2928
 
     const populateList = () => {
         axios
@@ -86,14 +79,11 @@ const Swiping = () => {
 
     return (
         <div>
-<<<<<<< HEAD
             <Header hostName={hostName}/>
             <Center as='b' fontSize='xl' marginBottom='1rem'>
                 {hostName}'s Party
             </Center>
-=======
             <Header hostName={hostName} />
->>>>>>> 9fcceb139fb98d18b40d9c4f139f3711341d2928
             <Card
                 image={restImage}
                 name={restName}
