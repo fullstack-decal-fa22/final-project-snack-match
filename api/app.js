@@ -19,8 +19,8 @@ var app = express();
 const PORT = process.env.PORT || 9000;
 
 // Initiate Mongo Server --- uncomment when db is setup
-// const InitiateMongoServer = require("./config/db");
-// InitiateMongoServer();
+const InitiateMongoServer = require("./config/db");
+InitiateMongoServer();
 
 // STARTER CODE --- view engine setup
 app.set("views", path.join(__dirname, "views"));

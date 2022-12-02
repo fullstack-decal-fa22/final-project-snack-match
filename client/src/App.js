@@ -2,8 +2,8 @@ import "./App.css";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { ChakraProvider } from '@chakra-ui/react';
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import First from "./pages/First.js";
 import Host from "./pages/Host.js";
 import HostParty from "./pages/HostParty.js";
@@ -27,17 +27,22 @@ function App() {
   return (
     <div>
       {/* TEST PAGES HERE: UNCOMMENT TO SEE A PAGE */}
+      {/*}
       <First />
       <Host />
       <HostParty />
       <JoinParty />
+<<<<<<< HEAD
       <Party/>
       <Swiping />
+=======
+      <Party />
+  <Swiping /> */}
+>>>>>>> 8ca6eebc8600f880739c63198d1ae89c4d210e88
 
       {/* PAGE ROUTING */}
       {/* <ChakraProvider> */}
-        {/* <Router>
-          <div>
+        <div>
           <Routes>
             <Route exact path='/' element={<First />} />
             <Route path='/host' element={<Host />} />
@@ -46,8 +51,7 @@ function App() {
             <Route path='/party' element={<Party />} />
             <Route path='/swiping' element={<Swiping />} />
           </Routes>
-          </div>
-        </Router> */}
+        </div>
         {/* <Swiping/>
       </ChakraProvider> */}
     </div>

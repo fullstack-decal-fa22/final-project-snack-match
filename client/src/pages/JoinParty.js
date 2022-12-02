@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../components/Button';
+import EnterButton from '../components/EnterButton';
 import Logo from '../components/LogoAndWebsite';
 import NicknameBox from '../components/NicknameBox';
 import PartyCodeBox from '../components/PartyCodeBox';
@@ -10,7 +10,7 @@ const JoinParty = () => {
             <Logo />
             <PartyCodeBox/>
             <NicknameBox/>
-            <Button text = "Enter" />
+            <EnterButton>Enter</EnterButton>
         </div>
     );
 };

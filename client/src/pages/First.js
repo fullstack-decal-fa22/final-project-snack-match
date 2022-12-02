@@ -1,13 +1,15 @@
 import React from 'react';
-import Button from '../components/Button';
+import CreatePartyButton from '../components/CreatePartyButton';
+import JoinPartyButton from '../components/JoinPartyButton';
 import Logo from '../components/LogoAndWebsite';
+
 
 const First = () => {
     return (
         <div>
             <Logo />
-            <Button backgroundColor= "gray" text = "Join Party"/>
-            <Button text = "Create Party" />
+            <JoinPartyButton backgroundColor="#F0F0F0">Join Party</JoinPartyButton>
+            <CreatePartyButton>Create Party</CreatePartyButton>
         </div>
     );
 };
