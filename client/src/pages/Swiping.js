@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import Header from '../components/Header';
@@ -21,7 +21,7 @@ const Swiping = () => {
     // var phone = '(123) 456-7890';
     // var miles = '0.5';
 
-    var [restaurantIndex, updateIndex] = useState(0);
+    var [restaurantIndex, updateIndex] = useState(2);
 
     var [hostName, updateHostName] = useState('Host');
     var [restImage, updateRestImage] = useState('https://htmlcolorcodes.com/assets/images/colors/light-blue-color-solid-background-1920x1080.png');
@@ -45,17 +45,16 @@ const Swiping = () => {
                 updateRestPrice(restaurantObj.price);
                 updateRestRating(restaurantObj.rating);
                 var rCat = [];
-                if (restaurantObj.categories.length > 0) {
-                    var tags = restaurantObj.categories;
+                var tags = restaurantObj.categories;
+                if (tags.length > 0) {
                     for (let i = 0; i < tags.length; i++) {
-                        rCat.append(tags[i].title);
-                        console.log(rCat);
+                        rCat.push(tags[i].title);
                     }
                 } else {
-                    rCat = "No category tags"; // in case of no category tags
+                    rCat.push("No category tags"); // in case of no category tags
                 }
                 updateRestCategories(rCat);
-                updateAddress(restaurantObj.display_address);
+                updateAddress(restaurantObj.location.display_address[0].concat(", ", restaurantObj.location.display_address[1]));
                 updatePhone(restaurantObj.display_phone);
                 updateMiles(Math.round(restaurantObj.distance / 1609));
             })
@@ -70,7 +69,7 @@ const Swiping = () => {
 
     return (
         <div>
-            <Header hostName={hostName}/>
+            <Header hostName={hostName} />
             <Card
                 image={restImage}
                 name={restName}
