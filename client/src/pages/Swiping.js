@@ -93,8 +93,9 @@ const Swiping = () => {
                 }
             }
         } else {
-            console.log("last item!")
-            navigate('/matched', { state: { nickname }})
+            console.log("last item!");
+            console.log(voteCounter);
+            navigate('/matched', { state: { nickname, voteCounter }})
         }
     }
 
