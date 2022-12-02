@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
+import { Center } from "@chakra-ui/react";
 import Header from '../components/Header';
 import Card from '../components/Card.js';
-import { Box, Center, Image, Flex, Text, Icon, HStack, IconButton } from "@chakra-ui/react";
 import axios from 'axios';
 
 const Swiping = () => {
@@ -13,7 +13,6 @@ const Swiping = () => {
     var restCategories = ['Desserts', 'Sweets', 'Restaurant'];
     var address = '2517 Durant Ave, Berkeley, CA';
     var phone = '(123) 456-7890';
-    var hours = '8am - 11pm';
     var miles = '0.5';
 
     var [restaurantList, updateList] = useState([]);
@@ -34,17 +33,19 @@ const Swiping = () => {
     return (
         <div>
             <Header hostName={hostName}/>
-                <Card
-                    image={restImage}
-                    name={restName}
-                    price={restPrice}
-                    rating={restRating}
-                    categories={restCategories}
-                    address={address}
-                    phone={phone}
-                    hours={hours}
-                    miles={miles}
-                />
+            <Center as='b' fontSize='xl' marginBottom='1rem'>
+                {hostName}'s Party
+            </Center>
+            <Card
+                image={restImage}
+                name={restName}
+                price={restPrice}
+                rating={restRating}
+                categories={restCategories}
+                address={address}
+                phone={phone}
+                miles={miles}
+            />
             <br></br>
         </div>
     );
