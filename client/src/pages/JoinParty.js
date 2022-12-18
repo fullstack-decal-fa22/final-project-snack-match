@@ -1,19 +1,35 @@
 import React, { useState } from 'react';
-import EnterButton from '../components/EnterButton';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Logo from '../components/LogoAndWebsite';
-import InputBox from '../components/InputBox';
+import JoinPartyInput from '../components/JoinPartyInput';
 
 const JoinParty = () => {
 
-    const [ nicknameInput, setNameInput ] = useState("");
-    const [ codeInput, setCodeInput ] = useState("");
+    const [ codeInput, setCode ] = useState("");
+    const [ nicknameInput, setNickname ] = useState("");
+
+    const navigate = useNavigate();
+  
+    const navigateToMemberLobby = () => {
+  
+      const params = {
+        nickname: nicknameInput,
+        partyId: codeInput
+      };
+  
+      axios
+        .post('http://localhost:9000/party/join', params)
+        .then(() => navigate('/party', { state: { nickname: nicknameInput }}))
+        .catch((error) => console.log(error.response.data));
+    }
+  
+    const stateFuncs = { setCode, setNickname, navigateToMemberLobby };
 
     return (
         <div>
             <Logo />
-            <InputBox input={codeInput} setInput={setCodeInput} placeholder="Party Code"/>
-            <InputBox input={nicknameInput} setInput={setNameInput} placeholder="Nickname"/>
-            <EnterButton nickname={nicknameInput} partyId={codeInput}>Enter</EnterButton>
+            <JoinPartyInput {...stateFuncs}/>
         </div>
     );
 };

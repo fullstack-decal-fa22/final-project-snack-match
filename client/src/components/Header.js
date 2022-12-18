@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Flex, Icon, Text, Center, IconButton } from "@chakra-ui/react";
 import { FaDoorOpen } from "react-icons/fa";
-import styles from "./Header.module.css";
+import styles from "../styles/Header.module.css";
 
 function Header(props) {
     return(

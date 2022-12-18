@@ -4,7 +4,7 @@ import { InfoIcon } from "@chakra-ui/icons";
 import { IoArrowBackCircle, IoCloseCircle, IoHeartCircle } from "react-icons/io5";
 import { MdStars } from "react-icons/md";
 import { FaStar, FaStarHalfAlt, FaRegStar} from "react-icons/fa";
-import styles from "./Card.module.css";
+import styles from "../styles/Card.module.css";
 
 function Card(props) {
     function displayStars(rating) {

@@ -1,6 +1,6 @@
 import React from 'react';
-import logo from './fullstack_logo_design.png';
-import styles from './LogoAndWebsite.module.css';
+import logo from '../styles/fullstack_logo_design.png';
+import styles from '../styles/LogoAndWebsite.module.css';
 
 function Logo() {
     return(

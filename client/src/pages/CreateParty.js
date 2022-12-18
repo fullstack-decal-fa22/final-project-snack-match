@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import StartPartyButton from '../components/StartPartyButton';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Logo from '../components/LogoAndWebsite';
-import DistanceFilter from '../components/DistanceFilter';
-import PriceFilter from '../components/PriceFilter';
-import InputBox from '../components/InputBox';
+import CreatePartyInput from '../components/CreatePartyInput';
 
 const Host = () => {
 
@@ -11,13 +10,30 @@ const Host = () => {
     const [ distanceInput, setDistance ] = useState(5);
     const [ priceList, setPrice ] = useState([1, 2, 3, 4]);
 
+    const navigate = useNavigate();
+  
+    const navigateToHostParty = () => {
+
+        const params = {
+        nickname: nicknameInput,
+        location: "Berkeley",
+        distance: distanceInput, 
+        price: priceList, 
+        limit: 10 
+        };
+        console.log(params);
+        axios
+        .post('http://localhost:9000/party/create', params)
+        .then(() => navigate('/hostParty', { state: { nickname: nicknameInput }}))
+        .catch((error) => console.log(error.response.data));
+    };
+
+    const stateFuncs = { setNickname, setDistance, setPrice, navigateToHostParty };
+
     return (
-        <div>
+        <div className="input-container">
             <Logo />
-            <InputBox input={nicknameInput} setInput={setNickname} placeholder="Nickname" />
-            <DistanceFilter setDistance={setDistance}/>
-            <PriceFilter setPrice={setPrice} />
-            <StartPartyButton nickname={nicknameInput} distance={distanceInput} priceList={priceList}>Start Party</StartPartyButton>
+            <CreatePartyInput {...stateFuncs} />
         </div>
     );
 };

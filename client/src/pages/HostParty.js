@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import StartMatchingButton from '../components/StartMatchingButton';
 import Logo from '../components/LogoAndWebsite';
-import siteStyles from '../components/LogoAndWebsite.module.css';
+import siteStyles from '../styles/LogoAndWebsite.module.css';
 import MemberBox from '../components/MemberBox';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const HostParty = () => {

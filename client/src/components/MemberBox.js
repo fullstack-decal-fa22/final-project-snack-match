@@ -1,5 +1,5 @@
 import * as React from "react";
-import styles from "./InputTextBox.module.css"
+import styles from "../styles/InputTextBox.module.css"
 
 function MemberBox(props) {
 

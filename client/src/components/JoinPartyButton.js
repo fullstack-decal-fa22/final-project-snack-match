@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Button.module.css'; 
+import styles from '../styles/Button.module.css'; 
 import {useNavigate} from 'react-router-dom';
 
 const Button = (props) => {

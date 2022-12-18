@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import MemberBox from '../components/MemberBox';
 import Logo from '../components/LogoAndWebsite';
-import siteStyles from '../components/LogoAndWebsite.module.css';
-import styles from "../components/WaitingText.module.css";
+import siteStyles from '../styles/LogoAndWebsite.module.css';
+import styles from "../styles/WaitingText.module.css";
 import axios from 'axios';
 
 const Party = (props) => {
