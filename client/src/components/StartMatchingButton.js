@@ -12,7 +12,7 @@ const Button = (props) => {
   }
 
   const navigateToSwiping = () => {
-    navigate('/swiping', { state: { nickname: props.nickname }})
+    navigate('/restaurants', { state: { nickname: props.nickname }})
   }
   
   return(

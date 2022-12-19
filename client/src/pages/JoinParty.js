@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Logo from '../components/LogoAndWebsite';
 import JoinPartyInput from '../components/JoinPartyInput';
 import Error from '../components/ErrorMessage';
+import { Container } from '@chakra-ui/react';
+
 
 const JoinParty = () => {
 
@@ -33,9 +35,11 @@ const JoinParty = () => {
 
     return (
         <div>
-            <Logo />
+          <Logo />
+          <Container>
             <JoinPartyInput {...stateFuncs}/>
             {errorMessage}
+          </Container>
         </div>
     );
 };

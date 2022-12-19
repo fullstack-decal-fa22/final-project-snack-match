@@ -4,6 +4,7 @@ import axios from 'axios';
 import Logo from '../components/LogoAndWebsite';
 import CreatePartyInput from '../components/CreatePartyInput';
 import Error from '../components/ErrorMessage';
+import { Container } from '@chakra-ui/react';
 
 const Host = () => {
 
@@ -26,7 +27,7 @@ const Host = () => {
         console.log(params);
         axios
         .post('http://localhost:9000/party/create', params)
-        .then(() => navigate('/hostParty', { state: { nickname: nicknameInput }}))
+        .then(() => navigate('/host-party', { state: { nickname: nicknameInput }}))
         .catch((error) => {
             console.log(error.response.data);
             setError(<Error message={error.response.data.message} />);
@@ -36,10 +37,12 @@ const Host = () => {
     const stateFuncs = { setNickname, setDistance, setPrice, navigateToHostParty };
 
     return (
-        <div className="input-container">
+        <div>
             <Logo />
-            <CreatePartyInput {...stateFuncs} />
-            {errorMessage}
+            <Container>
+                <CreatePartyInput {...stateFuncs} />
+                {errorMessage}
+            </Container>
         </div>
     );
 };
