@@ -1,5 +1,5 @@
 import * as React from "react";
-import styles from "../styles/InputTextBox.module.css"
+import { Box, Stack } from '@chakra-ui/react';
 
 function MemberBox(props) {
 
@@ -10,9 +10,22 @@ function MemberBox(props) {
     };
 
     return(
-        <div>
-            {props.memberList.map((name, index) => <p className={styles['text-box']} key={index}>{name}</p>)}
-        </div>
+        <Stack spacing={4}>
+            {props.memberList.map((name, index) => (
+                <Box 
+                    key={index}
+                    width="100%" 
+                    display="flex" 
+                    justifyContent="center"
+                    borderWidth="1px"
+                    borderRadius="md" 
+                    bg="secondary"
+                    p="2"
+                >
+                    {name}
+                </Box>
+            ))}
+        </Stack>
     )
 }
 

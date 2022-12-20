@@ -12,7 +12,12 @@ const NavCreateButton = (props) => {
   }
 
   return(
-    <Button size="lg" colorScheme='blue' onClick={() => navigateToCreatePage()}>Create Party</Button>
+    <Button 
+      variant="primary"
+      onClick={() => navigateToCreatePage()}
+    >
+      Create Party
+    </Button>
   )
 }
 

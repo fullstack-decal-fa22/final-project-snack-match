@@ -1,14 +1,18 @@
 import React from 'react';
-import logo from '../styles/fullstack_logo_design.png';
-import styles from '../styles/LogoAndWebsite.module.css';
+import logo from '../styles/landing-logo.png'
+import { Image, Flex } from '@chakra-ui/react';
 
-function Logo() {
+const LandingLogo = () => {
     return(
-        <div>
-            <img src = {logo} className = {styles['logo']} alt = "fullstack logo"/>
-            <h1 className = {styles['site']}>SnackMatch</h1>
-        </div>
+        <Flex >
+            <Image 
+                src={logo} 
+                margin="10px"
+                alt="fullstack logo"
+                width="300px"
+            />
+        </Flex>
     )
-}
+};
 
-export default Logo;
+export default LandingLogo;

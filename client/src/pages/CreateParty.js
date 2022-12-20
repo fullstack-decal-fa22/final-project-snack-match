@@ -37,7 +37,7 @@ const Host = () => {
     const stateFuncs = { setNickname, setDistance, setPrice, navigateToHostParty };
 
     return (
-        <div>
+        <div className="main">
             <Logo />
             <Container>
                 <CreatePartyInput {...stateFuncs} />

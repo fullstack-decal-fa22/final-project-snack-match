@@ -105,7 +105,7 @@ const Swiping = () => {
     }, []);
 
     return (
-        <div>
+        <div className="main">
             <Header hostName={hostName}/>
             <Center as='b' fontSize='xl' marginBottom='1rem'>
                 {hostName}'s Party

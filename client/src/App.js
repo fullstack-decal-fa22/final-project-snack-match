@@ -1,7 +1,8 @@
 import "./App.css";
 import React from "react";
-import { ChakraProvider } from '@chakra-ui/react';
 import { Routes, Route } from "react-router-dom";
+import { ChakraProvider } from '@chakra-ui/react';
+import { myNewTheme } from "./styles/theme";
 
 import Landing from "./pages/Landing.js";
 import CreateParty from "./pages/CreateParty";
@@ -14,8 +15,8 @@ import Matched from "./pages/Matched.js";
 function App() {
 
   return (
-    <div>
-      <ChakraProvider>
+    <div className="app">
+      <ChakraProvider theme={myNewTheme}>
         <Routes>
           <Route exact path='/' element={<Landing />} />
           <Route path='/create' element={<CreateParty />} />

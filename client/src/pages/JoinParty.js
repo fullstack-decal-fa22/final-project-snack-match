@@ -34,13 +34,13 @@ const JoinParty = () => {
     const stateFuncs = { setCode, setNickname, navigateToMemberLobby };
 
     return (
-        <div>
-          <Logo />
-          <Container>
-            <JoinPartyInput {...stateFuncs}/>
-            {errorMessage}
-          </Container>
-        </div>
+      <div className="main">
+        <Logo />
+        <Container>
+          <JoinPartyInput {...stateFuncs}/>
+          {errorMessage}
+        </Container>
+      </div>
     );
 };
 

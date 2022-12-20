@@ -12,7 +12,12 @@ const NavJoinButton = () => {
   }
 
   return(
-    <Button size="lg" colorScheme='gray' onClick={() => navigateToJoinPage()}>Join Party</Button>
+    <Button 
+      variant="secondary"
+      onClick={() => navigateToJoinPage()}
+    >
+      Join Party
+    </Button>
   )
 }
 
