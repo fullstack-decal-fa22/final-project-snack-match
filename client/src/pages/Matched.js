@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
-import { Center } from "@chakra-ui/react";
+import { Container, Stack, Box } from "@chakra-ui/react";
 import MatchedCard from '../components/MatchedCard';
 import axios from 'axios';
 
@@ -26,26 +26,37 @@ const Matched = () => {
     }, [])
 
     return (
-        <div>
+        <div className='main'>
             <Header hostName={nickname}/>
-            <Center as='b' fontSize='xl' marginBottom='1rem'>
-                Party's Top Matches
-            </Center>
-            {
-                restaurantList.filter(word => voteCounter[word.id] > 1).map((rest, index) => 
-                <div key={index}>
-                    <MatchedCard
-                        image={rest.image_url}
-                        name={rest.name}
-                        price={rest.price}
-                        rating={rest.rating}
-                        address={rest.location.display_address[0].concat(", ", rest.location.display_address[1])}
-                        phone={rest.phone}
-                        miles={Math.round(rest.distance / 1609)}
-                    />
-                    <br></br>
-                </div>)
-            }
+            <Container>
+                <Stack spacing={4}>
+                    <Box 
+                        size="lg"
+                        width="100%"
+                        display="flex"
+                        justifyContent="center"
+                        fontSize="xl"
+                        fontWeight="bold"
+                    >
+                        Party's Top Matches
+                    </Box>
+                    {
+                        restaurantList.filter(word => voteCounter[word.id] > 1).map((rest, index) =>
+                            <MatchedCard
+                                key={index}
+                                image={rest.image_url}
+                                name={rest.name}
+                                price={rest.price}
+                                rating={rest.rating}
+                                address={rest.location.display_address[0].concat(", ", rest.location.display_address[1])}
+                                phone={rest.phone}
+                                miles={Math.round(rest.distance / 1609)}
+                            />)
+                    }
+                </Stack>
+
+
+            </Container>
         </div>
     )
 }

@@ -39,15 +39,12 @@ function Card(props) {
         <div>
             <Center position='relative'>
                 <Box boxShadow='2xl' maxW='sm' borderWidth='xs' borderRadius='2xl' overflow='hidden' height={{base: '100%', md: '50%', xl: '25%'}} width="100%">
-                    <Flex 
-                        height='xs' 
-                        overflow='hidden' 
-                        alignItems='center' 
-                        justifyContent='center'
-                    >
-                        <Image src={props.image} alt='Restaurant' />
-                    </Flex>
-
+                    <Image 
+                        objectFit='cover'
+                        height='330px'
+                        width='400px'
+                        src={props.image} 
+                        alt='Restaurant' />
                     <Container>
                         <VStack alignItems="left">
                             <Flex w='100%' py='10px' align='center' justify='space-between'>

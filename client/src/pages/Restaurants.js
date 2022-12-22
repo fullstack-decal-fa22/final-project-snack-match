@@ -51,7 +51,7 @@ const Swiping = () => {
                 updateRestCategories(rCat);
                 updateAddress(restaurantObj.location.display_address[0].concat(", ", restaurantObj.location.display_address[1]));
                 updatePhone(restaurantObj.display_phone);
-                updateMiles(Math.round(restaurantObj.distance / 1609));
+                updateMiles(Math.round((restaurantObj.distance / 1609) * 10) / 10);
             })
             .catch((error) => console.log(error.response.data));
     };

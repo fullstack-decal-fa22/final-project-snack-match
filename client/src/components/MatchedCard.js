@@ -18,57 +18,56 @@ function MatchedCard(props) {
             status[0] = FaStarHalfAlt
         };
         return (
-            <div>
+            <HStack spacing={0}>
                 <Icon as={status[0]} color='orange'/>
                 <Icon as={status[1]} color='orange'/>
                 <Icon as={status[2]} color='orange'/>
                 <Icon as={status[3]} color='orange'/>
                 <Icon as={status[4]} color='orange'/>
-            </div>
+            </HStack>
         );
     };
 
     return (
-        <Center>
-            <Card
-                direction={{ base: 'column', sm: 'row' }}
-                overflow='hidden'
-                variant='outline'
-                marginLeft='5rem'
-                marginRight='5rem'
-                w='40rem'
-                h='auto'
-            >
-                <Image
-                    objectFit='cover'
-                    maxW={{ base: '100%', sm: '10rem' }}
-                    src={props.image}
-                    alt='Restaurant'
-                />
-                <Stack>
-                    <CardBody>
-                    <Heading size='md'>{props.name}</Heading>
+        <Card
+            direction={{ base: 'column', sm: 'row' }}
+            overflow='hidden'
+            variant='outline'
+            marginLeft='5rem'
+            marginRight='5rem'
+            w='100%'
+            h='auto'
+        >
+            <Image
+                objectFit='cover'
+                maxW={{ sm: '8rem' }}
+                maxH={{ sm: 'auto' }}
+                src={props.image}
+                alt='Restaurant'
+            />
+            <Stack>
+                <CardBody>
+                <Heading size='md'>{props.name}</Heading>
 
-                    <Tag fontSize='sm' marginTop='0.5rem' marginBottom='0.2rem'>
-                        {props.miles} miles away
-                    </Tag>
-                    
-                    <HStack>
-                        <Text fontSize='sm' color='green'>
-                            {props.price}
-                        </Text>
-                        {displayStars(props.rating)}
-                    </HStack>
-                    
-                    <Text fontSize='sm' marginTop='1rem'>
-                        <b>Address: </b> {props.address} <br></br>
-                        <b>Phone: </b> {props.phone} <br></br>
+                <Tag fontSize='sm' marginTop='0.5rem' marginBottom='0.2rem'>
+                    {props.miles} miles away
+                </Tag>
+                
+                <HStack alignItems="center" m={0}>
+                    <Text fontSize='sm' color='green'>
+                        {props.price}
                     </Text>
+                    {displayStars(props.rating)}
+                </HStack>
+                
+                <Text fontSize='sm' marginTop='1rem'>
+                    <b>Address: </b> {props.address} <br></br>
+                    <b>Phone: </b> {props.phone} <br></br>
+                </Text>
 
-                    </CardBody>
-                </Stack>
-            </Card>
-        </Center>
+                </CardBody>
+            </Stack>
+        </Card>
     )
 }
 
