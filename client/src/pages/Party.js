@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import MemberBox from '../components/MemberBox';
-import Logo from '../components/LogoAndWebsite';
-import siteStyles from '../styles/LogoAndWebsite.module.css';
-import styles from "../styles/WaitingText.module.css";
+import Header from '../components/Header';
 import axios from 'axios';
+import { Container, Stack, Box } from '@chakra-ui/react';
 
 const Party = (props) => {
 
@@ -29,11 +28,35 @@ const Party = (props) => {
     }, [])
 
     return (
-        <div>
-            <Logo />
-            <h3 className = {siteStyles['site']}>Code: {partyId}</h3>
-            <MemberBox memberList={memberList}/>
-            <p className = {styles['text']}>Waiting for host to start...</p>
+        <div className="main">
+            <Header />
+            <Container>
+                <Stack
+                    spacing={4}
+                >
+                    <Box 
+                        size="lg"
+                        width="100%"
+                        display="flex"
+                        justifyContent="center"
+                        fontSize="xl"
+                        fontWeight="bold"
+                    >
+                        Code: {partyId}
+                    </Box>
+                    <MemberBox memberList={memberList}/>
+                    <Box 
+                        size="lg"
+                        width="100%"
+                        display="flex"
+                        justifyContent="center"
+                        fontSize="xl"
+                        fontWeight="bold"
+                    >
+                        Waiting for host to start...
+                    </Box>
+                </Stack>
+            </Container>
         </div>
     );
 };

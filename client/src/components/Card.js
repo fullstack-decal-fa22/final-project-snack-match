@@ -4,7 +4,6 @@ import { InfoIcon } from "@chakra-ui/icons";
 import { IoArrowBackCircle, IoCloseCircle, IoHeartCircle } from "react-icons/io5";
 import { MdStars } from "react-icons/md";
 import { FaStar, FaStarHalfAlt, FaRegStar} from "react-icons/fa";
-import styles from "../styles/Card.module.css";
 
 function Card(props) {
     function displayStars(rating) {
@@ -39,7 +38,7 @@ function Card(props) {
     return(
         <div>
             <Center position='relative'>
-                <Box className={styles['card']} maxW='sm' borderWidth='xs' borderRadius='2xl' overflow='hidden' height={{base: '100%', md: '50%', xl: '25%'}} width="100%">
+                <Box boxShadow='2xl' maxW='sm' borderWidth='xs' borderRadius='2xl' overflow='hidden' height={{base: '100%', md: '50%', xl: '25%'}} width="100%">
                     <Flex 
                         height='xs' 
                         overflow='hidden' 
@@ -55,7 +54,7 @@ function Card(props) {
                                 <Text fontSize='xl' as='b'>
                                     {props.name}
                                 </Text>
-                                <IconButton variant='ghost' className={styles['door']} icon={<InfoIcon />} onClick={onOpen} size='sm'/>
+                                <IconButton variant='ghost' icon={<InfoIcon />} onClick={onOpen} size='sm'/>
                             </Flex>
 
                             <HStack alignItems="center" m={0}>
@@ -75,10 +74,10 @@ function Card(props) {
 
                             <Center>
                                 <HStack py='5'>
-                                    <IconButton onClick={()=>props.buttonClick('back')} variant='link' color='' className={styles['back']} icon={<Icon as={IoArrowBackCircle} w='2.8rem' h='2.8rem'/>}/>
-                                    <IconButton onClick={()=>props.buttonClick('dislike')} variant='link' color='' className={styles['dislike']} icon={<Icon as={IoCloseCircle} w='4rem' h='4rem'/>}/>
-                                    <IconButton onClick={()=>props.buttonClick('like')} variant='link' color='' className={styles['like']} icon={<Icon as={IoHeartCircle} w='4rem' h='4rem'/>}/>
-                                    <IconButton onClick={()=>props.buttonClick('superlike')} variant='link' color='' className={styles['superlike']} icon={<Icon as={MdStars} w='2.8rem' h='2.8rem'/>}/>
+                                    <IconButton onClick={()=>props.buttonClick('back')} variant='link' color='#F2C94C' icon={<Icon as={IoArrowBackCircle} w='2.8rem' h='2.8rem'/>}/>
+                                    <IconButton onClick={()=>props.buttonClick('dislike')} variant='link' color='#F16056' icon={<Icon as={IoCloseCircle} w='4rem' h='4rem'/>}/>
+                                    <IconButton onClick={()=>props.buttonClick('like')} variant='link' color='#89C092' icon={<Icon as={IoHeartCircle} w='4rem' h='4rem'/>}/>
+                                    <IconButton onClick={()=>props.buttonClick('superlike')} variant='link' color='#ADD8E6' icon={<Icon as={MdStars} w='2.8rem' h='2.8rem'/>}/>
                                 </HStack>
                             </Center>
 
