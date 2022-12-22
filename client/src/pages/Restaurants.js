@@ -29,6 +29,7 @@ const Swiping = () => {
         axios
             .get('http://localhost:9000/party/info', { params: { nickname } })
             .then((data) => {
+                console.log(data)
                 updateIndex(restaurantIndex + 1)
                 var card = data.data;
                 updateHostName(card.host);

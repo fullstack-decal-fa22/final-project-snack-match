@@ -1,5 +1,4 @@
 import React from 'react';
-import Main from '../components/MainContainer';
 import NavJoinButton from '../components/NavJoinButton';
 import NavCreateButton from '../components/NavCreateButton';
 import Logo from '../components/LogoAndWebsite';
