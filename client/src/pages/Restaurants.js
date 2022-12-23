@@ -1,9 +1,10 @@
-import { Center } from "@chakra-ui/react";
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { Center } from "@chakra-ui/react";
+
 import Header from '../components/Header';
 import Card from '../components/Card.js';
-import axios from 'axios';
 
 const Swiping = () => {
 
@@ -106,7 +107,7 @@ const Swiping = () => {
     }, []);
 
     return (
-        <div className="main">
+        <div>
             <Header hostName={hostName}/>
             <Center as='b' fontSize='xl' marginBottom='1rem'>
                 {hostName}'s Party
@@ -122,7 +123,6 @@ const Swiping = () => {
                 miles={miles}
                 buttonClick={buttonClick}
             />
-            <br></br>
         </div>
     );
 };

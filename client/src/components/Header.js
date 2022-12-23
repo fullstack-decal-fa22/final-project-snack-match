@@ -3,7 +3,7 @@ import { Flex, Icon, IconButton, Image, Box } from "@chakra-ui/react";
 import { FaDoorOpen } from "react-icons/fa";
 import SideLogo from "../styles/logo-side-title.png";
 
-const Header = (props) => {
+const Header = () => {
     return(
         <Flex w='100%' px='6' py='5' align='center' justify='space-between'>
             <Image 

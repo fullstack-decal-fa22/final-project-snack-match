@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Container, Stack, Input, Button } from '@chakra-ui/react';
 import axios from 'axios';
-import Logo from '../components/LogoAndWebsite';
-import JoinPartyInput from '../components/JoinPartyInput';
-import Error from '../components/ErrorMessage';
-import { Container } from '@chakra-ui/react';
 
+import Logo from '../components/Logo';
+import Error from '../components/ErrorMessage';
 
 const JoinParty = () => {
 
@@ -17,30 +16,38 @@ const JoinParty = () => {
   
     const navigateToMemberLobby = () => {
   
-      const params = {
-        nickname: nicknameInput,
-        partyId: codeInput
-      };
+		const params = {
+			nickname: nicknameInput,
+			partyId: codeInput
+		};
   
-      axios
-        .post('http://localhost:9000/party/join', params)
-        .then(() => navigate('/party', { state: { nickname: nicknameInput }}))
-        .catch((error) => {
-          console.log(error.response.data);
-          setError(<Error message={error.response.data.message}/>)
-        });
+		axios
+			.post('http://localhost:9000/party/join', params)
+			.then(() => navigate('/party', { state: { nickname: nicknameInput }}))
+			.catch((error) => {
+			console.log(error.response.data);
+			setError(<Error message={error.response.data.message}/>)
+			});
     };
-  
-    const stateFuncs = { setCode, setNickname, navigateToMemberLobby };
 
     return (
-      <div className="main">
-        <Logo />
-        <Container>
-          <JoinPartyInput {...stateFuncs}/>
-          {errorMessage}
-        </Container>
-      </div>
+		<div>
+			<Logo />
+			<Container>
+				<Stack spacing={4}>
+					<Input  
+						placeholder='Party Code' 
+						onChange={(event) => setCode(event.target.value)}
+					/>
+					<Input  
+						placeholder='Nickname' 
+						onChange={(event) => setNickname(event.target.value)}
+					/>
+					<Button variant="primary" onClick={() => navigateToMemberLobby()}>Join Party</Button>
+					{errorMessage}
+				</Stack>
+			</Container>
+		</div>
     );
 };
 

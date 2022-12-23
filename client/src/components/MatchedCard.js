@@ -1,32 +1,8 @@
-import * as React from "react";
-import { Center, Image, Text, Icon, HStack, Tag, Card, CardBody, Stack, Heading } from "@chakra-ui/react";
-import { FaStar, FaStarHalfAlt, FaRegStar} from "react-icons/fa";
+import React from "react";
+import { Image, Text, Tag, Card, CardBody, Stack, Heading } from "@chakra-ui/react";
+import PriceRatings from "./PriceRatings";
 
 function MatchedCard(props) {
-    function displayStars(rating) {
-        const rate = parseFloat(rating);
-        var status = [FaRegStar, FaRegStar, FaRegStar, FaRegStar, FaRegStar];
-        var full = Math.floor(rate);
-        var half = rate % full;
-        for (let i=0; i < full; i++) {
-            status[i] = FaStar
-        };
-        if (half === 0.5) {
-            status[full] = FaStarHalfAlt
-        };
-        if (rate === 0.5) {
-            status[0] = FaStarHalfAlt
-        };
-        return (
-            <HStack spacing={0}>
-                <Icon as={status[0]} color='orange'/>
-                <Icon as={status[1]} color='orange'/>
-                <Icon as={status[2]} color='orange'/>
-                <Icon as={status[3]} color='orange'/>
-                <Icon as={status[4]} color='orange'/>
-            </HStack>
-        );
-    };
 
     return (
         <Card
@@ -47,23 +23,18 @@ function MatchedCard(props) {
             />
             <Stack>
                 <CardBody>
-                <Heading size='md'>{props.name}</Heading>
+                    <Heading size='md'>{props.name}</Heading>
 
-                <Tag fontSize='sm' marginTop='0.5rem' marginBottom='0.2rem'>
-                    {props.miles} miles away
-                </Tag>
-                
-                <HStack alignItems="center" m={0}>
-                    <Text fontSize='sm' color='green'>
-                        {props.price}
+                    <Tag fontSize='sm' marginTop='0.5rem' marginBottom='0.2rem'>
+                        {props.miles} miles away
+                    </Tag>
+                    
+                    <PriceRatings price={props.price} rating={props.rating}/>
+                    
+                    <Text fontSize='sm' marginTop='1rem'>
+                        <b>Address: </b> {props.address} <br></br>
+                        <b>Phone: </b> {props.phone} <br></br>
                     </Text>
-                    {displayStars(props.rating)}
-                </HStack>
-                
-                <Text fontSize='sm' marginTop='1rem'>
-                    <b>Address: </b> {props.address} <br></br>
-                    <b>Phone: </b> {props.phone} <br></br>
-                </Text>
 
                 </CardBody>
             </Stack>

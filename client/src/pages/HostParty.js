@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Container, Stack, Box, Button } from '@chakra-ui/react';
 import axios from 'axios';
+
 import Header from '../components/Header';
-import StartMatchingButton from '../components/StartMatchingButton';
-
 import MemberBox from '../components/MemberBox';
-import { Container, Stack, Box } from '@chakra-ui/react';
-
 
 const HostParty = () => {
     const { state } = useLocation();
@@ -14,6 +12,12 @@ const HostParty = () => {
 
     var [memberList, updateList] = useState([]);
     var [partyId, updateId] = useState(nickname);
+
+    const navigate = useNavigate();
+
+    const navigateToRestaurants = () => {
+        navigate('/restaurants', { state: { nickname: nickname }})
+    }
 
     const populateList = () => {
         axios
@@ -30,12 +34,10 @@ const HostParty = () => {
     }, [])
 
     return (
-        <div className="main">
+        <div>
             <Header />
             <Container>
-                <Stack
-                    spacing={4}
-                >
+                <Stack spacing={4}>
                     <Box 
                         size="lg"
                         width="100%"
@@ -47,7 +49,12 @@ const HostParty = () => {
                         Code: {partyId}
                     </Box>
                     <MemberBox memberList={memberList}/>
-                    <StartMatchingButton nickname={nickname} partyId={partyId}>Start Matching</StartMatchingButton>
+                    <Button 
+                        variant="primary" 
+                        onClick={() => navigateToRestaurants()}
+                    >
+                        Start Matching
+                    </Button>
                 </Stack>
             </Container>
         </div>

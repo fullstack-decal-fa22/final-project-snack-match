@@ -1,13 +1,25 @@
 import React from 'react';
-import NavJoinButton from '../components/NavJoinButton';
-import NavCreateButton from '../components/NavCreateButton';
-import Logo from '../components/LogoAndWebsite';
-import { Container, Stack } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { Stack, Button } from '@chakra-ui/react';
 
+import Logo from '../components/Logo';
 
-const First = () => {
+const Landing = () => {
+
+    const navigate = useNavigate();
+  
+    const navigateToJoinPage = () => {
+        navigate('/join');
+        //send party ID and nickname to backend
+    };
+
+    const navigateToCreatePage = () => {
+        //send nickname to backend
+        navigate('/create');
+    };
+
     return (
-        <div className="main">
+        <div>
             <Logo />
             <Stack 
                 width="100%"
@@ -16,11 +28,21 @@ const First = () => {
                 padding="20px 20px"
                 spacing={4} 
             >
-                <NavJoinButton />
-                <NavCreateButton />
+                <Button 
+                    variant="secondary"
+                    onClick={() => navigateToJoinPage()}
+                >
+                    Join Party
+                </Button>
+                <Button 
+                    variant="primary"
+                    onClick={() => navigateToCreatePage()}
+                >
+                    Create Party
+                </Button>
             </Stack>
         </div>
     );
 };
 
-export default First;
+export default Landing;

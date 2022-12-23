@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Logo from '../components/LogoAndWebsite';
-import CreatePartyInput from '../components/CreatePartyInput';
+import { Container, Stack, Select, Input, Button } from '@chakra-ui/react';
+
+import Logo from '../components/Logo';
 import Error from '../components/ErrorMessage';
-import { Container } from '@chakra-ui/react';
 
 const Host = () => {
 
@@ -13,18 +13,23 @@ const Host = () => {
     const [ priceList, setPrice ] = useState([1, 2, 3, 4]);
     const [ errorMessage, setError ] = useState(null);
 
-    const navigate = useNavigate();
-  
-    const navigateToHostParty = () => {
+    const handlePrice = (selection) => {
+        var priceList = [];
+        for (let i = 1; i <= parseInt(selection); i++) {
+            priceList.push(i);
+        }
+        setPrice(priceList);
+    }
 
+    const navigate = useNavigate();
+    const navigateToHostParty = () => {
         const params = {
-        nickname: nicknameInput,
-        location: "Berkeley",
-        distance: distanceInput, 
-        price: priceList, 
-        limit: 10 
+            nickname: nicknameInput,
+            location: "Berkeley",
+            distance: distanceInput, 
+            price: priceList, 
+            limit: 10 
         };
-        console.log(params);
         axios
         .post('http://localhost:9000/party/create', params)
         .then(() => navigate('/host-party', { state: { nickname: nicknameInput }}))
@@ -34,14 +39,35 @@ const Host = () => {
         });
     };
 
-    const stateFuncs = { setNickname, setDistance, setPrice, navigateToHostParty };
-
     return (
-        <div className="main">
+        <div>
             <Logo />
             <Container>
-                <CreatePartyInput {...stateFuncs} />
-                {errorMessage}
+                <Stack spacing={4}>
+                    <Input  
+                        placeholder='Nickname' 
+                        onChange={(event) => setNickname(event.target.value)}
+                    />
+                    <Select 
+                        placeholder="Select Distance"
+                        onChange={(event) => setDistance(event.target.value)}
+                    >
+                        <option value="1">Less than 1 Mile Away</option>
+                        <option value="3">1-3 Miles Away</option>
+                        <option value="5">3-5 Miles Away</option>
+                    </Select>
+                    <Select 
+                        placeholder="Select Price"
+                        onChange={(event) => handlePrice(event.target.value)}
+                    >
+                        <option value="1">$</option>
+                        <option value="2">$$</option>
+                        <option value="3">$$$</option>
+                        <option value="4">$$$$</option>
+                    </Select>
+                    <Button variant="primary" onClick={() => navigateToHostParty()}>Start Party</Button>
+                    {errorMessage}
+                </Stack>
             </Container>
         </div>
     );

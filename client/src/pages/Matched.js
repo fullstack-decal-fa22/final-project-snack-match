@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import Header from '../components/Header';
-import { Container, Stack, Box } from "@chakra-ui/react";
-import MatchedCard from '../components/MatchedCard';
+import { Container, Stack, Center } from "@chakra-ui/react";
 import axios from 'axios';
+
+import Header from '../components/Header';
+import MatchedCard from '../components/MatchedCard';
 
 const Matched = () => {
 
@@ -26,36 +27,26 @@ const Matched = () => {
     }, [])
 
     return (
-        <div className='main'>
+        <div>
             <Header hostName={nickname}/>
             <Container>
                 <Stack spacing={4}>
-                    <Box 
-                        size="lg"
-                        width="100%"
-                        display="flex"
-                        justifyContent="center"
-                        fontSize="xl"
-                        fontWeight="bold"
-                    >
+                    <Center as='b' fontSize='xl'>
                         Party's Top Matches
-                    </Box>
-                    {
-                        restaurantList.filter(word => voteCounter[word.id] > 1).map((rest, index) =>
-                            <MatchedCard
-                                key={index}
-                                image={rest.image_url}
-                                name={rest.name}
-                                price={rest.price}
-                                rating={rest.rating}
-                                address={rest.location.display_address[0].concat(", ", rest.location.display_address[1])}
-                                phone={rest.phone}
-                                miles={Math.round(rest.distance / 1609)}
-                            />)
+                    </Center>
+                    {restaurantList.filter(word => voteCounter[word.id] > 1).map((rest, index) =>
+                        <MatchedCard
+                            key={index}
+                            image={rest.image_url}
+                            name={rest.name}
+                            price={rest.price}
+                            rating={rest.rating}
+                            address={rest.location.display_address[0].concat(", ", rest.location.display_address[1])}
+                            phone={rest.phone}
+                            miles={Math.round(rest.distance / 1609)}
+                        />)
                     }
                 </Stack>
-
-
             </Container>
         </div>
     )

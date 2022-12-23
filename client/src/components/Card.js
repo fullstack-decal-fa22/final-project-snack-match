@@ -1,37 +1,12 @@
-import * as React from "react";
-import { Box, Badge, Center, Container, Image, Flex, Text, Icon, VStack, HStack, IconButton, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, useDisclosure, Tag } from "@chakra-ui/react";
+import React from "react";
+import { Box, Badge, Center, Container, Image, Flex, Text, Icon, VStack, HStack, IconButton, 
+    Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, useDisclosure, Tag } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 import { IoArrowBackCircle, IoCloseCircle, IoHeartCircle } from "react-icons/io5";
 import { MdStars } from "react-icons/md";
-import { FaStar, FaStarHalfAlt, FaRegStar} from "react-icons/fa";
+import PriceRatings from "./PriceRatings";
 
 function Card(props) {
-    function displayStars(rating) {
-        const rate = parseFloat(rating);
-        var status = [FaRegStar, FaRegStar, FaRegStar, FaRegStar, FaRegStar];
-        var full = Math.floor(rate);
-        var half = rate % full;
-        for (let i=0; i < full; i++) {
-            status[i] = FaStar
-        };
-        if (half === 0.5) {
-            status[full] = FaStarHalfAlt
-        };
-        if (rate === 0.5) {
-            status[0] = FaStarHalfAlt
-        };
-        return (
-            <HStack spacing={0}>
-                <Icon as={status[0]} color='orange'/>
-                <Icon as={status[1]} color='orange'/>
-                <Icon as={status[2]} color='orange'/>
-                <Icon as={status[3]} color='orange'/>
-                <Icon as={status[4]} color='orange'/>
-            </HStack>
-        );
-    };
-
-    
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -41,25 +16,20 @@ function Card(props) {
                 <Box boxShadow='2xl' maxW='sm' borderWidth='xs' borderRadius='2xl' overflow='hidden' height={{base: '100%', md: '50%', xl: '25%'}} width="100%">
                     <Image 
                         objectFit='cover'
-                        height='330px'
+                        height='300px'
                         width='400px'
                         src={props.image} 
                         alt='Restaurant' />
                     <Container>
-                        <VStack alignItems="left">
-                            <Flex w='100%' py='10px' align='center' justify='space-between'>
+                        <VStack alignItems="left" spacing={3}>
+                            <Flex w='100%' py='10px' align='center' justify='space-between' p='0' mt='10px'>
                                 <Text fontSize='xl' as='b'>
                                     {props.name}
                                 </Text>
-                                <IconButton variant='ghost' icon={<InfoIcon />} onClick={onOpen} size='sm'/>
+                                <IconButton variant='ghost' icon={<InfoIcon />} onClick={onOpen} size='md'/>
                             </Flex>
 
-                            <HStack alignItems="center" m={0}>
-                                <Text fontSize='sm' color='green'>
-                                    {props.price}
-                                </Text>
-                                {displayStars(props.rating)}
-                            </HStack>
+                            <PriceRatings price={props.price} rating={props.rating} />
 
                             <HStack m={0}>
                                 {
@@ -77,8 +47,6 @@ function Card(props) {
                                     <IconButton onClick={()=>props.buttonClick('superlike')} variant='link' color='#ADD8E6' icon={<Icon as={MdStars} w='2.8rem' h='2.8rem'/>}/>
                                 </HStack>
                             </Center>
-
-                                
                         </VStack>
                         
                     </Container>

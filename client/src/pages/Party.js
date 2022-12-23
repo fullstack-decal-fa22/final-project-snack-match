@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
-import MemberBox from '../components/MemberBox';
-import Header from '../components/Header';
 import axios from 'axios';
 import { Container, Stack, Box } from '@chakra-ui/react';
 
-const Party = (props) => {
+import Header from '../components/Header';
+import MemberBox from '../components/MemberBox';
+
+const Party = () => {
 
     const { state } = useLocation();
     const { nickname } = state;
@@ -28,7 +29,7 @@ const Party = (props) => {
     }, [])
 
     return (
-        <div className="main">
+        <div>
             <Header />
             <Container>
                 <Stack
