@@ -26,18 +26,18 @@ let yelp = new yelpAPI(apiKey);
 /* Create new party given a set of input parameters from frontend
 and return a code with a list of restaurants fitting those parameters */
 router.post(
-  '/create', 
-  [
-    // checks to make sure the required parameters are valid inputs
-    check("nickname", "Please Enter a Valid Username").not().isEmpty(),
-    check("limit", "Please Enter a Valid Number of Cards").not().isEmpty(),
-  ],
-  async (req, res) => {
+	'/create', 
+	[
+		// checks to make sure the required parameters are valid inputs
+		check("nickname", "Please Enter a Valid Username").not().isEmpty(),
+		check("limit", "Please Enter a Valid Number of Cards").not().isEmpty(),
+	],
+  	async (req, res) => {
 
     // checks if the request is valid according to http-express standards
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ message: errors.array()[0].msg });
+      	return res.status(400).json({ message: errors.array()[0].msg });
     }
 
     // saves request body as js object
@@ -46,12 +46,12 @@ router.post(
     const radius = distance * 1609;
 
     let params = [
-      {term: "food"}, 
-      {open_now: true}, 
-      {price: price}, 
-      {location: location}, 
-      {radius: radius}, 
-      {limit: limit}
+		{term: "food"}, 
+		{open_now: true}, 
+		{price: price}, 
+		{location: location}, 
+		{radius: radius}, 
+		{limit: limit}
     ];
   
     const output = await yelp.query('businesses/search', params);
@@ -60,8 +60,8 @@ router.post(
   
     const voteCounter = {};
     for (let i = 0; i < restaurantList.length; i++) {
-      let id = restaurantList[i].id;
-      voteCounter[id] = 0;
+		let id = restaurantList[i].id;
+		voteCounter[id] = 0;
     }
     
     // generate code for the new party
@@ -69,31 +69,33 @@ router.post(
 
     // try/catch checks for any errors in the process
     try {
-      // creates the host user
-      host = new UserSchema({
-        nickname,
-        partyId,
-        voteCounter,
-      });
-      // updates user schema
-      await host.save();
+      	// creates the host user
+      	host = new UserSchema({
+			nickname,
+			partyId,
+			voteCounter,
+      	});
+		// updates user schema
+		await host.save();
 
-      var partyMembers = [nickname];
-      // creates a new party with the newly created user as the host 
-      party = new PartySchema({
-        partyId,
-        host: nickname,
-        partyMembers,
-        restaurantList,
-      });
-      // updates party schema
-      await party.save();
+		var partyMembers = [nickname];
+		// creates a new party with the newly created user as the host 
+		party = new PartySchema({
+			partyId,
+			host: nickname,
+			partyMembers,
+			restaurantList,
+		});
+		// updates party schema
+		await party.save();
 
-      res.status(200).json({ message: `Party ${partyId} Created!` });
+		res.status(200).json({ 
+			partyId: partyId
+		});
 
-    } catch (error) {
-      console.log(error.message);
-      res.status(500).send("Error in Saving");
+		} catch (error) {
+		console.log(error.message);
+		res.status(500).send("Error in Saving");
     }
 });
 

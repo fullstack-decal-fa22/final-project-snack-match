@@ -5,10 +5,12 @@ import { Container, Stack, Select, Input, Button } from '@chakra-ui/react';
 
 import Logo from '../components/Logo';
 import Error from '../components/ErrorMessage';
+import { useDispatch } from 'react-redux';
+import { setPartyId, setNickname } from '../redux/user';
 
 const Host = () => {
 
-    const [ nicknameInput, setNickname ] = useState("");
+    const [ nicknameInput, setNicknameInput ] = useState("");
     const [ distanceInput, setDistance ] = useState(5);
     const [ priceList, setPrice ] = useState([1, 2, 3, 4]);
     const [ errorMessage, setError ] = useState(null);
@@ -21,6 +23,8 @@ const Host = () => {
         setPrice(priceList);
     }
 
+    const dispatch = useDispatch();
+
     const navigate = useNavigate();
     const navigateToHostParty = () => {
         const params = {
@@ -32,7 +36,11 @@ const Host = () => {
         };
         axios
         .post('http://localhost:9000/party/create', params)
-        .then(() => navigate('/host-party', { state: { nickname: nicknameInput }}))
+        .then((data) => {
+            dispatch(setPartyId(data.data.partyId));
+            dispatch(setNickname(nicknameInput));
+            navigate('/host-party');
+        })
         .catch((error) => {
             console.log(error.response.data);
             setError(<Error message={error.response.data.message} />);
@@ -46,7 +54,7 @@ const Host = () => {
                 <Stack spacing={4}>
                     <Input  
                         placeholder='Nickname' 
-                        onChange={(event) => setNickname(event.target.value)}
+                        onChange={(event) => setNicknameInput(event.target.value)}
                     />
                     <Select 
                         placeholder="Select Distance"
