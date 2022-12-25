@@ -41,7 +41,6 @@ function Card(props) {
 
                             <Center>
                                 <HStack py='5'>
-                                    <IconButton onClick={()=>props.buttonClick('back')} variant='link' color='#F2C94C' icon={<Icon as={IoArrowBackCircle} w='2.8rem' h='2.8rem'/>}/>
                                     <IconButton onClick={()=>props.buttonClick('dislike')} variant='link' color='#F16056' icon={<Icon as={IoCloseCircle} w='4rem' h='4rem'/>}/>
                                     <IconButton onClick={()=>props.buttonClick('like')} variant='link' color='#89C092' icon={<Icon as={IoHeartCircle} w='4rem' h='4rem'/>}/>
                                     <IconButton onClick={()=>props.buttonClick('superlike')} variant='link' color='#ADD8E6' icon={<Icon as={MdStars} w='2.8rem' h='2.8rem'/>}/>

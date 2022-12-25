@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCount } from '../redux/user';
@@ -54,42 +54,32 @@ function Swiping() {
 
     function buttonClick(clickType) {
 
-        if (restaurantIndex < 10 )  {
-            let payload = {
-                id: restId,
-                vote: 0
-            }
-            if (clickType === 'like') {
-                payload.vote = 1
-                dispatch(updateCount(payload))
-                updateIndex(restaurantIndex + 1);
-                populateCard();
-            } else if (clickType === 'superlike') {
-                payload.vote = 2
-                dispatch(updateCount(payload))
-                updateIndex(restaurantIndex + 1);
-                populateCard();
-            } else if (clickType === 'dislike') {
-                payload.vote = -1
-                dispatch(updateCount(payload))
-                updateIndex(restaurantIndex + 1);
-                populateCard();
-            } else if (clickType === 'back') {
-                if (restaurantIndex !== 0) {
-                    updateIndex(restaurantIndex - 1);
-                    populateCard();
-                } else {
-                    console.log("Cannot go back!");
-                }
-            }
+        let payload = {
+            id: restId,
+            vote: 0
+        }
+        if (clickType === 'like') {
+            payload.vote = 1
+            dispatch(updateCount(payload))
+        } else if (clickType === 'superlike') {
+            payload.vote = 2
+            dispatch(updateCount(payload))
+        } else { // dislike
+            payload.vote = -1
+            dispatch(updateCount(payload))
+        };
+        if (restaurantIndex < restaurantList.length) {
+            updateIndex(restaurantIndex + 1);
+            populateCard();
         } else {
             console.log("last item!");
             navigate('/matched')
         }
-    }
+    };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         populateCard();
+        buttonClick();
     }, []);
 
     return (
