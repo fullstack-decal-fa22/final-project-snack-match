@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Container, Stack, Box, Button } from '@chakra-ui/react';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { setRestaurantList } from '../redux/party';
 
 import Header from '../components/Header';
 import MemberBox from '../components/MemberBox';
 
 const HostParty = () => {
-    const { state } = useLocation();
 
     var [memberList, updateList] = useState([]);
     const partyId = useSelector((state) => state.user.partyId);
@@ -20,11 +20,14 @@ const HostParty = () => {
         navigate('/restaurants', { state: { nickname: nickname }})
     }
 
+    const dispatch = useDispatch();
+
     const populateList = () => {
         axios
-            .get('http://localhost:9000/party/info', { params: { nickname }})
+            .get('http://localhost:9000/party/info', { params: { partyId }})
             .then((data) => {
                 updateList(data.data.partyMembers);
+                dispatch(setRestaurantList(data.data.restaurantList));
             })
             .catch((error) => console.log(error.response.data));
     };

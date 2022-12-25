@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Container, Stack, Select, Input, Button } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
+import { setPartyId, setNickname } from '../redux/user';
 
 import Logo from '../components/Logo';
 import Error from '../components/ErrorMessage';
-import { useDispatch } from 'react-redux';
-import { setPartyId, setNickname } from '../redux/user';
 
 const Host = () => {
 

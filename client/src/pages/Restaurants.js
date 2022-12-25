@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Center } from "@chakra-ui/react";
+import { useDispatch, useSelector } from 'react-redux';
 
 import Header from '../components/Header';
 import Card from '../components/Card.js';
@@ -9,13 +10,14 @@ import Card from '../components/Card.js';
 const Swiping = () => {
 
     const navigate = useNavigate();
-    const { state } = useLocation();
-    const { nickname } = state;
+    const dispatch = useDispatch();
+    const restaurantList = useSelector((state) => state.party.restaurantList);
 
     var [restaurantIndex, updateIndex] = useState(0);
     var [voteCounter, updateCounter] = useState({});
 
-    var [hostName, updateHostName] = useState('Host');
+    var hostName = 'Host';
+    var nickname = 'ronnie';
     var [restId, updateRestId] = useState("")
     var [restImage, updateRestImage] = useState('https://htmlcolorcodes.com/assets/images/colors/light-blue-color-solid-background-1920x1080.png');
     var [restName, updateRestName] = useState("Restaurant");
@@ -26,45 +28,28 @@ const Swiping = () => {
     var [phone, updatePhone] = useState('(123) 456-7890');
     var [miles, updateMiles] = useState('0.5');
 
-    const populateList = () => {
-        axios
-            .get('http://localhost:9000/party/info', { params: { nickname } })
-            .then((data) => {
-                console.log(data)
-                updateIndex(restaurantIndex + 1)
-                var card = data.data;
-                updateHostName(card.host);
-                var restaurantObj = card.restaurantList[restaurantIndex];
-                updateRestId(restaurantObj.id);
-                updateRestImage(restaurantObj.image_url);
-                updateRestName(restaurantObj.name);
-                updateRestPrice(restaurantObj.price);
-                updateRestRating(restaurantObj.rating);
-                var rCat = [];
-                var tags = restaurantObj.categories;
-                if (tags.length > 0) {
-                    for (let i = 0; i < tags.length; i++) {
-                        rCat.push(tags[i].title);
-                    }
-                } else {
-                    rCat.push("No category tags"); // in case of no category tags
-                }
-                updateRestCategories(rCat);
-                updateAddress(restaurantObj.location.display_address[0].concat(", ", restaurantObj.location.display_address[1]));
-                updatePhone(restaurantObj.display_phone);
-                updateMiles(Math.round((restaurantObj.distance / 1609) * 10) / 10);
-            })
-            .catch((error) => console.log(error.response.data));
-    };
+    const populateCard = () => {
 
-    const fetchCounter = () => {
-        axios
-            .get('http://localhost:9000/party/user', { params: { nickname }})
-            .then((data) => {
-                updateCounter(data.data.voteCounter);
-            })
-            .catch((error) => console.log(error.response.data));
-    }
+        var restaurantData = restaurantList[restaurantIndex];
+        updateRestId(restaurantData.id);
+        updateRestImage(restaurantData.image_url);
+        updateRestName(restaurantData.name);
+        updateRestPrice(restaurantData.price);
+        updateRestRating(restaurantData.rating);
+        var categoryList = [];
+        var tags = restaurantData.categories;
+        if (tags.length > 0) {
+            for (let i = 0; i < tags.length; i++) {
+                categoryList.push(tags[i].title);
+            }
+        } else {
+            categoryList.push("No category tags"); // in case of no category tags
+        }
+        updateRestCategories(categoryList);
+        updateAddress(restaurantData.location.display_address[0].concat(", ", restaurantData.location.display_address[1]));
+        updatePhone(restaurantData.display_phone);
+        updateMiles(Math.round((restaurantData.distance / 1609) * 10) / 10);
+    };
 
     const buttonClick = (clickType) => {
 
@@ -74,23 +59,23 @@ const Swiping = () => {
                 temp[restId] = 1;
                 updateCounter(temp);
                 updateIndex(restaurantIndex + 1);
-                populateList();
+                populateCard();
             } else if (clickType === 'superlike') {
                 let temp = voteCounter;
                 temp[restId] = 2;
                 updateCounter(temp);
                 updateIndex(restaurantIndex + 1);
-                populateList();
+                populateCard();
             } else if (clickType === 'dislike') {
                 let temp = voteCounter;
                 temp[restId] = -1;
                 updateCounter(temp);
                 updateIndex(restaurantIndex + 1);
-                populateList();
+                populateCard();
             } else if (clickType === 'back') {
                 if (restaurantIndex !== 0) {
                     updateIndex(restaurantIndex - 1);
-                    populateList();
+                    populateCard();
                 } else {
                     console.log("Cannot go back!");
                 }
@@ -102,8 +87,7 @@ const Swiping = () => {
     }
 
     useEffect(() => {
-        populateList();
-        fetchCounter();
+        populateCard();
     }, []);
 
     return (

@@ -2,31 +2,35 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Stack, Input, Button } from '@chakra-ui/react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setPartyId, setNickname } from '../redux/user';
 
 import Logo from '../components/Logo';
 import Error from '../components/ErrorMessage';
 
 const JoinParty = () => {
 
-    const [ codeInput, setCode ] = useState("");
-    const [ nicknameInput, setNickname ] = useState("");
+    const [ codeInput, setCodeInput ] = useState("");
+    const [ nicknameInput, setNicknameInput ] = useState("");
     const [ errorMessage, setError ] = useState(null);
 
     const navigate = useNavigate();
-  
+	const dispatch = useDispatch();
     const navigateToMemberLobby = () => {
-  
 		const params = {
 			nickname: nicknameInput,
 			partyId: codeInput
 		};
-  
 		axios
 			.post('http://localhost:9000/party/join', params)
-			.then(() => navigate('/party', { state: { nickname: nicknameInput }}))
+			.then(() => {
+				dispatch(setPartyId(codeInput));
+            	dispatch(setNickname(nicknameInput));
+				navigate('/party')
+			})
 			.catch((error) => {
-			console.log(error.response.data);
-			setError(<Error message={error.response.data.message}/>)
+				console.log(error.response.data);
+				setError(<Error message={error.response.data.message}/>)
 			});
     };
 
@@ -37,11 +41,11 @@ const JoinParty = () => {
 				<Stack spacing={4}>
 					<Input  
 						placeholder='Party Code' 
-						onChange={(event) => setCode(event.target.value)}
+						onChange={(event) => setCodeInput(event.target.value)}
 					/>
 					<Input  
 						placeholder='Nickname' 
-						onChange={(event) => setNickname(event.target.value)}
+						onChange={(event) => setNicknameInput(event.target.value)}
 					/>
 					<Button variant="primary" onClick={() => navigateToMemberLobby()}>Join Party</Button>
 					{errorMessage}

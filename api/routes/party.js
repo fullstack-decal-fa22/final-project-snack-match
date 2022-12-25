@@ -163,13 +163,14 @@ router.post(
 party members, etc) and provide it to the frontend */ 
 router.get('/info', async (req, res) => {
   try {
-    // finds the party info that the user belongs to
-    const user = await UserSchema.findOne({ 
-      nickname: req.query.nickname 
-    });
+    // // finds the party info that the user belongs to
+    // const user = await UserSchema.findOne({ 
+    //   nickname: req.query.nickname
+    // });
+
     // finds the party info that the user belongs to
     const party = await PartySchema.findOne({ 
-      partyId: user.partyId 
+      partyId: req.query.partyId 
     });
     res.json(party);
   } catch (error) {
