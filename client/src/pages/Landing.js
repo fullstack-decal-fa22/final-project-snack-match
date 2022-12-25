@@ -5,15 +5,14 @@ import { Stack, Button } from '@chakra-ui/react';
 
 import Logo from '../components/Logo';
 
-const Landing = () => {
+function Landing() {
 
     const navigate = useNavigate();
-  
-    const navigateToJoinPage = () => {
+    function navigateToJoinPage() {
         navigate('/join');
     };
 
-    const navigateToCreatePage = () => {
+    function navigateToCreatePage() {
         navigate('/create');
     };
 

@@ -9,22 +9,20 @@ import { Container, Stack, Box, Button } from '@chakra-ui/react';
 import Header from '../components/Header';
 import MemberBox from '../components/MemberBox';
 
-const HostParty = () => {
+function HostParty() {
 
-    var [memberList, updateList] = useState([]);
+    let [memberList, updateList] = useState([]);
     const partyId = useSelector((state) => state.user.partyId);
     // const nickname = useSelector((state) => state.user.nickname);
     const isHost = useSelector((state) => state.user.isHost);
 
     const navigate = useNavigate();
-
-    const navigateToRestaurants = () => {
+    function navigateToRestaurants () {
         navigate('/restaurants')
     }
 
     const dispatch = useDispatch();
-
-    const populateList = () => {
+    function populateList() {
         axios
             .get('http://localhost:9000/party/info', { params: { partyId }})
             .then((data) => {

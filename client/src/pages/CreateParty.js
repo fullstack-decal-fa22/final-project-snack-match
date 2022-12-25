@@ -9,15 +9,15 @@ import { Container, Stack, Select, Input, Button } from '@chakra-ui/react';
 import Logo from '../components/Logo';
 import Error from '../components/ErrorMessage';
 
-const Host = () => {
+function Host() {
 
-    const [ nicknameInput, setNicknameInput ] = useState("");
-    const [ distanceInput, setDistance ] = useState(5);
-    const [ priceList, setPrice ] = useState([1, 2, 3, 4]);
-    const [ errorMessage, setError ] = useState(null);
+    let [ nicknameInput, setNicknameInput ] = useState("");
+    let [ distanceInput, setDistance ] = useState(5);
+    let [ priceList, setPrice ] = useState([1, 2, 3, 4]);
+    let [ errorMessage, setError ] = useState(null);
 
-    const handlePrice = (selection) => {
-        var priceList = [];
+    function handlePrice (selection) {
+        let priceList = [];
         for (let i = 1; i <= parseInt(selection); i++) {
             priceList.push(i);
         }
@@ -27,8 +27,8 @@ const Host = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
-    const navigateToHostParty = () => {
-        const params = {
+    function navigateToHostParty () {
+        let params = {
             nickname: nicknameInput,
             location: "Berkeley",
             distance: distanceInput, 

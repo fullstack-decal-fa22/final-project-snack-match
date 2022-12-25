@@ -7,14 +7,14 @@ import { Container, Stack, Center } from "@chakra-ui/react";
 import Header from '../components/Header';
 import MatchedCard from '../components/MatchedCard';
 
-const Matched = () => {
+function Matched() {
 
     const { state } = useLocation();
     const { nickname, voteCounter } = state;
 
-    var [ restaurantList, setList ] = useState([]);
+    let [ restaurantList, setList ] = useState([]);
 
-    const fetchTopRestaurants = () => {
+    function fetchTopRestaurants() {
         axios
             .get('http://localhost:9000/party/info', { params: { nickname } })
             .then((data) => {

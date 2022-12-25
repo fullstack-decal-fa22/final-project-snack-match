@@ -9,16 +9,16 @@ import { Container, Stack, Input, Button } from '@chakra-ui/react';
 import Logo from '../components/Logo';
 import Error from '../components/ErrorMessage';
 
-const JoinParty = () => {
+function JoinParty() {
 
-    const [ codeInput, setCodeInput ] = useState("");
-    const [ nicknameInput, setNicknameInput ] = useState("");
-    const [ errorMessage, setError ] = useState(null);
+    let [ codeInput, setCodeInput ] = useState("");
+    let [ nicknameInput, setNicknameInput ] = useState("");
+    let [ errorMessage, setError ] = useState(null);
 
     const navigate = useNavigate();
 	const dispatch = useDispatch();
-    const navigateToMemberLobby = () => {
-		const params = {
+    function navigateToMemberLobby() {
+		let params = {
 			nickname: nicknameInput,
 			partyId: codeInput
 		};
