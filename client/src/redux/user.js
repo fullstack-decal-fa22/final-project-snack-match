@@ -6,6 +6,7 @@ export const userSlice = createSlice({
         partyId: null,
         nickname: null,
         isHost: false,
+        voteCounter: {}
     },
     reducers: {
         setPartyId: (state, action) => {
@@ -16,10 +17,19 @@ export const userSlice = createSlice({
         },
         setHost: (state) => {
             state.isHost = true
+        },
+        setVoteCounter: (state, action) => {
+            state.voteCounter = action.payload
+        },
+        updateCount: (state, action) => {
+            let id = action.payload.id
+            let vote = action.payload.vote
+            state.voteCounter[id] = vote
         }
+
     },
 })
 
-export const { setPartyId, setNickname, setHost } = userSlice.actions
+export const { setPartyId, setNickname, setHost, setVoteCounter, updateCount } = userSlice.actions
 
 export default userSlice.reducer

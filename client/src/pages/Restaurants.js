@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateCount } from '../redux/user';
 
 import { Center } from "@chakra-ui/react";
 
@@ -10,14 +11,13 @@ import Card from '../components/Card.js';
 function Swiping() {
 
     const navigate = useNavigate();
-    // const dispatch = useDispatch();
-    const restaurantList = useSelector((state) => state.party.restaurantList);
+    const dispatch = useDispatch();
 
+    const restaurantList = useSelector((state) => state.party.restaurantList);
     let [restaurantIndex, updateIndex] = useState(0);
-    let [voteCounter, updateCounter] = useState({});
 
     const hostName = 'Host' // useSelector((state) => state.party.host);
-    const nickname = useSelector((state) => state.user.nickname);
+    // const nickname = useSelector((state) => state.user.nickname);
     let [restId, updateRestId] = useState("");
     let [restImage, updateRestImage] = useState('https://htmlcolorcodes.com/assets/images/colors/light-blue-color-solid-background-1920x1080.png');
     let [restName, updateRestName] = useState("Restaurant");
@@ -29,6 +29,7 @@ function Swiping() {
     let [miles, updateMiles] = useState('0.5');
 
     function populateCard() {
+        console.log(restaurantIndex)
 
         let restaurantData = restaurantList[restaurantIndex];
         updateRestId(restaurantData.id);
@@ -54,22 +55,23 @@ function Swiping() {
     function buttonClick(clickType) {
 
         if (restaurantIndex < 10 )  {
+            let payload = {
+                id: restId,
+                vote: 0
+            }
             if (clickType === 'like') {
-                let temp = voteCounter;
-                temp[restId] = 1;
-                updateCounter(temp);
+                payload.vote = 1
+                dispatch(updateCount(payload))
                 updateIndex(restaurantIndex + 1);
                 populateCard();
             } else if (clickType === 'superlike') {
-                let temp = voteCounter;
-                temp[restId] = 2;
-                updateCounter(temp);
+                payload.vote = 2
+                dispatch(updateCount(payload))
                 updateIndex(restaurantIndex + 1);
                 populateCard();
             } else if (clickType === 'dislike') {
-                let temp = voteCounter;
-                temp[restId] = -1;
-                updateCounter(temp);
+                payload.vote = -1
+                dispatch(updateCount(payload))
                 updateIndex(restaurantIndex + 1);
                 populateCard();
             } else if (clickType === 'back') {
@@ -82,7 +84,7 @@ function Swiping() {
             }
         } else {
             console.log("last item!");
-            navigate('/matched', { state: { nickname, voteCounter }})
+            navigate('/matched')
         }
     }
 

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRestaurantList } from '../redux/party';
+import { setVoteCounter } from '../redux/user';
 import axios from 'axios';
 
 import { Container, Stack, Box, Button } from '@chakra-ui/react';
 
 import Header from '../components/Header';
 import MemberBox from '../components/MemberBox';
+
 
 function HostParty() {
 
@@ -27,7 +29,13 @@ function HostParty() {
             .get('http://localhost:9000/party/info', { params: { partyId }})
             .then((data) => {
                 updateList(data.data.partyMembers);
-                dispatch(setRestaurantList(data.data.restaurantList));
+                let restaurantList = data.data.restaurantList
+                dispatch(setRestaurantList(restaurantList));
+                let voteCounter = {};
+                for (let element of restaurantList) {
+                    voteCounter[element.id] = 0
+                };
+                dispatch(setVoteCounter(voteCounter));
             })
             .catch((error) => console.log(error.response.data));
     };

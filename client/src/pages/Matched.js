@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { Container, Stack, Center } from "@chakra-ui/react";
 
@@ -9,27 +8,14 @@ import MatchedCard from '../components/MatchedCard';
 
 function Matched() {
 
-    const { state } = useLocation();
-    const { nickname, voteCounter } = state;
-
-    let [ restaurantList, setList ] = useState([]);
-
-    function fetchTopRestaurants() {
-        axios
-            .get('http://localhost:9000/party/info', { params: { nickname } })
-            .then((data) => {
-                setList(data.data.restaurantList);
-            })
-            .catch((error) => console.log(error.response.data));        
-    }
-
-    useEffect(() => {
-        fetchTopRestaurants();
-    }, [])
+    // const dispatch = useDispatch();
+    const hostName = 'Host';
+    const restaurantList = useSelector((state) => state.party.restaurantList);
+    const voteCounter = useSelector((state) => state.user.voteCounter);
 
     return (
         <div>
-            <Header hostName={nickname}/>
+            <Header hostName={hostName}/>
             <Container>
                 <Stack spacing={4}>
                     <Center as='b' fontSize='xl'>
