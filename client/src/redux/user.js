@@ -5,6 +5,7 @@ export const userSlice = createSlice({
     initialState: {
         partyId: null,
         nickname: null,
+        isHost: false,
     },
     reducers: {
         setPartyId: (state, action) => {
@@ -12,10 +13,13 @@ export const userSlice = createSlice({
         },
         setNickname: (state, action) => {
             state.nickname = action.payload;
+        },
+        setHost: (state) => {
+            state.isHost = true
         }
     },
 })
 
-export const { setPartyId, setNickname } = userSlice.actions
+export const { setPartyId, setNickname, setHost } = userSlice.actions
 
 export default userSlice.reducer

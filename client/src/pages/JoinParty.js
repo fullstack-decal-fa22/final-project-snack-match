@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Stack, Input, Button } from '@chakra-ui/react';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setPartyId, setNickname } from '../redux/user';
+import axios from 'axios';
+
+import { Container, Stack, Input, Button } from '@chakra-ui/react';
 
 import Logo from '../components/Logo';
 import Error from '../components/ErrorMessage';

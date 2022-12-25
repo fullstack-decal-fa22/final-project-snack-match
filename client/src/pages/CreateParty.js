@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { Container, Stack, Select, Input, Button } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
-import { setPartyId, setNickname } from '../redux/user';
+import { setPartyId, setNickname, setHost } from '../redux/user';
+import axios from 'axios';
+
+import { Container, Stack, Select, Input, Button } from '@chakra-ui/react';
 
 import Logo from '../components/Logo';
 import Error from '../components/ErrorMessage';
@@ -39,7 +40,8 @@ const Host = () => {
         .then((data) => {
             dispatch(setPartyId(data.data.partyId));
             dispatch(setNickname(nicknameInput));
-            navigate('/host-party');
+            dispatch(setHost());
+            navigate('/party');
         })
         .catch((error) => {
             console.log(error.response.data);

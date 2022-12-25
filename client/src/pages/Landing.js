@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { Stack, Button } from '@chakra-ui/react';
 
 import Logo from '../components/Logo';
@@ -10,11 +11,9 @@ const Landing = () => {
   
     const navigateToJoinPage = () => {
         navigate('/join');
-        //send party ID and nickname to backend
     };
 
     const navigateToCreatePage = () => {
-        //send nickname to backend
         navigate('/create');
     };
 

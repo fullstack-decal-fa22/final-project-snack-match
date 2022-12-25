@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Container, Stack, Center } from "@chakra-ui/react";
 import axios from 'axios';
+
+import { Container, Stack, Center } from "@chakra-ui/react";
 
 import Header from '../components/Header';
 import MatchedCard from '../components/MatchedCard';

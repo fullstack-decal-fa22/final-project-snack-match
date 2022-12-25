@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useSelector } from 'react-redux';
+
 import { Center } from "@chakra-ui/react";
-import { useDispatch, useSelector } from 'react-redux';
 
 import Header from '../components/Header';
 import Card from '../components/Card.js';
@@ -10,15 +10,15 @@ import Card from '../components/Card.js';
 const Swiping = () => {
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const restaurantList = useSelector((state) => state.party.restaurantList);
 
     var [restaurantIndex, updateIndex] = useState(0);
     var [voteCounter, updateCounter] = useState({});
 
-    var hostName = 'Host';
-    var nickname = 'ronnie';
-    var [restId, updateRestId] = useState("")
+    var hostName = 'Host' // useSelector((state) => state.party.host);
+    var nickname = useSelector((state) => state.user.nickname);
+    var [restId, updateRestId] = useState("");
     var [restImage, updateRestImage] = useState('https://htmlcolorcodes.com/assets/images/colors/light-blue-color-solid-background-1920x1080.png');
     var [restName, updateRestName] = useState("Restaurant");
     var [restPrice, updateRestPrice] = useState('$');
