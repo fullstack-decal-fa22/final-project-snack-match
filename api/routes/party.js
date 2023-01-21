@@ -10,13 +10,13 @@ const UserSchema = require("../models/UserSchema");
 
 // generate code for the new party
 function generateCode(length) {
-  var result = '';
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
+	var result = '';
+	var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+	var charactersLength = characters.length;
+	for (var i = 0; i < length; i++) {
+		result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	}
+	return result;
 }
 
 // Create a new yelpAPI object with your API key
@@ -34,198 +34,240 @@ router.post(
 	],
   	async (req, res) => {
 
-    // checks if the request is valid according to http-express standards
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      	return res.status(400).json({ message: errors.array()[0].msg });
-    }
+		// checks if the request is valid according to http-express standards
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ message: errors.array()[0].msg });
+		}
+		// saves request body as js object
+		const { nickname, location, distance, price, limit } = req.body;
+		// convert distance from miles --> meters
+		const radius = distance * 1609;
 
-    // saves request body as js object
-    const { nickname, location, distance, price, limit } = req.body;
-    // convert distance from miles --> meters
-    const radius = distance * 1609;
+		let params = [
+			{term: "food"}, 
+			{open_now: true}, 
+			{price: price}, 
+			{location: location}, 
+			{radius: radius}, 
+			{limit: limit}
+		];
+	
+		const output = await yelp.query('businesses/search', params);
+		const restaurantList = JSON.parse(output).businesses;
+		// console.log(restaurantList)=
+		const voteCounter = {};
+		for (let i = 0; i < restaurantList.length; i++) {
+			let id = restaurantList[i].id;
+			voteCounter[id] = 0;
+		}
+		// generate code for the new party
+		const partyId = generateCode(6);
+		// try/catch checks for any errors in the process
+		try {
+			// creates the host user
+			host = new UserSchema({
+				nickname,
+				partyId,
+				voteCounter,
+			});
+			// updates user schema
+			await host.save();
 
-    let params = [
-		{term: "food"}, 
-		{open_now: true}, 
-		{price: price}, 
-		{location: location}, 
-		{radius: radius}, 
-		{limit: limit}
-    ];
-  
-    const output = await yelp.query('businesses/search', params);
-    const restaurantList = JSON.parse(output).businesses;
-    // console.log(restaurantList)
-  
-    const voteCounter = {};
-    for (let i = 0; i < restaurantList.length; i++) {
-		let id = restaurantList[i].id;
-		voteCounter[id] = 0;
-    }
-    
-    // generate code for the new party
-    const partyId = generateCode(6);
-
-    // try/catch checks for any errors in the process
-    try {
-      	// creates the host user
-      	host = new UserSchema({
-			nickname,
-			partyId,
-			voteCounter,
-      	});
-		// updates user schema
-		await host.save();
-
-		var partyMembers = [nickname];
-		// creates a new party with the newly created user as the host 
-		party = new PartySchema({
-			partyId,
-			host: nickname,
-			partyMembers,
-			restaurantList,
-		});
-		// updates party schema
-		await party.save();
-
-		res.status(200).json({ 
-			partyId: partyId
-		});
+			var partyMembers = [nickname];
+			// creates a new party with the newly created user as the host 
+			party = new PartySchema({
+				partyId,
+				host: nickname,
+				partyMembers,
+				restaurantList,
+			});
+			// updates party schema
+			await party.save();
+			res.status(200).json({ 
+				partyId: partyId
+			});
 
 		} catch (error) {
-		console.log(error.message);
-		res.status(500).send("Error in Saving");
-    }
+			console.log(error.message);
+			res.status(500).send("Error in Saving");
+	}
 });
 
 /* Join party using code from host
 ensures that the code matches an existing, non-full party */
 router.post(
-  '/join',
-  [
-    // checks to make sure the required parameters are valid inputs
-    check("nickname", "Please Enter a Valid Username").not().isEmpty(),
-    check("partyId", "Please Enter a Valid Party ID").not().isEmpty(),
-  ],
-  async (req, res) => {
-    // checks if the request is valid according to http-express standards
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ message: errors.array()[0].msg });
-    }
-    // saves request body as js object
-    const { nickname, partyId } = req.body;
+	'/join',
+	[
+		// checks to make sure the required parameters are valid inputs
+		check("nickname", "Please Enter a Valid Username").not().isEmpty(),
+		check("partyId", "Please Enter a Valid Party ID").not().isEmpty(),
+	],
+	async (req, res) => {
+		// checks if the request is valid according to http-express standards
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ message: errors.array()[0].msg });
+		}
+		// saves request body as js object
+		const { nickname, partyId } = req.body;
 
-    // try/catch checks for any errors in the process
-    try {
-      // checks to see whether a party with the given ID exists
-      let party = await PartySchema.findOne({ partyId: partyId });
+		// try/catch checks for any errors in the process
+		try {
+			// checks to see whether a party with the given ID exists
+			let party = await PartySchema.findOne({ partyId: partyId });
+			// makes sure the party exists/is joinable
+			if (!party) {
+				return res.status(400).json({ message: "Party Doesn't Exist" });
+			};
+			if (party.partyMembers.length == 6) {
+				return res.status(400).json({ message: "Party is Full" });
+			};
+			if (party.partyMembers.includes(nickname)) {
+				return res.status(400).json({ message: "Nickname Already In Use" });
+			}
+			// fetches restaurant list from the party
+			const restaurantList = party.restaurantList;
+			const voteCounter = {};
+			for (let i = 0; i < restaurantList.length; i++) {
+				let id = restaurantList[i].id;
+				voteCounter[id] = 0;
+			};
+			// creates a new user
+			user = new UserSchema({
+				nickname,
+				partyId,
+				voteCounter,
+			});
+			// updates user schema
+			await user.save();
+			// update party member list in the party
+			const partyMembers = party.partyMembers;
+			partyMembers.push(nickname);
+			await party.save();
 
-      if (!party) {
-        return res.status(400).json({ message: "Party Doesn't Exist" });
-      };
-      if (party.partyMembers.length == 6) {
-        return res.status(400).json({ message: "Party is Full" });
-      };
-      
-      // fetches restaurant list from the party
-      const restaurantList = party.restaurantList;
-      const voteCounter = {};
-      for (let i = 0; i < restaurantList.length; i++) {
-        let id = restaurantList[i].id;
-        voteCounter[id] = 0;
-      };
+			res.status(200).json({ 
+				message: `Joined Party ${partyId}!` 
+			});
 
-      // creates a new user
-      user = new UserSchema({
-        nickname,
-        partyId,
-        voteCounter,
-      });
-      // updates user schema
-      await user.save();
-
-      // update party member list in the party
-      const partyMembers = party.partyMembers;
-      partyMembers.push(nickname);
-      await party.save();
-
-      res.status(200).json({ message: `Joined Party ${partyId}!` });
-
-    } catch (err) {
-      console.log(err.message);
-      res.status(500).send("Error in Saving");
-    }
+		} catch (err) {
+			console.log(err.message);
+			res.status(500).send("Error in Saving");
+		}
 });
 
-/* Retrieve party info (restaurant list, 
-party members, etc) and provide it to the frontend */ 
-router.get('/info', async (req, res) => {
-  try {
-    // // finds the party info that the user belongs to
-    // const user = await UserSchema.findOne({ 
-    //   nickname: req.query.nickname
-    // });
+/* Join party using code from host
+ensures that the code matches an existing, non-full party */
+router.post('/upload-votes', async (req, res) => {
+	const { nickname, partyId, voteCounter } = req.body;
+	try {
+		// checks to see whether a party with the given ID exists
+		let user = await UserSchema.findOne({ partyId: partyId, nickname: nickname });
 
-    // finds the party info that the user belongs to
-    const party = await PartySchema.findOne({ 
-      partyId: req.query.partyId 
-    });
-    res.json(party);
-  } catch (error) {
-    res.status(500).send({ message: "Error in Fetching Party" });
-  }
+		user.voteCounter = voteCounter;
+		// updates user schema
+		await user.save();
+
+		res.status(200).json({ 
+			message: "Successfully uploaded vote count"
+		});
+
+	} catch (err) {
+		console.log(err.message);
+		res.status(500).send("Error in Saving");
+	}
 });
 
-/* Retrieve user info (restaurant list, 
-party members, etc) and provide it to the frontend */ 
-// router.post('/user', async (req, res) => {
-//   try {
-//     const { nickname, restId, vote } = req.body;
-//     // finds user info from the database
-//     const user = await UserSchema.findOne({ 
-//       nickname: nickname 
-//     });
-//     // changes user vote in the voteCounter object and uploads changes
-//     let counter = user.voteCounter;
-//     counter[restId] = vote;
-//     user.voteCounter = counter;
-//     await user.save();
-//     res.json(user);
-//   } catch (error) {
-//     res.status(500).send({ message: "Error in Fetching User" });
-//   }
-// });
+//// GET REQUESTS
 
-router.get('/user', async (req, res) => {
-  try {
-    const { nickname } = req.query;
-    // finds user info from the database
-    const user = await UserSchema.findOne({ 
-      nickname: nickname 
-    });
-    res.json(user);
-  } catch (error) {
-    res.status(500).send({ message: "Error in Fetching User" });
-  }
+// Retrieve restaurant list info and provide it to the frontend 
+router.get('/restaurants', async (req, res) => {
+	try {
+		// finds the party info that the user belongs to
+		const party = await PartySchema.findOne({ 
+			partyId: req.query.partyId 
+		});
+		res.json(party);
+	} catch (error) {
+		res.status(500).send({ message: "Error in Fetching Party" });
+	}
+});
+
+/* Retrieve user list and provide it to the frontend */ 
+router.get('/users', async (req, res) => {
+	try {
+		// finds the party info that the user belongs to
+		const party = await PartySchema.findOne({ 
+			partyId: req.query.partyId 
+		});
+		res.json(party);
+	} catch (error) {
+		res.status(500).send({ message: "Error in Fetching Party" });
+	}
+});
+
+router.get('/results', async (req, res) => {
+	try {
+		// find the party information in order to see member list
+		let partyId = req.query.partyId;
+		const party = await PartySchema.findOne({ 
+			partyId  
+		});
+		let partyMembers = party.partyMembers;
+		let restaurantList = party.restaurantList;
+		// create a tally for the entire group
+		const groupTally = {};
+		for (let i = 0; i < restaurantList.length; i++) {
+			let id = restaurantList[i].id;
+			groupTally[id] = 0;
+		};
+		// iterate through member list and add votes to group total
+		for (let i = 0; i < partyMembers.length; i++) {
+			const user = await UserSchema.findOne({ 
+				partyId, nickname: partyMembers[i]  
+			});
+			let voteCounter = user.voteCounter;
+			for (let id in voteCounter) {
+				groupTally[id] += voteCounter[id];
+			};
+		};
+		// finds the corresponding restaurant Id's with the most votes
+		const results = [];
+		for (let i = 0; i < 3; i++) {
+			let largestNum = 0;
+			let largestId = null;
+			for (let id in groupTally) {
+				if (groupTally[id] > largestNum) {
+					largestNum = groupTally[id];
+					largestId = id;
+				};
+			};
+			results.push(largestId);
+			delete groupTally[largestId];
+		};		
+		res.json(results);
+
+	} catch (error) {
+		res.status(500).send({ message: "Error calculating vote tallies" });
+	}
 });
 
 // delete information in a database
 router.delete('/clear', async (req, res) => {
-  try {
-    let party = await PartySchema.findOne({ partyId: req.body.partyId });
-    
-    if (!party) {
-      return res.status(400).json({ message: "Party Doesn't Exist" });
-    };
-    // deletes the party and all of its members with the specified party Id
-    UserSchema.deleteMany({ partyId: req.body.partyId });
-    PartySchema.deleteOne({ partyId: req.body.partyId });
-    res.send({ message: "Party Data Cleared from DB" });
-  } catch (error) {
-      res.send({ message: "Error in Clearing Info" });
-  }
+	try {
+		let party = await PartySchema.findOne({ 
+			partyId: req.body.partyId 
+		});
+		if (!party) {
+			return res.status(400).json({ message: "Party Doesn't Exist" });
+		};
+		// deletes the party and all of its members with the specified party Id
+		UserSchema.deleteMany({ partyId: req.body.partyId });
+		PartySchema.deleteOne({ partyId: req.body.partyId });
+		res.send({ message: "Party Data Cleared from DB" });
+	} catch (error) {
+		res.send({ message: "Error in Clearing Info" });
+	}
 });
 
 module.exports = router;

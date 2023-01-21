@@ -29,7 +29,6 @@ function Swiping() {
     let [miles, updateMiles] = useState('0.5');
 
     function populateCard() {
-        console.log(restaurantIndex)
 
         let restaurantData = restaurantList[restaurantIndex];
         updateRestId(restaurantData.id);

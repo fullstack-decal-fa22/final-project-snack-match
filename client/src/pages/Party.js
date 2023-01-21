@@ -1,48 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { setRestaurantList } from '../redux/party';
-import { setVoteCounter } from '../redux/user';
-import axios from 'axios';
+import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
+import { SocketContext } from '../components/GameContainer';
+import { startMatching } from '../sockets/emit';
 
 import { Container, Stack, Box, Button } from '@chakra-ui/react';
-
 import Header from '../components/Header';
-import MemberBox from '../components/MemberBox';
 
-
-function HostParty() {
-
-    let [memberList, updateList] = useState([]);
+function Party() {
+    
     const partyId = useSelector((state) => state.user.partyId);
-    // const nickname = useSelector((state) => state.user.nickname);
     const isHost = useSelector((state) => state.user.isHost);
+    const { memberList } = useContext(SocketContext);
 
-    const navigate = useNavigate();
-    function navigateToRestaurants () {
-        navigate('/restaurants')
-    }
-
-    const dispatch = useDispatch();
-    function populateList() {
-        axios
-            .get('http://localhost:9000/party/info', { params: { partyId }})
-            .then((data) => {
-                updateList(data.data.partyMembers);
-                let restaurantList = data.data.restaurantList
-                dispatch(setRestaurantList(restaurantList));
-                let voteCounter = {};
-                for (let element of restaurantList) {
-                    voteCounter[element.id] = 0
-                };
-                dispatch(setVoteCounter(voteCounter));
-            })
-            .catch((error) => console.log(error.response.data));
-    };
-
-    useEffect(() => {
-        populateList();
-    }, [])
+    // const memberNames = props.memberList;
+    
+    // const fillerLength = 6 - props.memberList.length;
+    // for (let i = 0; i < fillerLength; i++) {
+    //     memberNames.push("--------");
+    // };
 
     return (
         <div>
@@ -59,13 +34,28 @@ function HostParty() {
                     >
                         Code: {partyId}
                     </Box>
-                    <MemberBox memberList={memberList}/>
 
+                    <Stack spacing={4}>
+                        {memberList.map((name, index) => (
+                            <Box 
+                                key={index}
+                                width="100%" 
+                                display="flex" 
+                                justifyContent="center"
+                                borderWidth="1px"
+                                borderRadius="md" 
+                                bg="secondary"
+                                p="2"
+                            >
+                                {name}
+                            </Box>
+                        ))}
+                    </Stack>
                     {
                         isHost ? 
                             <Button 
                                 variant="primary" 
-                                onClick={() => navigateToRestaurants()}
+                                onClick={() => startMatching(partyId)}
                             >
                                 Start Matching
                             </Button>
@@ -87,4 +77,4 @@ function HostParty() {
     );
 };
 
-export default HostParty;
+export default Party;

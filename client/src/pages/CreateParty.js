@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setPartyId, setNickname, setHost } from '../redux/user';
+import { setPartyId, setNickname, setHost, setConnection } from '../redux/user';
 import axios from 'axios';
 
 import { Container, Stack, Select, Input, Button } from '@chakra-ui/react';
@@ -41,6 +41,7 @@ function Host() {
             dispatch(setPartyId(data.data.partyId));
             dispatch(setNickname(nicknameInput));
             dispatch(setHost());
+            dispatch(setConnection());
             navigate('/party');
         })
         .catch((error) => {

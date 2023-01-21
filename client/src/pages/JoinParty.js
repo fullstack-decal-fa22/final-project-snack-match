@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setPartyId, setNickname } from '../redux/user';
+import { setPartyId, setNickname, setConnection } from '../redux/user';
 import axios from 'axios';
 
 import { Container, Stack, Input, Button } from '@chakra-ui/react';
@@ -27,6 +27,7 @@ function JoinParty() {
 			.then(() => {
 				dispatch(setPartyId(codeInput));
             	dispatch(setNickname(nicknameInput));
+				dispatch(setConnection());
 				navigate('/party')
 			})
 			.catch((error) => {

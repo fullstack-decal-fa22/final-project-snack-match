@@ -1,5 +1,6 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 import { ChakraProvider } from '@chakra-ui/react';
 import { BaseTheme } from "./styles/theme";
@@ -7,12 +8,15 @@ import { BaseTheme } from "./styles/theme";
 import Landing from "./pages/Landing.js";
 import CreateParty from "./pages/CreateParty";
 import JoinParty from "./pages/JoinParty.js";
-import Party from "./pages/Party.js";
-import Restaurants from "./pages/Restaurants.js";
-import Matched from "./pages/Matched.js";
+import { GameContainer } from "./components/GameContainer";
+
+
+function RequireLogin ({ children, redirectTo }) {
+	const isConnected = useSelector((state) => state.user.isConnected);
+	return isConnected ? children : <Navigate to={redirectTo} />
+};
 
 function App() {
-
   return (
 	<div className='app'>
 		<ChakraProvider theme={BaseTheme}>
@@ -20,10 +24,15 @@ function App() {
 				<Route exact path='/' element={<Landing />} />
 				<Route path='/create' element={<CreateParty />} />
 				<Route path='/join' element={<JoinParty />} />
-				<Route path='/party' element={<Party />} />
-				<Route path='/restaurants' element={<Restaurants />} />
-				<Route path='/matched' element={<Matched />} />
-			</Routes>
+				{/* Protected Routes */}
+				<Route path='*' element={
+					<RequireLogin redirectTo='/'>
+						<Routes>
+							<Route path='/party/*' element={<GameContainer />} />
+						</Routes>
+					</RequireLogin>
+				} />
+        	</Routes>
 		</ChakraProvider>
 	</div>
   );
