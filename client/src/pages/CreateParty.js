@@ -15,6 +15,7 @@ function Host() {
     let [ distanceInput, setDistance ] = useState(5);
     let [ priceList, setPrice ] = useState([1, 2, 3, 4]);
     let [ errorMessage, setError ] = useState(null);
+    let [ isLoading, setLoading ] = useState(false);
 
     function handlePrice (selection) {
         let priceList = [];
@@ -25,9 +26,10 @@ function Host() {
     }
 
     const dispatch = useDispatch();
-
     const navigate = useNavigate();
-    function navigateToHostParty () {
+
+    function createParty() {
+        setLoading(true);
         let params = {
             nickname: nicknameInput,
             location: "Berkeley",
@@ -46,6 +48,7 @@ function Host() {
         })
         .catch((error) => {
             console.log(error.response.data);
+            setLoading(false);
             setError(<Error message={error.response.data.message} />);
         });
     };
@@ -76,7 +79,13 @@ function Host() {
                         <option value="3">$$$</option>
                         <option value="4">$$$$</option>
                     </Select>
-                    <Button variant="primary" onClick={() => navigateToHostParty()}>Start Party</Button>
+                    <Button 
+                        variant="primary" 
+                        onClick={() => createParty()}
+                        isLoading={isLoading}
+                    >
+                        Start Party
+                    </Button>
                     {errorMessage}
                 </Stack>
             </Container>

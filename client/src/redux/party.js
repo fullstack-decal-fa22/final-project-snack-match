@@ -4,15 +4,19 @@ export const partySlice = createSlice({
     name: 'party',
     initialState: {
         restaurantList: null,
-        partyMembers: null,
+        partyHost: null,
+        memberList: null,
         groupResults: null
     },
     reducers: {
         setRestaurantList: (state, action) => {
             state.restaurantList = action.payload;
         },
-        setPartyMembers: (state, action) => {
-            state.partyMembers = action.payload;
+        setPartyHost: (state, action) => {
+            state.partyHost = action.payload;
+        },
+        setMemberList: (state, action) => {
+            state.memberList = action.payload;
         },
         setGroupResults: (state, action) => {
             state.groupResults = action.payload;
@@ -22,8 +26,9 @@ export const partySlice = createSlice({
 
 export const { 
     setRestaurantList, 
-    setPartyMembers,
-    setGroupResults
+    setMemberList,
+    setGroupResults,
+    setPartyHost
 } = partySlice.actions
 
 export default partySlice.reducer

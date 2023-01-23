@@ -1,18 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { SocketContext } from '../components/GameContainer';
-import { startMatching } from '../sockets/emit';
 
 import { Container, Stack, Box, Button } from '@chakra-ui/react';
 import Header from '../components/Header';
 
-function Party() {
+function Party({ startMatching }) {
     
     const partyId = useSelector((state) => state.user.partyId);
     const isHost = useSelector((state) => state.user.isHost);
-    const { memberList } = useContext(SocketContext);
+    const { partyMembers } = useContext(SocketContext);
+    let [ isLoading, setLoading ] = useState(false);
 
-    // const memberNames = props.memberList;
+    function handleButtonPress() {
+        setLoading(true);
+        startMatching();
+    }
     
     // const fillerLength = 6 - props.memberList.length;
     // for (let i = 0; i < fillerLength; i++) {
@@ -20,7 +23,7 @@ function Party() {
     // };
 
     return (
-        <div>
+        <>
             <Header />
             <Container>
                 <Stack spacing={4}>
@@ -35,27 +38,41 @@ function Party() {
                         Code: {partyId}
                     </Box>
 
-                    <Stack spacing={4}>
-                        {memberList.map((name, index) => (
+                    <Stack spacing={3}>
+                        {Object.keys(partyMembers).map((name, index) => (
                             <Box 
                                 key={index}
                                 width="100%" 
+                                height="42px"
                                 display="flex" 
                                 justifyContent="center"
                                 borderWidth="1px"
                                 borderRadius="md" 
-                                bg="secondary"
+                                bg="white"
                                 p="2"
                             >
                                 {name}
                             </Box>
+                        ))}
+                        {[...Array(6 - Object.keys(partyMembers).length).keys()].map((index) => (
+                            <Box 
+                                key={index}
+                                width="100%" 
+                                height="42px"
+                                display="flex" 
+                                borderWidth="1px"
+                                borderRadius="md" 
+                                bg="secondary"
+                                p="2"
+                            />
                         ))}
                     </Stack>
                     {
                         isHost ? 
                             <Button 
                                 variant="primary" 
-                                onClick={() => startMatching(partyId)}
+                                onClick={() => handleButtonPress()}
+                                isLoading={isLoading}
                             >
                                 Start Matching
                             </Button>
@@ -73,7 +90,7 @@ function Party() {
                     }
                 </Stack>
             </Container>
-        </div>
+        </>
     );
 };
 

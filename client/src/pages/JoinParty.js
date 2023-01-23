@@ -13,11 +13,14 @@ function JoinParty() {
 
     let [ codeInput, setCodeInput ] = useState("");
     let [ nicknameInput, setNicknameInput ] = useState("");
-    let [ errorMessage, setError ] = useState(null);
+    let [ errorMessage, setError ] = useState(null); 
+	let [ isLoading, setLoading ] = useState(false);
 
     const navigate = useNavigate();
 	const dispatch = useDispatch();
-    function navigateToMemberLobby() {
+
+    function joinParty() {
+		setLoading(true);
 		let params = {
 			nickname: nicknameInput,
 			partyId: codeInput
@@ -32,6 +35,7 @@ function JoinParty() {
 			})
 			.catch((error) => {
 				console.log(error.response.data);
+				setLoading(false);
 				setError(<Error message={error.response.data.message}/>)
 			});
     };
@@ -49,7 +53,13 @@ function JoinParty() {
 						placeholder='Nickname' 
 						onChange={(event) => setNicknameInput(event.target.value)}
 					/>
-					<Button variant="primary" onClick={() => navigateToMemberLobby()}>Join Party</Button>
+					<Button 
+						variant="primary" 
+						onClick={() => joinParty()}
+                        isLoading={isLoading}
+					>
+						Join Party
+					</Button>
 					{errorMessage}
 				</Stack>
 			</Container>

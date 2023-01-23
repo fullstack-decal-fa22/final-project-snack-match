@@ -16,6 +16,7 @@
     "bootstrap": "^5.2.3",
     "nodemon": "^2.0.20",
     "react-bootstrap": "^2.6.0",
+    "react-cssfx-loading": "^2.1.0",
     "yarn": "^1.22.19"
   }
 }

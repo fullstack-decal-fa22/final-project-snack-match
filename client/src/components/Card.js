@@ -11,7 +11,7 @@ function Card(props) {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     return(
-        <div>
+        <>
             <Center position='relative'>
                 <Box boxShadow='2xl' maxW='sm' borderWidth='xs' borderRadius='2xl' overflow='hidden' height={{base: '100%', md: '50%', xl: '25%'}} width="100%">
                     <Image 
@@ -70,7 +70,7 @@ function Card(props) {
                     </Modal>
                 </Box>
             </Center>
-        </div>
+        </>
     );
 };
 

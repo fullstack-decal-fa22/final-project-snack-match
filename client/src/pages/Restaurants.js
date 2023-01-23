@@ -1,23 +1,25 @@
 import React, { useState, useLayoutEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCount } from '../redux/user';
+import { SocketContext } from '../components/GameContainer';
 
 import { Center } from "@chakra-ui/react";
 
 import Header from '../components/Header';
-import Card from '../components/Card.js';
+import Card from '../components/Card';
+import LoadingCard from '../components/LoadingCard';
 
-function Swiping() {
+function Swiping({ uploadVoteCount, finishMatching }) {
 
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const restaurantList = useSelector((state) => state.party.restaurantList);
-    let [restaurantIndex, updateIndex] = useState(0);
+    let [ restaurantIndex, updateIndex ] = useState(0);
+    let [ isFinished, setFinished ] = useState(false);
 
-    const hostName = 'Host' // useSelector((state) => state.party.host);
-    // const nickname = useSelector((state) => state.user.nickname);
+    const partyHost = useSelector((state) => state.party.partyHost);
+    const isHost = useSelector((state) => state.user.isHost);
+    const partyId = useSelector((state) => state.user.partyId);
     let [restId, updateRestId] = useState("");
     let [restImage, updateRestImage] = useState('https://htmlcolorcodes.com/assets/images/colors/light-blue-color-solid-background-1920x1080.png');
     let [restName, updateRestName] = useState("Restaurant");
@@ -71,8 +73,8 @@ function Swiping() {
             updateIndex(restaurantIndex + 1);
             populateCard();
         } else {
-            console.log("last item!");
-            navigate('/matched')
+            uploadVoteCount();
+            setFinished(true);
         }
     };
 
@@ -82,23 +84,33 @@ function Swiping() {
     }, []);
 
     return (
-        <div>
-            <Header hostName={hostName}/>
+        <>
+            <Header hostName={partyHost}/>
             <Center as='b' fontSize='xl' marginBottom='1rem'>
-                {hostName}'s Party
+                {partyHost}'s Party
             </Center>
-            <Card
-                image={restImage}
-                name={restName}
-                price={restPrice}
-                rating={restRating}
-                categories={restCategories}
-                address={address}
-                phone={phone}
-                miles={miles}
-                buttonClick={buttonClick}
-            />
-        </div>
+            {
+                !isFinished ? 
+                    <Card
+                        image={restImage}
+                        name={restName}
+                        price={restPrice}
+                        rating={restRating}
+                        categories={restCategories}
+                        address={address}
+                        phone={phone}
+                        miles={miles}
+                        buttonClick={buttonClick}
+                    />
+                :
+                    <LoadingCard
+                        isHost={isHost}
+                        partyId={partyId}
+                        uploadVoteCount={uploadVoteCount}
+                        finishMatching={finishMatching}
+                    />
+            }   
+        </>
     );
 };
 

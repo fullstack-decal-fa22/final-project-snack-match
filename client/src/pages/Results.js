@@ -8,10 +8,9 @@ import MatchedCard from '../components/MatchedCard';
 
 function Results() {
 
-    // const dispatch = useDispatch();
-    const hostName = 'Host';
     const restaurantList = useSelector((state) => state.party.restaurantList);
-    const voteCounter = useSelector((state) => state.user.voteCounter);
+    const groupResults = useSelector((state) => state.party.groupResults);
+    const hostName = useSelector((state) => state.party.partyHost);
 
     return (
         <div>
@@ -21,7 +20,9 @@ function Results() {
                     <Center as='b' fontSize='xl'>
                         Party's Top Matches
                     </Center>
-                    {restaurantList.filter(word => voteCounter[word.id] > 1).map((rest, index) =>
+                    {restaurantList.filter((restaurant) => 
+                        groupResults.includes(restaurant.id)
+                    ).map((rest, index) => 
                         <MatchedCard
                             key={index}
                             image={rest.image_url}

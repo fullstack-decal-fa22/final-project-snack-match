@@ -13,7 +13,7 @@ const PartySchema = mongoose.Schema({
         required: true,
     },
     // list containing all party members (catch if exceeds maximum party size)
-    partyMembers: {
+    memberList: {
         type: Array,
         required: true,
     },

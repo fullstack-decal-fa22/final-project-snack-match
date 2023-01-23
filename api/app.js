@@ -31,25 +31,24 @@ io.on('connection', (socket) => {
 	console.log(`a user connected: ${socket.id}`);
 
 	socket.on('party-creation', (data) => {
-		console.log(`a party has been created on the backend by name: ${data.nickname}`);
 		socket.join(data.partyId);
 	});
 
 	socket.on('party-connection', (data) => {
-		console.log(`${data.nickname} has joined the party with Id: ${data.partyId}`);
 		socket.join(data.partyId);
-		socket.to(data.partyId).emit('new-connection', data.nickname);
-		// console.log(socket.rooms); 
+		socket.to(data.partyId).emit('new-connection');
 	});
 
 	socket.on('start-request', (data) => {
-		console.log(`${data.partyId} has started matching`);
 		socket.in(data.partyId).emit('start-matching');
 	});
 
-	socket.on('finish-request', (data) => {
-		console.log(`${data.partyId} has finished matching`);
-		socket.in(data.partyId).emit('upload-count');
+	socket.on('finish-voting', (data) => {
+		socket.to(data.partyId).emit('other-user-finished', data.nickname);
+	});
+
+	socket.on('navigate-to-results', (data) => {
+		socket.in(data.partyId).emit('finish-matching');
 	});
 
 	// executed when a user disconnects from the server
