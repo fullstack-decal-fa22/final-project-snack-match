@@ -22,10 +22,14 @@ const PartySchema = mongoose.Schema({
         type: Array,
         required: true,
     },
+    isClosed: {
+        type: Boolean,
+        default: false,
+    },
     // restaurant match results
     matchResults: {
         type: Array,
-        default: []
+        default: [],
     },
     // provided in default scheme
     // could be used as another parameter for authentification?

@@ -1,5 +1,3 @@
-import { MdBrightness1 } from "react-icons/md";
-
 export const ButtonStyles = {
     baseStyle: {},
     sizes: {},

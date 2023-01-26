@@ -31,6 +31,7 @@ io.on('connection', (socket) => {
 	console.log(`a user connected: ${socket.id}`);
 
 	socket.on('party-creation', (data) => {
+		console.log(socket.id);
 		socket.join(data.partyId);
 	});
 

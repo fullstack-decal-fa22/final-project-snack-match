@@ -26,7 +26,6 @@ function Party({ startMatching }) {
         startMatching();
     }
 
-
     return (
         <div className='main'>
             <Header />

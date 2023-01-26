@@ -134,6 +134,11 @@ router.post(
 				return res.status(400).json({ 
 					message: "Nickname Already In Use" 
 				});
+			};
+			if (party.isClosed) {
+				return res.status(400).json({ 
+					message: "Party Can No Longer Be Joined" 
+				});
 			}
 			// fetches restaurant list from the party
 			const restaurantList = party.restaurantList;
@@ -270,17 +275,25 @@ router.post('/compile-results', async (req, res) => {
 			message: "Successfully tallied results"
 		});
 	} catch (error) {
-		res.status(500).send({ message: "Error calculating vote tallies" });
+		res.status(500).send({ 
+			message: "Error calculating vote tallies" 
+		});
 	}
 });
 
-router.get('/results', async (req, res) => {
+// close the party to prevent new users from joining
+router.post('/close-party', async (req, res) => {
 	try {
-		// finds the party info that the user belongs to
+		// finds the party to be marked as closed
 		const party = await PartySchema.findOne({ 
-			partyId: req.query.partyId 
+			partyId: req.body.partyId 
 		});
-		res.status(200).json(party.matchResults);
+		party.isClosed = true;
+		await party.save();
+
+		res.status(200).json({
+			message: `Party ${req.body.partyId} Successfully Closed`
+		});
 	} catch (error) {
 		res.status(500).send({ 
 			message: "Error in Fetching Party" 
