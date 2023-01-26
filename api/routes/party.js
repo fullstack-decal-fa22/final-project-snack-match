@@ -2,6 +2,7 @@ const express = require("express");
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
+require('dotenv').config()
 const yelpAPI = require('yelp-api');
 
 // imports mongodb scheme from User.js
@@ -20,7 +21,7 @@ function generateCode(length) {
 }
 
 // Create a new yelpAPI object with your API key
-let apiKey = '7kiciiJ9UTNzpKVAb_dR3oZ1IrvqXwqjn91HfKM2ZlHtuBpFCCN8SJdpCn8OJkdbzRgMp3q0wf7xwSDeYr2l8lXwGBXtwjJOsrum6Ka2wlw6DlJI9w-zeydBRk19Y3Yx';
+let apiKey = process.env.YELP_API_KEY
 let yelp = new yelpAPI(apiKey);
 
 /* Create new party given a set of input parameters from frontend

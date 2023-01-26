@@ -33,7 +33,7 @@ export function GameContainer() {
     const dispatch = useDispatch();
     async function fetchRestaurants() {
         axios
-            .get('http://localhost:9000/party/restaurants', { params: { partyId }})
+            .get(`${process.env.REACT_APP_BACKEND_URL}/party/restaurants`, { params: { partyId }})
             .then((data) => {
                 let restaurantList = data.data;
                 dispatch(setRestaurantList(restaurantList));
@@ -48,7 +48,7 @@ export function GameContainer() {
 
     async function fetchPartyMembers() {
         axios
-            .get('http://localhost:9000/party/users', { params: { partyId }})
+            .get(`${process.env.REACT_APP_BACKEND_URL}/party/users`, { params: { partyId }})
             .then((data) => {
                 let host = data.data.host;
                 dispatch(setPartyHost(host));
@@ -68,7 +68,7 @@ export function GameContainer() {
 
     async function uploadVoteCount () {
         axios
-            .post('http://localhost:9000/party/upload-votes', { 
+            .post(`${process.env.REACT_APP_BACKEND_URL}/party/upload-votes`, { 
                     partyId, nickname, voteCounter 
                 })
             .then((data) => {
@@ -91,7 +91,7 @@ export function GameContainer() {
 
     async function fetchResults () {
         await axios
-            .get('http://localhost:9000/party/results', { params: { partyId }})
+            .get(`${process.env.REACT_APP_BACKEND_URL}/party/results`, { params: { partyId }})
             .then((data) => {
                 let groupResults = data.data;
                 dispatch(setGroupResults(groupResults));
@@ -104,7 +104,7 @@ export function GameContainer() {
 
     function startMatching() {
         axios
-            .post('http://localhost:9000/party/close-party', { partyId })
+            .post(`${process.env.REACT_APP_BACKEND_URL}/party/close-party`, { partyId })
             .catch((error) => console.log(error.response.data));
         socketStartRequest(partyId);
         setGameState((state) => {
@@ -114,7 +114,7 @@ export function GameContainer() {
 
     async function finishMatching() {
         await axios
-            .post('http://localhost:9000/party/compile-results', { partyId })
+            .post(`${process.env.REACT_APP_BACKEND_URL}/party/compile-results`, { partyId })
             .catch((error) => console.log(error.response.data));
         socketFinishRequest(partyId);
         await fetchResults();

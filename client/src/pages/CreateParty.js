@@ -38,19 +38,19 @@ function Host() {
             limit: 10 
         };
         axios
-        .post('http://localhost:9000/party/create', params)
-        .then((data) => {
-            dispatch(setPartyId(data.data.partyId));
-            dispatch(setNickname(nicknameInput));
-            dispatch(setHost());
-            dispatch(setConnection());
-            navigate('/party');
-        })
-        .catch((error) => {
-            console.log(error.response.data);
-            setLoading(false);
-            setError(<Error message={error.response.data.message} />);
-        });
+            .post(`${process.env.REACT_APP_BACKEND_URL}/party/create`, params)
+            .then((data) => {
+                dispatch(setPartyId(data.data.partyId));
+                dispatch(setNickname(nicknameInput));
+                dispatch(setHost());
+                dispatch(setConnection());
+                navigate('/party');
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+                setLoading(false);
+                setError(<Error message={error.response.data.message} />);
+            });
     };
 
     return (

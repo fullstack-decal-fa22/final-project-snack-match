@@ -26,7 +26,7 @@ function JoinParty() {
 			partyId: codeInput
 		};
 		axios
-			.post('http://localhost:9000/party/join', params)
+			.post(`${process.env.REACT_APP_BACKEND_URL}/party/join`, params)
 			.then(() => {
 				dispatch(setPartyId(codeInput));
             	dispatch(setNickname(nicknameInput));
