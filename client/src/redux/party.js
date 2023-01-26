@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+let initialState = {
+    restaurantList: null,
+    partyHost: null,
+    memberList: null,
+    groupResults: null
+};
+
 export const partySlice = createSlice({
     name: 'party',
-    initialState: {
-        restaurantList: null,
-        partyHost: null,
-        memberList: null,
-        groupResults: null
-    },
+    initialState,
     reducers: {
         setRestaurantList: (state, action) => {
             state.restaurantList = action.payload;
@@ -20,6 +22,9 @@ export const partySlice = createSlice({
         },
         setGroupResults: (state, action) => {
             state.groupResults = action.payload;
+        },
+        resetPartyState: (state) => {
+            state = {...initialState}
         }
     },
 })
@@ -28,7 +33,8 @@ export const {
     setRestaurantList, 
     setMemberList,
     setGroupResults,
-    setPartyHost
+    setPartyHost,
+    resetPartyState
 } = partySlice.actions
 
 export default partySlice.reducer

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setPartyId, setNickname, setConnection } from '../redux/user';
 import axios from 'axios';
 
-import { Container, Stack, Input, Button } from '@chakra-ui/react';
+import { Container, Stack, Input, Button, Box } from '@chakra-ui/react';
 
 import Logo from '../components/Logo';
 import Error from '../components/ErrorMessage';
@@ -41,28 +41,31 @@ function JoinParty() {
     };
 
     return (
-		<div>
-			<Logo />
-			<Container>
-				<Stack spacing={4}>
-					<Input  
-						placeholder='Party Code' 
-						onChange={(event) => setCodeInput(event.target.value)}
-					/>
-					<Input  
-						placeholder='Nickname' 
-						onChange={(event) => setNicknameInput(event.target.value)}
-					/>
-					<Button 
-						variant="primary" 
-						onClick={() => joinParty()}
-                        isLoading={isLoading}
-					>
-						Join Party
-					</Button>
-					{errorMessage}
-				</Stack>
-			</Container>
+		<div className='main'>
+			<Stack 
+				width='100%'
+				spacing={4}
+				display='flex'
+				alignItems='center'
+			>	
+				<Logo />
+				<Input  
+					placeholder='Party Code' 
+					onChange={(event) => setCodeInput(event.target.value)}
+				/>
+				<Input  
+					placeholder='Nickname' 
+					onChange={(event) => setNicknameInput(event.target.value)}
+				/>
+				<Button 
+					variant="primary" 
+					onClick={() => joinParty()}
+					isLoading={isLoading}
+				>
+					Join Party
+				</Button>
+				{errorMessage}
+			</Stack>
 		</div>
     );
 };

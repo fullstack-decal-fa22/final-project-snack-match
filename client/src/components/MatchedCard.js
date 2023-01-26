@@ -9,8 +9,6 @@ function MatchedCard(props) {
             direction={{ base: 'column', sm: 'row' }}
             overflow='hidden'
             variant='outline'
-            marginLeft='5rem'
-            marginRight='5rem'
             w='100%'
             h='auto'
         >
@@ -29,9 +27,9 @@ function MatchedCard(props) {
                         {props.miles} miles away
                     </Tag>
                     
-                    <PriceRatings price={props.price} rating={props.rating}/>
+                    <PriceRatings price={props.price} rating={props.rating} reviewCount={props.reviewCount}/>
                     
-                    <Text fontSize='sm' marginTop='1rem'>
+                    <Text fontSize='sm' marginTop='10px'>
                         <b>Address: </b> {props.address} <br></br>
                         <b>Phone: </b> {props.phone} <br></br>
                     </Text>

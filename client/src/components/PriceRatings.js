@@ -28,11 +28,19 @@ const PriceRatings = (props) => {
     };
 
     return(
-        <HStack alignItems="center" m={0}>
+        <HStack 
+            display='flex'
+            alignItems='left' 
+            width='100%'
+            my='0'
+        >
             <Text fontSize='sm' color='green'>
                 {props.price}
             </Text>
             {displayStars(props.rating)}
+            <Text fontSize='sm' color='grey'>
+                ({props.reviewCount})
+            </Text>
         </HStack>
     );
 };

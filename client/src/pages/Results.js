@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { Container, Stack, Center } from "@chakra-ui/react";
+import { Stack, Text, Button } from "@chakra-ui/react";
 
 import Header from '../components/Header';
 import MatchedCard from '../components/MatchedCard';
@@ -13,29 +13,31 @@ function Results() {
     const hostName = useSelector((state) => state.party.partyHost);
 
     return (
-        <div>
-            <Header hostName={hostName}/>
-            <Container>
-                <Stack spacing={4}>
-                    <Center as='b' fontSize='xl'>
-                        Party's Top Matches
-                    </Center>
-                    {restaurantList.filter((restaurant) => 
-                        groupResults.includes(restaurant.id)
-                    ).map((rest, index) => 
-                        <MatchedCard
-                            key={index}
-                            image={rest.image_url}
-                            name={rest.name}
-                            price={rest.price}
-                            rating={rest.rating}
-                            address={rest.location.display_address[0].concat(", ", rest.location.display_address[1])}
-                            phone={rest.phone}
-                            miles={Math.round(rest.distance / 1609)}
-                        />)
-                    }
-                </Stack>
-            </Container>
+        <div className='main'>
+            <Header />
+            <Stack 
+                spacing={4}
+                alignItems='center'
+            >
+                <Text as='b' fontSize='xl'>
+                    Your Party's Top Matches!
+                </Text>
+                {restaurantList.filter((restaurant) => 
+                    groupResults.includes(restaurant.id)
+                ).map((rest, index) => 
+                    <MatchedCard
+                        key={index}
+                        image={rest.image_url}
+                        name={rest.name}
+                        price={rest.price}
+                        rating={rest.rating}
+                        reviewCount={rest.review_count}
+                        address={rest.location.display_address[0].concat(", ", rest.location.display_address[1])}
+                        phone={rest.phone}
+                        miles={(rest.distance / 1609).toFixed(1)}
+                    />)
+                }
+            </Stack>
         </div>
     )
 }

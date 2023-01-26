@@ -2,7 +2,16 @@ import React, { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { SocketContext } from '../components/GameContainer';
 
-import { Container, Stack, Box, Button } from '@chakra-ui/react';
+import { 
+    Container, 
+    VStack,
+    HStack, 
+    Box, 
+    Button,
+    Text,
+    AspectRatio
+
+} from '@chakra-ui/react';
 import Header from '../components/Header';
 
 function Party({ startMatching }) {
@@ -16,57 +25,61 @@ function Party({ startMatching }) {
         setLoading(true);
         startMatching();
     }
-    
-    // const fillerLength = 6 - props.memberList.length;
-    // for (let i = 0; i < fillerLength; i++) {
-    //     memberNames.push("--------");
-    // };
+
 
     return (
-        <>
+        <div className='main'>
             <Header />
-            <Container>
-                <Stack spacing={4}>
-                    <Box 
-                        size="lg"
-                        width="100%"
-                        display="flex"
-                        justifyContent="center"
-                        fontSize="xl"
-                        fontWeight="bold"
-                    >
-                        Code: {partyId}
-                    </Box>
+            <Box 
+                display='flex'
+                alignItems='center'
+                justifyContent='center'
+                height='550px'
+                width='100%'
+                boxShadow='2xl' 
+                borderRadius='2xl' 
+            >
+                <VStack 
+                    width="80%"
+                    alignItems="center" 
+                    spacing={3} 
+                    margin='0'
+                >
 
-                    <Stack spacing={3}>
-                        {Object.keys(partyMembers).map((name, index) => (
-                            <Box 
-                                key={index}
-                                width="100%" 
-                                height="42px"
-                                display="flex" 
-                                justifyContent="center"
-                                borderWidth="1px"
-                                borderRadius="md" 
-                                bg="white"
-                                p="2"
-                            >
-                                {name}
-                            </Box>
-                        ))}
-                        {[...Array(6 - Object.keys(partyMembers).length).keys()].map((index) => (
-                            <Box 
-                                key={index}
-                                width="100%" 
-                                height="42px"
-                                display="flex" 
-                                borderWidth="1px"
-                                borderRadius="md" 
-                                bg="secondary"
-                                p="2"
-                            />
-                        ))}
-                    </Stack>
+                    <Text fontSize='xl' as='b'>
+                        Code: {partyId}
+                    </Text>
+
+                    {Object.keys(partyMembers).map((name, index) => (
+                        <Box 
+                            key={index}
+                            width="100%" 
+                            height="42px"
+                            display="flex" 
+                            justifyContent="center"
+                            borderWidth="1px"
+                            borderRadius="md" 
+                            bg="white"
+                            p="2"
+                        >
+                            {name}
+                        </Box>
+                    ))}
+
+                    {[...Array(6 - Object.keys(partyMembers).length).keys()].map((index) => (
+                        <Box 
+                            key={index}
+                            width="100%"
+                            height="42px"
+                            display="flex" 
+                            justifyContent="left"
+                            borderWidth="1px"
+                            borderRadius="md" 
+                            bg="secondary"
+                            p="2"
+                        />
+                    ))}
+
                     {
                         isHost ? 
                             <Button 
@@ -88,9 +101,9 @@ function Party({ startMatching }) {
                                 Waiting for host to start...
                             </Box>
                     }
-                </Stack>
-            </Container>
-        </>
+                </VStack>
+            </Box>
+        </div>
     );
 };
 

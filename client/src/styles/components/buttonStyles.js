@@ -1,3 +1,4 @@
+import { MdBrightness1 } from "react-icons/md";
 
 export const ButtonStyles = {
     baseStyle: {},
@@ -7,13 +8,21 @@ export const ButtonStyles = {
             bg: "primary",
             size: "lg",
             width: "100%",
-            _hover: {}
+            _hover: {
+                opacity: 0.5
+            },
+            _active: {
+                bg: "gray"
+            }
         },
         secondary: {
-            bg: "secondary",
+            bg: "light-gray",
+            border: "1px",
             size: "lg",
             width: "100%",
-            _hover: {}
+            _hover: {
+                bg: "light-gray"
+            }
         }
     },
     defaultProps: {}

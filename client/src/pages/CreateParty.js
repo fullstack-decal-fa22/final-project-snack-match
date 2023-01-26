@@ -54,41 +54,44 @@ function Host() {
     };
 
     return (
-        <div>
-            <Logo />
-            <Container>
-                <Stack spacing={4}>
-                    <Input  
-                        placeholder='Nickname' 
-                        onChange={(event) => setNicknameInput(event.target.value)}
-                    />
-                    <Select 
-                        placeholder="Select Distance"
-                        onChange={(event) => setDistance(event.target.value)}
-                    >
-                        <option value="1">Less than 1 Mile Away</option>
-                        <option value="3">1-3 Miles Away</option>
-                        <option value="5">3-5 Miles Away</option>
-                    </Select>
-                    <Select 
-                        placeholder="Select Price"
-                        onChange={(event) => handlePrice(event.target.value)}
-                    >
-                        <option value="1">$</option>
-                        <option value="2">$$</option>
-                        <option value="3">$$$</option>
-                        <option value="4">$$$$</option>
-                    </Select>
-                    <Button 
-                        variant="primary" 
-                        onClick={() => createParty()}
-                        isLoading={isLoading}
-                    >
-                        Start Party
-                    </Button>
-                    {errorMessage}
-                </Stack>
-            </Container>
+        <div className='main'>
+            <Stack 
+                width='100%'
+				spacing={4}
+				display='flex'
+				alignItems='center'
+            >
+                <Logo />
+                <Input  
+                    placeholder='Nickname' 
+                    onChange={(event) => setNicknameInput(event.target.value)}
+                />
+                <Select 
+                    placeholder="Select Distance"
+                    onChange={(event) => setDistance(event.target.value)}
+                >
+                    <option value="1">Less than 1 Mile Away</option>
+                    <option value="3">1-3 Miles Away</option>
+                    <option value="5">3-5 Miles Away</option>
+                </Select>
+                <Select 
+                    placeholder="Select Price"
+                    onChange={(event) => handlePrice(event.target.value)}
+                >
+                    <option value="1">$</option>
+                    <option value="2">$$</option>
+                    <option value="3">$$$</option>
+                    <option value="4">$$$$</option>
+                </Select>
+                <Button 
+                    variant="primary" 
+                    onClick={() => createParty()}
+                    isLoading={isLoading}
+                >
+                    Start Party
+                </Button>
+                {errorMessage}
+            </Stack>
         </div>
     );
 };

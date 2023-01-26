@@ -1,8 +1,8 @@
 import React from "react";
-import { Box, Badge, Center, Container, Image, Flex, Text, Icon, VStack, HStack, IconButton, 
+import { Box, Badge, Image, Text, Icon, VStack, HStack, IconButton, 
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, useDisclosure, Tag } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
-import { IoArrowBackCircle, IoCloseCircle, IoHeartCircle } from "react-icons/io5";
+import { IoCloseCircle, IoHeartCircle } from "react-icons/io5";
 import { MdStars } from "react-icons/md";
 import PriceRatings from "./PriceRatings";
 
@@ -12,26 +12,61 @@ function Card(props) {
 
     return(
         <>
-            <Center position='relative'>
-                <Box boxShadow='2xl' maxW='sm' borderWidth='xs' borderRadius='2xl' overflow='hidden' height={{base: '100%', md: '50%', xl: '25%'}} width="100%">
+                <Box 
+                    boxShadow='2xl' 
+                    borderWidth='xs' 
+                    borderRadius='2xl' 
+                    overflow='hidden' 
+                    height="550px"
+                    width="100%"
+                >
                     <Image 
                         objectFit='cover'
-                        height='300px'
-                        width='400px'
+                        height='60%'
+                        width='100%'
                         src={props.image} 
-                        alt='Restaurant' />
-                    <Container>
-                        <VStack alignItems="left" spacing={3}>
-                            <Flex w='100%' py='10px' align='center' justify='space-between' p='0' mt='10px'>
-                                <Text fontSize='xl' as='b'>
-                                    {props.name}
-                                </Text>
-                                <IconButton variant='ghost' icon={<InfoIcon />} onClick={onOpen} size='md'/>
-                            </Flex>
+                        alt='Restaurant' 
+                    />
 
-                            <PriceRatings price={props.price} rating={props.rating} />
+                    <VStack 
+                        display='flex'
+                        alignItems='center'
+                        height='40%'
+                        width='100%'
+                        padding='10px 20px' 
+                        spacing='0px'
+                    >
+                        <HStack 
+                            width='100%' 
+                            height='20%'
+                            alignItems='center' 
+                            justifyContent='space-between' 
+                            spacing={0}
+                        >
+                            <Text fontSize='xl' as='b'>
+                                {props.name}
+                            </Text>
+                            <IconButton 
+                                variant='ghost' 
+                                icon={<InfoIcon size='md'/>} 
+                                onClick={onOpen} 
+                                height='30px'/>
+                        </HStack>
 
-                            <HStack m={0}>
+                        <VStack
+                            height='30%'
+                            width='100%'
+                        >
+                            <PriceRatings 
+                                price={props.price} 
+                                rating={props.rating} 
+                                reviewCount={props.reviewCount}
+                            />
+
+                            <HStack 
+                                width='100%'
+                                m={0}
+                            >
                                 {
                                     props.categories.map((category, index) => (
                                         <Badge colorScheme="blue" key={index}>{category}</Badge>
@@ -39,29 +74,46 @@ function Card(props) {
                                 }
                             </HStack>
 
-                            <Center>
-                                <HStack py='5'>
-                                    <IconButton onClick={()=>props.buttonClick('dislike')} variant='link' color='#F16056' icon={<Icon as={IoCloseCircle} w='4rem' h='4rem'/>}/>
-                                    <IconButton onClick={()=>props.buttonClick('like')} variant='link' color='#89C092' icon={<Icon as={IoHeartCircle} w='4rem' h='4rem'/>}/>
-                                    <IconButton onClick={()=>props.buttonClick('superlike')} variant='link' color='#ADD8E6' icon={<Icon as={MdStars} w='2.8rem' h='2.8rem'/>}/>
-                                </HStack>
-                            </Center>
                         </VStack>
+
+                        <HStack 
+                            display='flex'
+                            justifyContent='center'
+                            height='50%'
+                            spacing='8px'
+                        >
+                            <IconButton onClick={()=>props.buttonClick('dislike')} variant='link' color='#F16056' icon={<Icon as={IoCloseCircle} w='4rem' h='4rem'/>}/>
+                            <IconButton onClick={()=>props.buttonClick('like')} variant='link' color='#89C092' icon={<Icon as={IoHeartCircle} w='4rem' h='4rem'/>}/>
+                            <IconButton onClick={()=>props.buttonClick('superlike')} variant='link' color='#ADD8E6' icon={<Icon as={MdStars} w='4rem' h='4rem'/>}/>
+                        </HStack>
+                    </VStack>
                         
-                    </Container>
-                    <Modal isOpen={isOpen} onClose={onClose} isCentered='true' overflow='scroll'>
+                    <Modal isOpen={isOpen} onClose={onClose} isCentered='true'>
                         <ModalOverlay />
                         <ModalContent>
                             <ModalHeader>
-                                <Flex>
-                                    {props.name}
-                                    <Tag ml={2} fontSize='sm'>
+                                <HStack
+                                    display='flex'
+                                    justifyContent='space-between'
+                                    width='90%'
+                                >
+                                    <Text
+                                        width='68%'
+                                    >
+                                        {props.name}
+                                    </Text>
+                                    <Tag 
+                                        fontSize='sm'
+                                        width='32%'
+                                    >
                                         {props.miles} miles away
                                     </Tag>
-                                </Flex>
+                                    <ModalCloseButton />
+                                </HStack>
                             </ModalHeader>
-                            <ModalCloseButton />
-                            <ModalBody>
+                            <ModalBody
+                                padding='0 24px 16px'
+                            >
                                 <b>Address: </b> {props.address} <br></br>
                                 <b>Phone: </b> {props.phone} <br></br>
                                 {/* <b>Reviews: </b> {props.reviews} <br></br> */}
@@ -69,7 +121,7 @@ function Card(props) {
                         </ModalContent>
                     </Modal>
                 </Box>
-            </Center>
+
         </>
     );
 };

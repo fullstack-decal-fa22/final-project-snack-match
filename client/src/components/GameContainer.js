@@ -133,6 +133,7 @@ export function GameContainer() {
         });
     }, [ initSockets ]);
 
+
     switch (gameState.stage) {
         case 1 : 
             return <SocketContext.Provider value={gameState}><Party startMatching={startMatching} /></SocketContext.Provider>;

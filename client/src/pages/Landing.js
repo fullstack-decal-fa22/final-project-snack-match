@@ -17,23 +17,22 @@ function Landing() {
     };
 
     return (
-        <div>
-            <Logo />
+        <div className='main'>
             <Stack 
                 width="100%"
-                minWidth="330px"
                 alignItems="center"
-                padding="20px 20px"
                 spacing={4} 
             >
+                <Logo />
                 <Button 
-                    variant="secondary"
+                    variant='outline'
+                    width='100%'
                     onClick={() => navigateToJoinPage()}
                 >
                     Join Party
                 </Button>
                 <Button 
-                    variant="primary"
+                    variant='primary'
                     onClick={() => navigateToCreatePage()}
                 >
                     Create Party

@@ -20,43 +20,45 @@ function Swiping({ uploadVoteCount, finishMatching }) {
     const partyHost = useSelector((state) => state.party.partyHost);
     const isHost = useSelector((state) => state.user.isHost);
     const partyId = useSelector((state) => state.user.partyId);
-    let [restId, updateRestId] = useState("");
-    let [restImage, updateRestImage] = useState('https://htmlcolorcodes.com/assets/images/colors/light-blue-color-solid-background-1920x1080.png');
-    let [restName, updateRestName] = useState("Restaurant");
-    let [restPrice, updateRestPrice] = useState('$');
-    let [restRating, updateRestRating] = useState('5');
-    let [restCategories, updateRestCategories] = useState(['Restaurant']);
-    let [address, updateAddress] = useState('123 Gob Ears Ave, Berkeley, CA');
-    let [phone, updatePhone] = useState('(123) 456-7890');
-    let [miles, updateMiles] = useState('0.5');
+    let [restaurantId, setId] = useState("");
+    let [image, setImage] = useState('https://htmlcolorcodes.com/assets/images/colors/light-blue-color-solid-background-1920x1080.png');
+    let [restaurantName, setName] = useState("Restaurant");
+    let [price, setPrice] = useState('$');
+    let [rating, setRating] = useState('5');
+    let [reviewCount, setReviewCount] = useState('10');
+    let [categories, setCategories] = useState(['Restaurant']);
+    let [address, setAddress] = useState('123 Gob Ears Ave, Berkeley, CA');
+    let [phone, setPhone] = useState('(123) 456-7890');
+    let [distanceMiles, setDistanceMiles] = useState('0.5');
 
     function populateCard() {
 
-        let restaurantData = restaurantList[restaurantIndex];
-        updateRestId(restaurantData.id);
-        updateRestImage(restaurantData.image_url);
-        updateRestName(restaurantData.name);
-        updateRestPrice(restaurantData.price);
-        updateRestRating(restaurantData.rating);
+        let data = restaurantList[restaurantIndex];
+        setId(data.id);
+        setImage(data.image_url);
+        setName(data.name);
+        setPrice(data.price);
+        setRating(data.rating);
+        setReviewCount(data.review_count);
         let categoryList = [];
-        let tags = restaurantData.categories;
+        let tags = data.categories;
         if (tags.length > 0) {
             for (let i = 0; i < tags.length; i++) {
                 categoryList.push(tags[i].title);
             }
         } else {
-            categoryList.push("No category tags"); // in case of no category tags
+            categoryList.push("-----"); // in case of no category tags
         }
-        updateRestCategories(categoryList);
-        updateAddress(restaurantData.location.display_address[0].concat(", ", restaurantData.location.display_address[1]));
-        updatePhone(restaurantData.display_phone);
-        updateMiles(Math.round((restaurantData.distance / 1609) * 10) / 10);
+        setCategories(categoryList);
+        setAddress(data.location.display_address[0].concat(", ", data.location.display_address[1]));
+        setPhone(data.display_phone);
+        setDistanceMiles((data.distance / 1609).toFixed(1));
     };
 
     function buttonClick(clickType) {
 
         let payload = {
-            id: restId,
+            id: restaurantId,
             vote: 0
         }
         if (clickType === 'like') {
@@ -84,22 +86,20 @@ function Swiping({ uploadVoteCount, finishMatching }) {
     }, []);
 
     return (
-        <>
-            <Header hostName={partyHost}/>
-            <Center as='b' fontSize='xl' marginBottom='1rem'>
-                {partyHost}'s Party
-            </Center>
+        <div className='main'>
+            <Header />
             {
                 !isFinished ? 
                     <Card
-                        image={restImage}
-                        name={restName}
-                        price={restPrice}
-                        rating={restRating}
-                        categories={restCategories}
+                        image={image}
+                        name={restaurantName}
+                        price={price}
+                        rating={rating}
+                        reviewCount={reviewCount}
+                        categories={categories}
                         address={address}
                         phone={phone}
-                        miles={miles}
+                        miles={distanceMiles}
                         buttonClick={buttonClick}
                     />
                 :
@@ -110,7 +110,7 @@ function Swiping({ uploadVoteCount, finishMatching }) {
                         finishMatching={finishMatching}
                     />
             }   
-        </>
+        </div>
     );
 };
 

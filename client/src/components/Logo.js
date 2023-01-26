@@ -4,14 +4,14 @@ import { Image, Flex } from '@chakra-ui/react';
 
 const LandingLogo = () => {
     return(
-        <Flex >
+        <>
             <Image 
                 src={logo} 
-                margin="10px"
                 alt="fullstack logo"
                 width="300px"
+                marginBottom="10px"
             />
-        </Flex>
+        </>
     )
 };
 
