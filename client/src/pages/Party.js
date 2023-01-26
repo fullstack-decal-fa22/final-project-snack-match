@@ -2,16 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { SocketContext } from '../components/GameContainer';
 
-import { 
-    Container, 
-    VStack,
-    HStack, 
-    Box, 
-    Button,
-    Text,
-    AspectRatio
-
-} from '@chakra-ui/react';
+import { VStack, Box, Button, Text } from '@chakra-ui/react';
 import Header from '../components/Header';
 
 function Party({ startMatching }) {

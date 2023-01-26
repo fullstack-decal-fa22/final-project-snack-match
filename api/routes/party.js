@@ -196,8 +196,6 @@ router.post('/upload-votes', async (req, res) => {
 	}
 });
 
-//// GET REQUESTS
-
 // Retrieve restaurant list info and provide it to the frontend 
 router.get('/restaurants', async (req, res) => {
 	try {
@@ -213,7 +211,7 @@ router.get('/restaurants', async (req, res) => {
 	}
 });
 
-/* Retrieve user list and provide it to the frontend */ 
+// Retrieve user list and provide it to the frontend
 router.get('/users', async (req, res) => {
 	try {
 		// finds the party info that the user belongs to
@@ -277,6 +275,21 @@ router.post('/compile-results', async (req, res) => {
 	} catch (error) {
 		res.status(500).send({ 
 			message: "Error calculating vote tallies" 
+		});
+	}
+});
+
+// Retrieve restaurant list info and provide it to the frontend 
+router.get('/results', async (req, res) => {
+	try {
+		// finds the party info that the user belongs to
+		const party = await PartySchema.findOne({ 
+			partyId: req.query.partyId 
+		});
+		res.status(200).json(party.matchResults);
+	} catch (error) {
+		res.status(500).send({ 
+			message: "Error in Fetching Party" 
 		});
 	}
 });

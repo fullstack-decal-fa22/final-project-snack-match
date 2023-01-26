@@ -13,7 +13,6 @@ import Results from '../pages/Results';
 
 export const SocketContext = createContext({  
     stage: 1,
-    // each party member given --> name: [id, isHost, isFinished]
     partyMembers: {},
     isGroupFinished: false,
 });
@@ -106,9 +105,6 @@ export function GameContainer() {
     function startMatching() {
         axios
             .post('http://localhost:9000/party/close-party', { partyId })
-            .then((data) => {
-                console.log(data.data.message)
-            })
             .catch((error) => console.log(error.response.data));
         socketStartRequest(partyId);
         setGameState((state) => {
@@ -119,9 +115,6 @@ export function GameContainer() {
     async function finishMatching() {
         await axios
             .post('http://localhost:9000/party/compile-results', { partyId })
-            .then((data) => {
-                console.log(data.data.message)
-            })
             .catch((error) => console.log(error.response.data));
         socketFinishRequest(partyId);
         await fetchResults();

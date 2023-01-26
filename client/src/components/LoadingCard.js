@@ -1,13 +1,6 @@
 import React, { useContext, useState } from "react";
 import { SocketContext } from './GameContainer';
-import { 
-    Box, 
-    Button,
-    Text, 
-    VStack, 
-    HStack,
-    Spinner
-} from "@chakra-ui/react";
+import { Box, Button, Text, VStack, HStack, Spinner } from "@chakra-ui/react";
 import { CheckCircleIcon } from '@chakra-ui/icons';
 
 function LoadingCard({ isHost, finishMatching }) {

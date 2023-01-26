@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setPartyId, setNickname, setHost, setConnection } from '../redux/user';
 import axios from 'axios';
 
-import { Container, Stack, Select, Input, Button } from '@chakra-ui/react';
+import { Stack, Select, Input, Button } from '@chakra-ui/react';
 
 import Logo from '../components/Logo';
 import Error from '../components/ErrorMessage';

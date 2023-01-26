@@ -1,6 +1,8 @@
 import React from "react";
-import { Box, Badge, Image, Text, Icon, VStack, HStack, IconButton, 
-    Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, useDisclosure, Tag } from "@chakra-ui/react";
+import { 
+    Box, Badge, Image, Text, Icon, VStack, HStack, IconButton, Modal, ModalOverlay, 
+    ModalContent, ModalHeader, ModalBody, ModalCloseButton, useDisclosure, Tag 
+} from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 import { IoCloseCircle, IoHeartCircle } from "react-icons/io5";
 import { MdStars } from "react-icons/md";

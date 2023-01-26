@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from '../styles/landing-logo.png'
-import { Image, Flex } from '@chakra-ui/react';
+import { Image } from '@chakra-ui/react';
 
 const LandingLogo = () => {
     return(

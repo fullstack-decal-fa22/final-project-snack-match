@@ -1,9 +1,6 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCount } from '../redux/user';
-import { SocketContext } from '../components/GameContainer';
-
-import { Center } from "@chakra-ui/react";
 
 import Header from '../components/Header';
 import Card from '../components/Card';
@@ -17,7 +14,7 @@ function Swiping({ uploadVoteCount, finishMatching }) {
     let [ restaurantIndex, updateIndex ] = useState(0);
     let [ isFinished, setFinished ] = useState(false);
 
-    const partyHost = useSelector((state) => state.party.partyHost);
+    // const partyHost = useSelector((state) => state.party.partyHost);
     const isHost = useSelector((state) => state.user.isHost);
     const partyId = useSelector((state) => state.user.partyId);
     let [restaurantId, setId] = useState("");

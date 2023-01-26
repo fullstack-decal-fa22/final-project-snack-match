@@ -28,10 +28,9 @@ const PORT = process.env.PORT || 9000;
 
 
 io.on('connection', (socket) => {
-	console.log(`a user connected: ${socket.id}`);
+	// console.log(`a user connected: ${socket.id}`);
 
 	socket.on('party-creation', (data) => {
-		console.log(socket.id);
 		socket.join(data.partyId);
 	});
 
@@ -54,7 +53,7 @@ io.on('connection', (socket) => {
 
 	// executed when a user disconnects from the server
 	socket.on('disconnect', () => {
-		console.log('A user disconnected');
+		// console.log('A user disconnected');
 	});
 });
 
