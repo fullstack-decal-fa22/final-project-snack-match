@@ -26,6 +26,9 @@ InitiateMongoServer();
 require('dotenv').config();
 const PORT = process.env.PORT;
 
+app.get("/", (req, res) => {
+    res.send("this is the test route to make sure server is working")
+})
 
 io.on('connection', (socket) => {
 	// console.log(`a user connected: ${socket.id}`);
@@ -59,7 +62,7 @@ io.on('connection', (socket) => {
 
 // initiates the server on the provided port
 server.listen(PORT, (req, res) => {
-	console.log(`Server Started at http://localhost:${PORT}`);
+	console.log(`Server hosted on port: ${PORT}`);
 });
 
 module.exports = app;
