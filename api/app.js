@@ -8,9 +8,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // websocket.io initialization
-const http = require('http');
+const https = require('https');
 const { Server } = require('socket.io');
-const server = http.createServer(app);
+const server = https.createServer(app);
 const io = new Server(server, {
 	cors: {
 		methods: ["GET", "POST"]
