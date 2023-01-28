@@ -1,19 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
-require('dotenv').config()
-
-// Connect using the MongoClient.connect static method
-const MongoClient = require('mongodb').MongoClient;
-const test = require('assert');
-// Connection url
-const url = 'mongodb://localhost:27017';
-// Database Name
-const dbName = 'test';
-// Connect using MongoClient
-MongoClient.connect(url, function(err, client) {
-  const db = client.db(dbName);
-  client.close();
-});
+require('dotenv').config();
 
 // Replace this with your MONGOURI.
 const MONGOURI = process.env.MONGODB_URI;
