@@ -1,59 +1,68 @@
-// STARTER CODE ---
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-var cors = require("cors");
+// const createError = require("http-errors");
+const express = require("express");
+const cors = require("cors");
 
-// built-in router from template
-var indexRouter = require("./routes/index");
-// import party router
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// websocket.io initialization
+const https = require('https');
+const { Server } = require('socket.io');
+const server = https.createServer(app);
+const io = new Server(server, {
+	cors: {
+		methods: ["GET", "POST"]
+	}
+});
+
 var partyRouter = require("./routes/party");
+app.use("/party", partyRouter);
 
-var app = express();
-
-// PORT
-const PORT = process.env.PORT || 9000;
-
-// Initiate Mongo Server --- uncomment when db is setup
 const InitiateMongoServer = require("./config/db");
 InitiateMongoServer();
 
-// STARTER CODE --- view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+require('dotenv').config();
+const PORT = process.env.PORT;
 
-app.use(cors());
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.get("/", (req, res) => {
+    res.send("this is the test route to make sure server is working")
+})
 
-app.use("/", indexRouter);
-// new party router below
-app.use("/party", partyRouter);
+io.on('connection', (socket) => {
+	// console.log(`a user connected: ${socket.id}`);
 
-// STARTER CODE --- catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
+	socket.on('party-creation', (data) => {
+		socket.join(data.partyId);
+	});
 
-// STARTER CODE --- error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+	socket.on('party-connection', (data) => {
+		socket.join(data.partyId);
+		socket.to(data.partyId).emit('new-connection');
+	});
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+	socket.on('start-request', (data) => {
+		socket.in(data.partyId).emit('start-matching');
+	});
+
+	socket.on('finish-voting', (data) => {
+		socket.to(data.partyId).emit('other-user-finished', data.nickname);
+	});
+
+	socket.on('navigate-to-results', (data) => {
+		socket.in(data.partyId).emit('finish-matching');
+	});
+
+	// executed when a user disconnects from the server
+	socket.on('disconnect', () => {
+		// console.log('A user disconnected');
+	});
 });
 
 // initiates the server on the provided port
-app.listen(PORT, (req, res) => {
-  console.log(`Server Started at http://localhost:${PORT}`);
+server.listen(PORT, (req, res) => {
+	console.log(`Server hosted on port: ${PORT}`);
 });
 
 module.exports = app;

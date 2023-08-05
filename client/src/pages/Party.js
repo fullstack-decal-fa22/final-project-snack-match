@@ -1,39 +1,98 @@
-import React, {useEffect, useState} from 'react';
-import { useLocation } from 'react-router-dom';
-import MemberBox from '../components/MemberBox';
-import Logo from '../components/LogoAndWebsite';
-import siteStyles from '../components/LogoAndWebsite.module.css';
-import styles from "../components/WaitingText.module.css";
-import axios from 'axios';
+import React, { useContext, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { SocketContext } from '../components/GameContainer';
 
-const Party = (props) => {
+import { VStack, Box, Button, Text } from '@chakra-ui/react';
+import Header from '../components/Header';
 
-    const { state } = useLocation();
-    const { nickname } = state;
+function Party({ startMatching }) {
+    
+    const partyId = useSelector((state) => state.user.partyId);
+    const isHost = useSelector((state) => state.user.isHost);
+    const { partyMembers } = useContext(SocketContext);
+    let [ isLoading, setLoading ] = useState(false);
 
-    var [memberList, updateList] = useState([]);
-    var [partyId, updateId] = useState("");
-
-    const populateList = () => {
-        axios
-            .get('http://localhost:9000/party/info', { params: { nickname }})
-            .then((data) => {
-                updateId(data.data.partyId);
-                updateList(data.data.partyMembers);
-            })
-            .catch((error) => console.log(error.response.data));
-    };
-
-    useEffect(() => {
-        populateList();
-    }, [])
+    function handleButtonPress() {
+        setLoading(true);
+        startMatching();
+    }
 
     return (
-        <div>
-            <Logo />
-            <h3 className = {siteStyles['site']}>Code: {partyId}</h3>
-            <MemberBox memberList={memberList}/>
-            <p className = {styles['text']}>Waiting for host to start...</p>
+        <div className='main'>
+            <Header />
+            <Box 
+                display='flex'
+                alignItems='center'
+                justifyContent='center'
+                height='550px'
+                width='100%'
+                boxShadow='2xl' 
+                borderRadius='2xl' 
+            >
+                <VStack 
+                    width="80%"
+                    alignItems="center" 
+                    spacing={3} 
+                    margin='0'
+                >
+
+                    <Text fontSize='xl' as='b'>
+                        Code: {partyId}
+                    </Text>
+
+                    {Object.keys(partyMembers).map((name, index) => (
+                        <Box 
+                            key={index}
+                            width="100%" 
+                            height="42px"
+                            display="flex" 
+                            justifyContent="center"
+                            borderWidth="1px"
+                            borderRadius="md" 
+                            bg="white"
+                            p="2"
+                        >
+                            {name}
+                        </Box>
+                    ))}
+
+                    {[...Array(6 - Object.keys(partyMembers).length).keys()].map((index) => (
+                        <Box 
+                            key={index}
+                            width="100%"
+                            height="42px"
+                            display="flex" 
+                            justifyContent="left"
+                            borderWidth="1px"
+                            borderRadius="md" 
+                            bg="secondary"
+                            p="2"
+                        />
+                    ))}
+
+                    {
+                        isHost ? 
+                            <Button 
+                                variant="primary" 
+                                onClick={() => handleButtonPress()}
+                                isLoading={isLoading}
+                            >
+                                Start Matching
+                            </Button>
+                        :
+                            <Box 
+                                size="lg"
+                                width="100%"
+                                display="flex"
+                                justifyContent="center"
+                                fontSize="xl"
+                                fontWeight="bold"
+                            >
+                                Waiting for host to start...
+                            </Box>
+                    }
+                </VStack>
+            </Box>
         </div>
     );
 };

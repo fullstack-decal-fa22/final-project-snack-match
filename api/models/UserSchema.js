@@ -15,7 +15,7 @@ const UserSchema = mongoose.Schema({
     // list containing all restaurants taken from the party schema
     voteCounter: {
         type: Object,
-        required: true
+        required: true,
     },
     // provided in default scheme
     // could be used as another parameter for authentification?

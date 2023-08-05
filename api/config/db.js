@@ -1,15 +1,18 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+mongoose.set('strictQuery', false);
+require('dotenv').config();
 
 // Replace this with your MONGOURI.
-const MONGOURI = "mongodb://127.0.0.1:27017/snack-match-tests";
+const MONGOURI = process.env.MONGODB_URI;
 const InitiateMongoServer = async () => {
     try {
         // attempts a connection to the database
         await mongoose.connect(MONGOURI, {
-        useNewUrlParser: true,
-    });
-    // console message indicates that a proper connection has been made
-    console.log("Connected to DB !!");
+            dbName: 'gameData',
+            useNewUrlParser: true,
+        });
+        // console message indicates that a proper connection has been made
+        console.log("Connected to DB !!");
     } catch (error) {
         console.log(error);
         throw error;

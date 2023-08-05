@@ -13,7 +13,7 @@ const PartySchema = mongoose.Schema({
         required: true,
     },
     // list containing all party members (catch if exceeds maximum party size)
-    partyMembers: {
+    memberList: {
         type: Array,
         required: true,
     },
@@ -21,6 +21,15 @@ const PartySchema = mongoose.Schema({
     restaurantList: {
         type: Array,
         required: true,
+    },
+    isClosed: {
+        type: Boolean,
+        default: false,
+    },
+    // restaurant match results
+    matchResults: {
+        type: Array,
+        default: [],
     },
     // provided in default scheme
     // could be used as another parameter for authentification?

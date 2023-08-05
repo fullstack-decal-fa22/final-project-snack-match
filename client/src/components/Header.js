@@ -1,18 +1,41 @@
 import * as React from "react";
-import { Flex, Icon, Text, Center, IconButton } from "@chakra-ui/react";
+import { Flex, Icon, IconButton, Image } from "@chakra-ui/react";
 import { FaDoorOpen } from "react-icons/fa";
-import styles from "./Header.module.css";
+import SideLogo from "../styles/logo-side-title.png";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { resetUserState } from '../redux/user';
+import { resetPartyState } from '../redux/party';
 
-function Header(props) {
+function Header() {
+    let navigate = useNavigate();
+    let dispatch = useDispatch();
+
+    function returnHome() {
+        dispatch(resetUserState());
+        dispatch(resetPartyState());
+        navigate('/')
+    }
+
     return(
-        <div className={styles['header']}>
-            <Flex w='100%' px='6' py='5' align='center' justify='space-between'>
-                <Text fontSize='2xl' as='b'>
-                    SnackMatch
-                </Text>
-                <IconButton icon={<Icon as={FaDoorOpen} w={25} h={25}/>}/>
-            </Flex>
-        </div>
+        <Flex 
+            width='100%' 
+            padding='10px 0'
+            maxWidth='sm' 
+            align='center' 
+            justify='space-between'
+        >
+            <Image 
+                src={SideLogo}  
+                alt="fullstack logo"
+                width="200px"  
+            />
+            <IconButton 
+                margin='10px'
+                icon={<Icon as={FaDoorOpen} w={25} h={25}/>}
+                onClick={() => returnHome()}
+            />
+        </Flex>
     );
 };
 
